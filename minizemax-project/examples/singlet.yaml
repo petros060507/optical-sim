@@ -1,0 +1,12 @@
+system:
+  aperture: {type: EPD, value: 20.0}
+  wavelengths_um:
+    - {l: 0.5876, w: 1.0, primary: true}
+  fields_deg:
+    - {y: 0.0, w: 1.0}
+  sampling: {kind: hexapolar, rings: 3}
+lens_data:
+  - {surf: OBJ, thickness: .inf}
+  - {surf: 1, radius: 61.467, thickness: 12.0, glass: N-BK7, semi_dia: 10.0, variables: [radius]}
+  - {surf: 2, radius: -44.644, thickness: 0.0,                semi_dia: 10.0, variables: [radius]}
+  - {surf: IMA}
