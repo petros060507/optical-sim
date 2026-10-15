@@ -1,11 +1,11 @@
-"""Вкладки анализа: Layout / Spot / Ray Fan / MTF (matplotlib в Qt)."""
+"""Вкладки анализа: Layout / Spot / Ray Fan / MTF / 3D (GPU OpenGL, fallback matplotlib)."""
 from __future__ import annotations
 import numpy as np
 from minizemax.ui.qt import QTabWidget, QVBoxLayout, QWidget
 try:
-    from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg
+    from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg, NavigationToolbar2QT
 except ImportError:
-    from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
+    from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg, NavigationToolbar2QT
 from matplotlib.figure import Figure
 
 from minizemax.engine.tracer import trace_field
@@ -13,15 +13,19 @@ from minizemax.system.paraxial import paraxial_trace
 from minizemax.analysis.spot import image_points, ray_fan
 from minizemax.analysis.mtf import mtf_geometric
 from minizemax.analysis.layout import layout as draw_layout
+from minizemax.analysis.layout3d import layout_3d as draw_layout3d
+from minizemax.analysis.scene3d import build_scene
 
 
 class _Tab(QWidget):
-    def __init__(self):
+    def __init__(self, projection=None):
         super().__init__()
         self.fig = Figure(figsize=(6, 4.5), dpi=100)
-        self.ax = self.fig.add_subplot(111)
+        self.ax = self.fig.add_subplot(111, projection=projection)
         self.canvas = FigureCanvasQTAgg(self.fig)
+        self.toolbar = NavigationToolbar2QT(self.canvas, self)
         lay = QVBoxLayout(self); lay.setContentsMargins(2, 2, 2, 2)
+        lay.addWidget(self.toolbar)
         lay.addWidget(self.canvas)
 
     def begin(self):
@@ -40,6 +44,18 @@ class PlotTabs(QTabWidget):
         self.addTab(self.tab_spot, "Spot")
         self.addTab(self.tab_fan, "Ray Fan")
         self.addTab(self.tab_mtf, "MTF (geo)")
+        self._gl = None
+        self.tab_3d = None
+        try:
+            from minizemax.ui.view3d_qt import GLView3D, gl_available
+            if gl_available():
+                self._gl = GLView3D()
+                self.addTab(self._gl, "3D (GPU)")
+        except Exception:
+            self._gl = None
+        if self._gl is None:
+            self.tab_3d = _Tab(projection="3d")
+            self.addTab(self.tab_3d, "3D")
 
     def update_plots(self, pres):
         built = pres.build()
@@ -52,18 +68,52 @@ class PlotTabs(QTabWidget):
             t.ax.text(0.5, 0.5, f"layout failed: {e}", ha="center")
         t.end()
 
-        t = self.tab_spot; t.begin()
+        if self._gl is not None:
+            try:
+                self._gl.set_scene(build_scene(built, 0, 0, n_rays=24))
+            except Exception:  # noqa: BLE001
+                import traceback
+                traceback.print_exc()
+        elif self.tab_3d is not None:
+            t = self.tab_3d; t.begin()
+            try:
+                draw_layout3d(built, 0, 0, n_rays=12, ax=t.ax)
+            except Exception as e:  # noqa: BLE001
+                t.ax.text2D(0.5, 0.5, f"3D failed: {e}", transform=t.ax.transAxes)
+            t.end()
+
+        t = self.tab_spot
+        t.fig.clear()
+        clouds = {}
         for fi in range(len(sd.fields)):
             for wi in range(len(sd.wavelengths)):
                 res = trace_field(built, fi, wi, cache)
                 pd = paraxial_trace(built, sd.wavelengths[wi].um, sd.fields[fi].y)
                 pts, _ = image_points(res, pd.img_z)
                 if len(pts):
-                    t.ax.plot(pts[:, 0] * 1e3, pts[:, 1] * 1e3, ".", ms=1.5,
-                              color=f"C{wi}", label=f"λ{wi}" if fi == 0 else None)
-        t.ax.set_xlabel("x, um"); t.ax.set_ylabel("y, um")
-        t.ax.set_aspect("equal"); t.ax.set_title("Spot diagram")
-        t.ax.legend(fontsize=7); t.end()
+                    clouds.setdefault(fi, []).append((pts, wi, pd.img_h))
+        if not clouds:
+            ax0 = t.fig.add_subplot(111)
+            ax0.text(0.5, 0.5, "no rays reached image", ha="center", transform=ax0.transAxes)
+        for k, (fi, lst) in enumerate(sorted(clouds.items())):
+            ax = t.fig.add_subplot(1, len(clouds), k + 1)
+            P = np.concatenate([p for p, _, _ in lst], 0) * 1e3
+            c = np.median(P, axis=0)
+            d = np.hypot(*(P - c).T)
+            half = max(3.0 * float(np.percentile(d, 95)), 1.0)
+            for pts, wi, _h in lst:
+                ax.plot(pts[:, 0] * 1e3, pts[:, 1] * 1e3, ".", ms=1.5,
+                        color=f"C{wi}", label=f"λ{wi}" if k == 0 else None)
+            ax.set_xlim(c[0] - half, c[0] + half)
+            ax.set_ylim(c[1] - half, c[1] + half)
+            ax.set_aspect("equal")
+            ax.set_title(f"field {sd.fields[fi].y:.1f} deg  h={lst[0][2]:.2f} mm", fontsize=8)
+            ax.set_xlabel("x, um", fontsize=8)
+            ax.set_ylabel("y, um", fontsize=8)
+            ax.tick_params(labelsize=7)
+            if k == 0:
+                ax.legend(fontsize=7, loc="upper right", framealpha=0.9)
+        t.end()
 
         t = self.tab_fan; t.begin()
         fi = int(np.argmax([f.y for f in sd.fields]))

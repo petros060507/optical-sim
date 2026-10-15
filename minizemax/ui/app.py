@@ -36,7 +36,7 @@ def main(argv=None):
     if pres is None:
         pres = Prescription.from_yaml(DEFAULT_YAML)
     app = QApplication(argv[:1])
-    win = MainWindow(pres)
+    win = MainWindow(pres, path)
     win.show()
     return app.exec() if hasattr(app, "exec") else app.exec_()
 

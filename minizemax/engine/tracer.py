@@ -3,7 +3,8 @@ from __future__ import annotations
 from dataclasses import dataclass
 from time import perf_counter
 import numpy as np
-from minizemax.core.bundle import RayBundle
+from minizemax.core.bundle import (RayBundle, STATUS_ALIVE, STATUS_BLOCKED,
+                                   STATUS_TIR, STATUS_MISS)
 from minizemax.core.physics import snell_vector, reflect_vector
 
 
@@ -44,6 +45,8 @@ class TraceResult:
     history: list
     alive_per_surface: list
     time_s: float
+    stop_point: object = None   # (N,3) точка гибели (blocked/tir), nan иначе
+    stop_surf: object = None    # (N,) индекс поверхности гибели, -1 если жив
 
 
 @dataclass
@@ -57,27 +60,42 @@ class SequentialTracer:
         t0 = perf_counter()
         log = []
         hist = [b.origin.copy()] if self.record_history else []
-        for surf in self.surfaces:
+        N = len(b.origin)
+        stop_point = np.full((N, 3), np.nan)
+        stop_surf = np.full(N, -1, np.int32)
+        for i, surf in enumerate(self.surfaces):
             hit = surf.intersect(b.origin, b.direction)
-            valid = hit.valid & b.alive
+            act = b.alive
+            miss = act & ~hit.geo
+            blocked = act & hit.clip
+            proceed = act & hit.valid
             n1 = surf.mat_before.n(b.wavelength)
             if surf.reflective:
                 d_new = reflect_vector(b.direction, hit.normal)
+                tir = np.zeros(len(act), bool)
             else:
                 n2 = surf.mat_after.n(b.wavelength)
                 d_new, tir = snell_vector(b.direction, hit.normal, n1, n2)
-                valid &= ~tir
+            tir_hit = proceed & tir
+            valid = proceed & ~tir
             p = b.origin + hit.t[:, None] * b.direction
             b.origin = np.where(valid[:, None], p + self.eps * d_new, b.origin)
             b.direction = np.where(valid[:, None], d_new, b.direction)
             b.add_opl(n1, np.where(valid, hit.t, 0.0))
-            b.kill(~valid)
+            b.status = np.where(miss, STATUS_MISS, b.status).astype(np.int8)
+            b.status = np.where(blocked, STATUS_BLOCKED, b.status).astype(np.int8)
+            b.status = np.where(tir_hit, STATUS_TIR, b.status).astype(np.int8)
+            b.alive = b.status == STATUS_ALIVE
+            term = (miss | blocked | tir_hit) & (stop_surf < 0)
+            stop_point = np.where(term[:, None], hit.point, stop_point)
+            stop_surf = np.where(term, i, stop_surf)
             log.append(b.n_alive)
             if self.record_history:
                 hist.append(b.origin.copy())
         if self.detector is not None:
             self.detector.register(b)
-        return TraceResult(b, self.detector, hist, log, perf_counter() - t0)
+        return TraceResult(b, self.detector, hist, log, perf_counter() - t0,
+                           stop_point, stop_surf)
 
 
 def trace_field(built, fi: int, wi: int, cache=None, detector=None, history=False):

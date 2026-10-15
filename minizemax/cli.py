@@ -10,7 +10,10 @@ app = typer.Typer(help="mini-Zemax sequential optical design toy")
 def report(path: str):
     from minizemax.system.prescription import Prescription
     from minizemax.analysis.report import system_report
-    typer.echo(system_report(Prescription.load(path).build()))
+    from minizemax.analysis.losses import loss_table
+    pres = Prescription.load(path)
+    typer.echo(system_report(pres.build()))
+    typer.echo(loss_table(pres))
 
 
 @app.command()
@@ -60,6 +63,51 @@ def gui(path: str = typer.Argument("", help="prescription YAML (пусто = в�
     """Запустить PyQt-интерфейс."""
     from minizemax.ui.app import main
     raise SystemExit(main(["minizemax-gui", path] if path else ["minizemax-gui"]))
+
+
+
+@app.command()
+def view3d(path: str, field: int = 0, wl: int = 0):
+    """Интерактивное 3D-окно: GPU OpenGL, fallback matplotlib 3D."""
+    from minizemax.system.prescription import Prescription
+    from minizemax.analysis.scene3d import build_scene
+    pres = Prescription.load(path)
+    try:
+        from minizemax.ui.qt import QApplication
+        from minizemax.ui.view3d_qt import GLView3D, gl_available
+        if gl_available():
+            app = QApplication(["view3d"])
+            w = GLView3D()
+            w.set_scene(build_scene(pres.build(), field, wl, n_rays=32))
+            w.resize(1100, 750)
+            w.show()
+            raise SystemExit(app.exec() if hasattr(app, "exec") else app.exec_())
+    except SystemExit:
+        raise
+    except Exception:  # noqa: BLE001
+        pass
+    import matplotlib.pyplot as plt
+    from minizemax.analysis.layout3d import layout_3d
+    layout_3d(pres.build(), field, wl, n_rays=24)
+    plt.show()
+
+
+
+@app.command()
+def lenscheck(path: str):
+    """Проверка формы линз: саги, толщины центра/края, тип элемента."""
+    from minizemax.system.prescription import Prescription
+    from minizemax.analysis.lens_shape import print_lens_check
+    typer.echo(print_lens_check(Prescription.load(path)))
+
+
+
+@app.command()
+def losses(path: str):
+    """Бюджет потерь: blocked/tir/miss по всем полям и длинам волн."""
+    from minizemax.system.prescription import Prescription
+    from minizemax.analysis.losses import loss_table
+    typer.echo(loss_table(Prescription.load(path)))
 
 
 if __name__ == "__main__":

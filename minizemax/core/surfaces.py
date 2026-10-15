@@ -14,7 +14,9 @@ class Hit:
     t: np.ndarray       # (N,)
     point: np.ndarray   # (N,3) global
     normal: np.ndarray  # (N,3) global
-    valid: np.ndarray   # (N,) bool
+    valid: np.ndarray   # (N,) bool: геометрия И внутри апертуры
+    geo: np.ndarray = None    # (N,) bool: геометрическое попадание
+    clip: np.ndarray = None   # (N,) bool: попал, но срезан апертурой -> BLOCKED
 
 
 class OpticalSurface(ABC):
@@ -34,10 +36,12 @@ class OpticalSurface(ABC):
     def intersect(self, o_g, d_g) -> Hit:
         o_l = self.transform.to_local(o_g)
         d_l = self.transform.to_local_dir(d_g)
-        t, p_l, n_l, valid = self._intersect_local(o_l, d_l)
-        valid &= np.hypot(p_l[:, 0], p_l[:, 1]) <= self.semi_dia
+        t, p_l, n_l, geo = self._intersect_local(o_l, d_l)
+        inside = np.hypot(p_l[:, 0], p_l[:, 1]) <= self.semi_dia
+        clip = geo & ~inside
+        valid = geo & inside
         return Hit(t, self.transform.to_global(p_l),
-                   self.transform.to_global_dir(n_l), valid)
+                   self.transform.to_global_dir(n_l), valid, geo, clip)
 
     @abstractmethod
     def _intersect_local(self, o, d): ...

@@ -18,11 +18,16 @@ def system_report(built, wl=None, field=None) -> str:
          f"Total track={built.detector_z - built.surfaces[0].z:.3f} mm  "
          f"surfaces={len(built.surfaces)}",
          "--- surfaces ---"]
+    from minizemax.system.lens_data import auto_comments
+    rows = built.lens.real_rows()
+    names = [r.comment or a for r, a in zip(rows, auto_comments(rows))]
     for idx, s in enumerate(built.surfaces):
         R = getattr(s, "radius", np.inf)
         k = getattr(s, "conic", 0.0)
         stop = " STOP" if idx == built.stop_idx else ""
-        L.append(f"  {idx:>3} z={s.z:9.4f} R={R:14.4f} k={k:6.2f} sd={s.semi_dia:7.3f}{stop}")
+        nm = names[idx] if idx < len(names) else ""
+        L.append(f"  {idx:>3} {nm:16s} z={s.z:9.4f} R={R:14.4f} k={k:6.2f} "
+                 f"sd={s.semi_dia:7.3f}{stop}")
     S = seidel_sums(built, wl, field)
     L += ["--- Seidel ---",
           f"S1={S.S1:+.6f} S2={S.S2:+.6f} S3={S.S3:+.6f} "

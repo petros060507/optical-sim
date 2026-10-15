@@ -18,6 +18,7 @@ class SurfaceRow:
     stop: bool = False
     reflective: bool = False
     variables: list = field(default_factory=list)   # ["radius", "thickness"]
+    comment: str = ""                               # имя в LDE (Name column)
 
 
 @dataclass
@@ -59,3 +60,32 @@ def build_system(sysdata, lens) -> BuiltSystem:
     if stop_idx is None:
         stop_idx = int(np.argmin([s.semi_dia for s in surfaces]))
     return BuiltSystem(surfaces, z, stop_idx, sysdata, lens)
+
+
+def auto_comments(real_rows) -> list:
+    """Авто-имена поверхностей: L1.front / L1.back / 'L1.back L2.front' (склейка),
+    M1 для зеркал, 'stop plate' для отдельной диафрагмы, суффикс STOP."""
+    out = []
+    el = 0
+    mir = 0
+    for i, r in enumerate(real_rows):
+        g = r.glass
+        pg = real_rows[i - 1].glass if i > 0 else None
+        if r.reflective:
+            mir += 1
+            tags = [f"M{mir}"]
+        elif g is None and pg is None:
+            tags = ["stop plate" if r.stop else "plate"]
+        else:
+            tags = []
+            if pg is not None and g != pg:
+                tags.append(f"L{el}.back")
+            if g is not None and g != pg:
+                el += 1
+                tags.append(f"L{el}.front")
+            if g is not None and g == pg:
+                tags.append(f"L{el}.mid")
+        if r.stop and "stop" not in " ".join(tags):
+            tags.append("STOP")
+        out.append(" ".join(tags))
+    return out
