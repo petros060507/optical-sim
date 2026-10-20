@@ -78,7 +78,7 @@ class SequentialTracer:
                 d_new, tir = snell_vector(b.direction, hit.normal, n1, n2)
             tir_hit = proceed & tir
             valid = proceed & ~tir
-            p = b.origin + hit.t[:, None] * b.direction
+            p = b.origin + np.where(np.isfinite(hit.t), hit.t, 0.0)[:, None] * b.direction
             b.origin = np.where(valid[:, None], p + self.eps * d_new, b.origin)
             b.direction = np.where(valid[:, None], d_new, b.direction)
             b.add_opl(n1, np.where(valid, hit.t, 0.0))

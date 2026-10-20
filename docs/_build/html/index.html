@@ -1,0 +1,251 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>mini-Zemax — документация разработчика &mdash; mini-Zemax 0.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=938c9ccc"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Архитектура и связи модулей" href="architecture.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="#" class="icon icon-home">
+            mini-Zemax
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Содержание</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Архитектура и связи модулей</a></li>
+<li class="toctree-l1"><a class="reference internal" href="math.html">Математический аппарат (с привязкой к коду)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="core.html">Пакет <code class="docutils literal notranslate"><span class="pre">minizemax.core</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="system.html">Пакет <code class="docutils literal notranslate"><span class="pre">minizemax.system</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="engine.html">Пакет <code class="docutils literal notranslate"><span class="pre">minizemax.engine</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="analysis.html">Пакет <code class="docutils literal notranslate"><span class="pre">minizemax.analysis</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="optim.html">Пакет <code class="docutils literal notranslate"><span class="pre">minizemax.optim</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="components.html">Пакет <code class="docutils literal notranslate"><span class="pre">minizemax.components</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="ui.html">Пакет <code class="docutils literal notranslate"><span class="pre">minizemax.ui</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">CLI, примеры и скрипты</a></li>
+<li class="toctree-l1"><a class="reference internal" href="devguide.html">Руководство разработчика</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">mini-Zemax</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">mini-Zemax — документация разработчика</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="mini-zemax">
+<h1>mini-Zemax — документация разработчика<a class="headerlink" href="#mini-zemax" title="Link to this heading"></a></h1>
+<p>Sequential optical design toy: векторный ray-tracing, параксиал, аберрации,
+DLS-оптимизация, PyQt-GUI с GPU-3D. Каждая страница пакета содержит
+autodoc-справочник, связи классов (mermaid) и ссылки на формулы (<a class="reference internal" href="math.html#equation-snell">(1)</a> и т.д.).</p>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Содержание</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Архитектура и связи модулей</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="architecture.html#id2">Карта файлов (что за что отвечает)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="architecture.html#id3">Зависимости модулей</a></li>
+<li class="toctree-l2"><a class="reference internal" href="architecture.html#sequence">Конвейер трассировки (sequence)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="architecture.html#id4">Классы и их связи</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="math.html">Математический аппарат (с привязкой к коду)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="math.html#id2">Преломление и отражение</a></li>
+<li class="toctree-l2"><a class="reference internal" href="math.html#id3">Саг и пересечение сферы</a></li>
+<li class="toctree-l2"><a class="reference internal" href="math.html#y-nu">Параксиал (y-nu)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="math.html#id4">Формула шлифовщика и пластина</a></li>
+<li class="toctree-l2"><a class="reference internal" href="math.html#f">4f-релей</a></li>
+<li class="toctree-l2"><a class="reference internal" href="math.html#id5">Зейдель</a></li>
+<li class="toctree-l2"><a class="reference internal" href="math.html#opd-mtf">OPD и MTF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="math.html#id6">Пятно и оптимизация</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="core.html">Пакет <code class="docutils literal notranslate"><span class="pre">minizemax.core</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="core.html#minizemax.core.physics.orient_normal"><code class="docutils literal notranslate"><span class="pre">orient_normal()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="core.html#minizemax.core.physics.reflect_vector"><code class="docutils literal notranslate"><span class="pre">reflect_vector()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="core.html#minizemax.core.physics.snell_vector"><code class="docutils literal notranslate"><span class="pre">snell_vector()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="core.html#minizemax.core.physics.fresnel"><code class="docutils literal notranslate"><span class="pre">fresnel()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="core.html#minizemax.core.surfaces.Hit"><code class="docutils literal notranslate"><span class="pre">Hit</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="core.html#minizemax.core.surfaces.OpticalSurface"><code class="docutils literal notranslate"><span class="pre">OpticalSurface</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="core.html#minizemax.core.surfaces.PlaneSurface"><code class="docutils literal notranslate"><span class="pre">PlaneSurface</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="core.html#minizemax.core.surfaces.SphericalSurface"><code class="docutils literal notranslate"><span class="pre">SphericalSurface</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="core.html#minizemax.core.materials.Material"><code class="docutils literal notranslate"><span class="pre">Material</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="core.html#minizemax.core.materials.n_at"><code class="docutils literal notranslate"><span class="pre">n_at()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="core.html#minizemax.core.materials.ConstantMaterial"><code class="docutils literal notranslate"><span class="pre">ConstantMaterial</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="core.html#minizemax.core.materials.SellmeierGlass"><code class="docutils literal notranslate"><span class="pre">SellmeierGlass</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="core.html#minizemax.core.materials.glass"><code class="docutils literal notranslate"><span class="pre">glass()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="core.html#minizemax.core.transform.Transform"><code class="docutils literal notranslate"><span class="pre">Transform</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="core.html#minizemax.core.bundle.RayBundle"><code class="docutils literal notranslate"><span class="pre">RayBundle</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="core.html#minizemax.core.ray.Ray"><code class="docutils literal notranslate"><span class="pre">Ray</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="system.html">Пакет <code class="docutils literal notranslate"><span class="pre">minizemax.system</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="system.html#minizemax.system.system_data.Wavelength"><code class="docutils literal notranslate"><span class="pre">Wavelength</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="system.html#minizemax.system.system_data.Field"><code class="docutils literal notranslate"><span class="pre">Field</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="system.html#minizemax.system.system_data.ApertureDef"><code class="docutils literal notranslate"><span class="pre">ApertureDef</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="system.html#minizemax.system.system_data.Sampling"><code class="docutils literal notranslate"><span class="pre">Sampling</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="system.html#minizemax.system.system_data.SystemData"><code class="docutils literal notranslate"><span class="pre">SystemData</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="system.html#minizemax.system.lens_data.SurfaceRow"><code class="docutils literal notranslate"><span class="pre">SurfaceRow</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="system.html#minizemax.system.lens_data.LensData"><code class="docutils literal notranslate"><span class="pre">LensData</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="system.html#minizemax.system.lens_data.BuiltSystem"><code class="docutils literal notranslate"><span class="pre">BuiltSystem</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="system.html#minizemax.system.lens_data.build_system"><code class="docutils literal notranslate"><span class="pre">build_system()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="system.html#minizemax.system.lens_data.auto_comments"><code class="docutils literal notranslate"><span class="pre">auto_comments()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="system.html#minizemax.system.prescription.Prescription"><code class="docutils literal notranslate"><span class="pre">Prescription</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="system.html#minizemax.system.paraxial.ParaxRay"><code class="docutils literal notranslate"><span class="pre">ParaxRay</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="system.html#minizemax.system.paraxial.ParaxialData"><code class="docutils literal notranslate"><span class="pre">ParaxialData</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="system.html#minizemax.system.paraxial.paraxial_trace"><code class="docutils literal notranslate"><span class="pre">paraxial_trace()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="system.html#minizemax.system.validation.Issue"><code class="docutils literal notranslate"><span class="pre">Issue</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="system.html#minizemax.system.validation.check_prescription"><code class="docutils literal notranslate"><span class="pre">check_prescription()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="engine.html">Пакет <code class="docutils literal notranslate"><span class="pre">minizemax.engine</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="engine.html#minizemax.engine.source.pupil_grid"><code class="docutils literal notranslate"><span class="pre">pupil_grid()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="engine.html#minizemax.engine.source.make_bundle"><code class="docutils literal notranslate"><span class="pre">make_bundle()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="engine.html#minizemax.engine.tracer.DetectorHits"><code class="docutils literal notranslate"><span class="pre">DetectorHits</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="engine.html#minizemax.engine.tracer.Detector"><code class="docutils literal notranslate"><span class="pre">Detector</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="engine.html#minizemax.engine.tracer.TraceResult"><code class="docutils literal notranslate"><span class="pre">TraceResult</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="engine.html#minizemax.engine.tracer.SequentialTracer"><code class="docutils literal notranslate"><span class="pre">SequentialTracer</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="engine.html#minizemax.engine.tracer.trace_field"><code class="docutils literal notranslate"><span class="pre">trace_field()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="analysis.html">Пакет <code class="docutils literal notranslate"><span class="pre">minizemax.analysis</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="analysis.html#minizemax.analysis.spot.image_points"><code class="docutils literal notranslate"><span class="pre">image_points()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="analysis.html#minizemax.analysis.spot.spot_stats"><code class="docutils literal notranslate"><span class="pre">spot_stats()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="analysis.html#minizemax.analysis.spot.airy_radius_um"><code class="docutils literal notranslate"><span class="pre">airy_radius_um()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="analysis.html#minizemax.analysis.spot.ray_fan"><code class="docutils literal notranslate"><span class="pre">ray_fan()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="analysis.html#minizemax.analysis.wavefront.opd_waves"><code class="docutils literal notranslate"><span class="pre">opd_waves()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="analysis.html#minizemax.analysis.wavefront.wavefront_stats"><code class="docutils literal notranslate"><span class="pre">wavefront_stats()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="analysis.html#minizemax.analysis.mtf.mtf_geometric"><code class="docutils literal notranslate"><span class="pre">mtf_geometric()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="analysis.html#minizemax.analysis.distortion.distortion_pct"><code class="docutils literal notranslate"><span class="pre">distortion_pct()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="analysis.html#minizemax.analysis.seidel.SeidelSums"><code class="docutils literal notranslate"><span class="pre">SeidelSums</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="analysis.html#minizemax.analysis.seidel.seidel_sums"><code class="docutils literal notranslate"><span class="pre">seidel_sums()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="analysis.html#minizemax.analysis.layout.layout"><code class="docutils literal notranslate"><span class="pre">layout()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="analysis.html#minizemax.analysis.layout3d.layout_3d"><code class="docutils literal notranslate"><span class="pre">layout_3d()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="analysis.html#minizemax.analysis.scene3d.MeshData"><code class="docutils literal notranslate"><span class="pre">MeshData</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="analysis.html#minizemax.analysis.scene3d.Scene"><code class="docutils literal notranslate"><span class="pre">Scene</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="analysis.html#minizemax.analysis.scene3d.to_gl"><code class="docutils literal notranslate"><span class="pre">to_gl()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="analysis.html#minizemax.analysis.scene3d.build_scene"><code class="docutils literal notranslate"><span class="pre">build_scene()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="analysis.html#minizemax.analysis.report.system_report"><code class="docutils literal notranslate"><span class="pre">system_report()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="analysis.html#minizemax.analysis.losses.loss_counts"><code class="docutils literal notranslate"><span class="pre">loss_counts()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="analysis.html#minizemax.analysis.losses.loss_table"><code class="docutils literal notranslate"><span class="pre">loss_table()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="optim.html">Пакет <code class="docutils literal notranslate"><span class="pre">minizemax.optim</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="optim.html#minizemax.optim.merit.Operand"><code class="docutils literal notranslate"><span class="pre">Operand</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="optim.html#minizemax.optim.merit.MeritFunction"><code class="docutils literal notranslate"><span class="pre">MeritFunction</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="optim.html#minizemax.optim.dls.OptResult"><code class="docutils literal notranslate"><span class="pre">OptResult</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="optim.html#minizemax.optim.dls.DLSOptimizer"><code class="docutils literal notranslate"><span class="pre">DLSOptimizer</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="components.html">Пакет <code class="docutils literal notranslate"><span class="pre">minizemax.components</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="components.html#minizemax.components.base.OpticalComponent"><code class="docutils literal notranslate"><span class="pre">OpticalComponent</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="components.html#minizemax.components.lens.SphericalLens"><code class="docutils literal notranslate"><span class="pre">SphericalLens</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="components.html#minizemax.components.mirror.SphericalMirror"><code class="docutils literal notranslate"><span class="pre">SphericalMirror</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="components.html#minizemax.components.aperture.ApertureStop"><code class="docutils literal notranslate"><span class="pre">ApertureStop</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="components.html#minizemax.components.detector.DetectorScreen"><code class="docutils literal notranslate"><span class="pre">DetectorScreen</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="components.html#minizemax.components.plate.PlaneParallelPlate"><code class="docutils literal notranslate"><span class="pre">PlaneParallelPlate</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="components.html#minizemax.components.assemble.assemble"><code class="docutils literal notranslate"><span class="pre">assemble()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ui.html">Пакет <code class="docutils literal notranslate"><span class="pre">minizemax.ui</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ui.html#gui">Граф компонентов GUI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ui.html#id1">Сигналы</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ui.html#id2">Виджеты</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">CLI, примеры и скрипты</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="cli.html#minizemax.cli.gui"><code class="docutils literal notranslate"><span class="pre">gui()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="cli.html#minizemax.cli.view3d"><code class="docutils literal notranslate"><span class="pre">view3d()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="cli.html#minizemax.cli.lenscheck"><code class="docutils literal notranslate"><span class="pre">lenscheck()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="cli.html#minizemax.cli.losses"><code class="docutils literal notranslate"><span class="pre">losses()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="cli.html#id1">Команды</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cli.html#id2">Примеры-скрипты</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="devguide.html">Руководство разработчика</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="devguide.html#id2">Как добавлять сущности</a></li>
+<li class="toctree-l2"><a class="reference internal" href="devguide.html#id3">Карта тестов</a></li>
+<li class="toctree-l2"><a class="reference internal" href="devguide.html#id4">Известные грабли (история багов → решения)</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="architecture.html" class="btn btn-neutral float-right" title="Архитектура и связи модулей" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright .</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

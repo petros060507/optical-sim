@@ -1,0 +1,335 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Пакет minizemax.components &mdash; mini-Zemax 0.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=938c9ccc"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Пакет minizemax.ui" href="ui.html" />
+    <link rel="prev" title="Пакет minizemax.optim" href="optim.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            mini-Zemax
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Содержание</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Архитектура и связи модулей</a></li>
+<li class="toctree-l1"><a class="reference internal" href="math.html">Математический аппарат (с привязкой к коду)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="core.html">Пакет <code class="docutils literal notranslate"><span class="pre">minizemax.core</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="system.html">Пакет <code class="docutils literal notranslate"><span class="pre">minizemax.system</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="engine.html">Пакет <code class="docutils literal notranslate"><span class="pre">minizemax.engine</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="analysis.html">Пакет <code class="docutils literal notranslate"><span class="pre">minizemax.analysis</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="optim.html">Пакет <code class="docutils literal notranslate"><span class="pre">minizemax.optim</span></code></a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Пакет <code class="docutils literal notranslate"><span class="pre">minizemax.components</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#minizemax.components.base.OpticalComponent"><code class="docutils literal notranslate"><span class="pre">OpticalComponent</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.components.base.OpticalComponent.name"><code class="docutils literal notranslate"><span class="pre">OpticalComponent.name</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.components.base.OpticalComponent.length"><code class="docutils literal notranslate"><span class="pre">OpticalComponent.length</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.components.base.OpticalComponent.place"><code class="docutils literal notranslate"><span class="pre">OpticalComponent.place()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.components.base.OpticalComponent.surfaces"><code class="docutils literal notranslate"><span class="pre">OpticalComponent.surfaces()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.components.base.OpticalComponent.rows"><code class="docutils literal notranslate"><span class="pre">OpticalComponent.rows()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#minizemax.components.lens.SphericalLens"><code class="docutils literal notranslate"><span class="pre">SphericalLens</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.components.lens.SphericalLens.length"><code class="docutils literal notranslate"><span class="pre">SphericalLens.length</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.components.lens.SphericalLens.surfaces"><code class="docutils literal notranslate"><span class="pre">SphericalLens.surfaces()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.components.lens.SphericalLens.rows"><code class="docutils literal notranslate"><span class="pre">SphericalLens.rows()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.components.lens.SphericalLens.efl_paraxial"><code class="docutils literal notranslate"><span class="pre">SphericalLens.efl_paraxial()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#minizemax.components.mirror.SphericalMirror"><code class="docutils literal notranslate"><span class="pre">SphericalMirror</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.components.mirror.SphericalMirror.surfaces"><code class="docutils literal notranslate"><span class="pre">SphericalMirror.surfaces()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.components.mirror.SphericalMirror.rows"><code class="docutils literal notranslate"><span class="pre">SphericalMirror.rows()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.components.mirror.SphericalMirror.focal_length"><code class="docutils literal notranslate"><span class="pre">SphericalMirror.focal_length()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#minizemax.components.aperture.ApertureStop"><code class="docutils literal notranslate"><span class="pre">ApertureStop</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.components.aperture.ApertureStop.surfaces"><code class="docutils literal notranslate"><span class="pre">ApertureStop.surfaces()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.components.aperture.ApertureStop.rows"><code class="docutils literal notranslate"><span class="pre">ApertureStop.rows()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#minizemax.components.detector.DetectorScreen"><code class="docutils literal notranslate"><span class="pre">DetectorScreen</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.components.detector.DetectorScreen.surfaces"><code class="docutils literal notranslate"><span class="pre">DetectorScreen.surfaces()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.components.detector.DetectorScreen.rows"><code class="docutils literal notranslate"><span class="pre">DetectorScreen.rows()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.components.detector.DetectorScreen.detector"><code class="docutils literal notranslate"><span class="pre">DetectorScreen.detector()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#minizemax.components.plate.PlaneParallelPlate"><code class="docutils literal notranslate"><span class="pre">PlaneParallelPlate</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.components.plate.PlaneParallelPlate.length"><code class="docutils literal notranslate"><span class="pre">PlaneParallelPlate.length</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.components.plate.PlaneParallelPlate.surfaces"><code class="docutils literal notranslate"><span class="pre">PlaneParallelPlate.surfaces()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.components.plate.PlaneParallelPlate.rows"><code class="docutils literal notranslate"><span class="pre">PlaneParallelPlate.rows()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.components.plate.PlaneParallelPlate.lateral_shift"><code class="docutils literal notranslate"><span class="pre">PlaneParallelPlate.lateral_shift()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#minizemax.components.assemble.assemble"><code class="docutils literal notranslate"><span class="pre">assemble()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ui.html">Пакет <code class="docutils literal notranslate"><span class="pre">minizemax.ui</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">CLI, примеры и скрипты</a></li>
+<li class="toctree-l1"><a class="reference internal" href="devguide.html">Руководство разработчика</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">mini-Zemax</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Пакет <code class="docutils literal notranslate"><span class="pre">minizemax.components</span></code></li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/components.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="minizemax-components">
+<h1>Пакет <code class="docutils literal notranslate"><span class="pre">minizemax.components</span></code><a class="headerlink" href="#minizemax-components" title="Link to this heading"></a></h1>
+<p>Prompt 6: компоненты = композиции поверхностей. Test systems: A=пластина (<a class="reference internal" href="math.html#equation-plate">(6)</a>),
+B=plano-convex (<a class="reference internal" href="math.html#equation-lensmaker">(5)</a>), C=biconvex с варьированием R1,R2,d,D,стекло;
+4f-релей: <a class="reference internal" href="math.html#equation-fourf">(7)</a>. <code class="docutils literal notranslate"><span class="pre">assemble</span></code> сериализует компоненты в LDE-строки.</p>
+<p id="module-minizemax.components.base">OpticalComponent: компонент = композиция УЖЕ протестированных поверхностей.
+Никакой новой физики пересечений: только core.surfaces + core.physics.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="minizemax.components.base.OpticalComponent">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">minizemax.components.base.</span></span><span class="sig-name descname"><span class="pre">OpticalComponent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/minizemax/components/base.html#OpticalComponent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.components.base.OpticalComponent" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.components.base.OpticalComponent.name">
+<span class="sig-name descname"><span class="pre">name</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'component'</span></span><a class="headerlink" href="#minizemax.components.base.OpticalComponent.name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="minizemax.components.base.OpticalComponent.length">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">length</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><span class="pre">float</span></a></span><a class="headerlink" href="#minizemax.components.base.OpticalComponent.length" title="Link to this definition"></a></dt>
+<dd><p>Осевая протяжённость (от первой до последней поверхности).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="minizemax.components.base.OpticalComponent.place">
+<span class="sig-name descname"><span class="pre">place</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><span class="pre">float</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#minizemax.components.base.OpticalComponent" title="minizemax.components.base.OpticalComponent"><span class="pre">OpticalComponent</span></a></span></span><a class="reference internal" href="_modules/minizemax/components/base.html#OpticalComponent.place"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.components.base.OpticalComponent.place" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="minizemax.components.base.OpticalComponent.surfaces">
+<span class="sig-name descname"><span class="pre">surfaces</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.15)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="core.html#minizemax.core.surfaces.OpticalSurface" title="minizemax.core.surfaces.OpticalSurface"><span class="pre">OpticalSurface</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/minizemax/components/base.html#OpticalComponent.surfaces"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.components.base.OpticalComponent.surfaces" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="minizemax.components.base.OpticalComponent.rows">
+<span class="sig-name descname"><span class="pre">rows</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.15)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="system.html#minizemax.system.lens_data.SurfaceRow" title="minizemax.system.lens_data.SurfaceRow"><span class="pre">SurfaceRow</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/minizemax/components/base.html#OpticalComponent.rows"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.components.base.OpticalComponent.rows" title="Link to this definition"></a></dt>
+<dd><p>LDE-строки: компонент встраивается в уже протестированный конвейер.</p>
+</dd></dl>
+
+</dd></dl>
+
+<p id="module-minizemax.components.lens">SphericalLens: две преломляющие сферы + толщина + материал n(λ).</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="minizemax.components.lens.SphericalLens">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">minizemax.components.lens.</span></span><span class="sig-name descname"><span class="pre">SphericalLens</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">R1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">R2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">D</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">material</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'L'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conic1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conic2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/minizemax/components/lens.html#SphericalLens"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.components.lens.SphericalLens" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#minizemax.components.base.OpticalComponent" title="minizemax.components.base.OpticalComponent"><code class="xref py py-class docutils literal notranslate"><span class="pre">OpticalComponent</span></code></a></p>
+<dl class="py property">
+<dt class="sig sig-object py" id="minizemax.components.lens.SphericalLens.length">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">length</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><span class="pre">float</span></a></span><a class="headerlink" href="#minizemax.components.lens.SphericalLens.length" title="Link to this definition"></a></dt>
+<dd><p>Осевая протяжённость (от первой до последней поверхности).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="minizemax.components.lens.SphericalLens.surfaces">
+<span class="sig-name descname"><span class="pre">surfaces</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/minizemax/components/lens.html#SphericalLens.surfaces"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.components.lens.SphericalLens.surfaces" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="minizemax.components.lens.SphericalLens.rows">
+<span class="sig-name descname"><span class="pre">rows</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/minizemax/components/lens.html#SphericalLens.rows"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.components.lens.SphericalLens.rows" title="Link to this definition"></a></dt>
+<dd><p>LDE-строки: компонент встраивается в уже протестированный конвейер.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="minizemax.components.lens.SphericalLens.efl_paraxial">
+<span class="sig-name descname"><span class="pre">efl_paraxial</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wl</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><span class="pre">float</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><span class="pre">float</span></a></span></span><a class="reference internal" href="_modules/minizemax/components/lens.html#SphericalLens.efl_paraxial"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.components.lens.SphericalLens.efl_paraxial" title="Link to this definition"></a></dt>
+<dd><p>Формула шлифовщика: 1/f = (n-1)[1/R1 - 1/R2 + (n-1)d/(n R1 R2)].</p>
+</dd></dl>
+
+</dd></dl>
+
+<p id="module-minizemax.components.mirror">SphericalMirror: одна отражающая сфера (переиспользует reflective-поверхность).</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="minizemax.components.mirror.SphericalMirror">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">minizemax.components.mirror.</span></span><span class="sig-name descname"><span class="pre">SphericalMirror</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">R</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">D</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'M'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conic</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/minizemax/components/mirror.html#SphericalMirror"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.components.mirror.SphericalMirror" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#minizemax.components.base.OpticalComponent" title="minizemax.components.base.OpticalComponent"><code class="xref py py-class docutils literal notranslate"><span class="pre">OpticalComponent</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="minizemax.components.mirror.SphericalMirror.surfaces">
+<span class="sig-name descname"><span class="pre">surfaces</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/minizemax/components/mirror.html#SphericalMirror.surfaces"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.components.mirror.SphericalMirror.surfaces" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="minizemax.components.mirror.SphericalMirror.rows">
+<span class="sig-name descname"><span class="pre">rows</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/minizemax/components/mirror.html#SphericalMirror.rows"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.components.mirror.SphericalMirror.rows" title="Link to this definition"></a></dt>
+<dd><p>LDE-строки: компонент встраивается в уже протестированный конвейер.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="minizemax.components.mirror.SphericalMirror.focal_length">
+<span class="sig-name descname"><span class="pre">focal_length</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><span class="pre">float</span></a></span></span><a class="reference internal" href="_modules/minizemax/components/mirror.html#SphericalMirror.focal_length"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.components.mirror.SphericalMirror.focal_length" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<p id="module-minizemax.components.aperture">ApertureStop: отдельная диафрагма = плоскость AIR-&gt;AIR (преломления нет,
+работает только апертурный клип уже протестированной PlaneSurface).</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="minizemax.components.aperture.ApertureStop">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">minizemax.components.aperture.</span></span><span class="sig-name descname"><span class="pre">ApertureStop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">D</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'STO'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/minizemax/components/aperture.html#ApertureStop"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.components.aperture.ApertureStop" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#minizemax.components.base.OpticalComponent" title="minizemax.components.base.OpticalComponent"><code class="xref py py-class docutils literal notranslate"><span class="pre">OpticalComponent</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="minizemax.components.aperture.ApertureStop.surfaces">
+<span class="sig-name descname"><span class="pre">surfaces</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/minizemax/components/aperture.html#ApertureStop.surfaces"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.components.aperture.ApertureStop.surfaces" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="minizemax.components.aperture.ApertureStop.rows">
+<span class="sig-name descname"><span class="pre">rows</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/minizemax/components/aperture.html#ApertureStop.rows"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.components.aperture.ApertureStop.rows" title="Link to this definition"></a></dt>
+<dd><p>LDE-строки: компонент встраивается в уже протестированный конвейер.</p>
+</dd></dl>
+
+</dd></dl>
+
+<p id="module-minizemax.components.detector">DetectorScreen: компонент-приёмник (обёртка над engine.tracer.Detector).</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="minizemax.components.detector.DetectorScreen">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">minizemax.components.detector.</span></span><span class="sig-name descname"><span class="pre">DetectorScreen</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">half_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nx</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">256</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ny</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">256</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'IMA'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/minizemax/components/detector.html#DetectorScreen"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.components.detector.DetectorScreen" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#minizemax.components.base.OpticalComponent" title="minizemax.components.base.OpticalComponent"><code class="xref py py-class docutils literal notranslate"><span class="pre">OpticalComponent</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="minizemax.components.detector.DetectorScreen.surfaces">
+<span class="sig-name descname"><span class="pre">surfaces</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/minizemax/components/detector.html#DetectorScreen.surfaces"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.components.detector.DetectorScreen.surfaces" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="minizemax.components.detector.DetectorScreen.rows">
+<span class="sig-name descname"><span class="pre">rows</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/minizemax/components/detector.html#DetectorScreen.rows"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.components.detector.DetectorScreen.rows" title="Link to this definition"></a></dt>
+<dd><p>LDE-строки: компонент встраивается в уже протестированный конвейер.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="minizemax.components.detector.DetectorScreen.detector">
+<span class="sig-name descname"><span class="pre">detector</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/minizemax/components/detector.html#DetectorScreen.detector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.components.detector.DetectorScreen.detector" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<p id="module-minizemax.components.plate">PlaneParallelPlate: две плоские поверхности (переиспользует PlaneSurface).</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="minizemax.components.plate.PlaneParallelPlate">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">minizemax.components.plate.</span></span><span class="sig-name descname"><span class="pre">PlaneParallelPlate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">D</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">material</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'P'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/minizemax/components/plate.html#PlaneParallelPlate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.components.plate.PlaneParallelPlate" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#minizemax.components.base.OpticalComponent" title="minizemax.components.base.OpticalComponent"><code class="xref py py-class docutils literal notranslate"><span class="pre">OpticalComponent</span></code></a></p>
+<dl class="py property">
+<dt class="sig sig-object py" id="minizemax.components.plate.PlaneParallelPlate.length">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">length</span></span><a class="headerlink" href="#minizemax.components.plate.PlaneParallelPlate.length" title="Link to this definition"></a></dt>
+<dd><p>Осевая протяжённость (от первой до последней поверхности).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="minizemax.components.plate.PlaneParallelPlate.surfaces">
+<span class="sig-name descname"><span class="pre">surfaces</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/minizemax/components/plate.html#PlaneParallelPlate.surfaces"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.components.plate.PlaneParallelPlate.surfaces" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="minizemax.components.plate.PlaneParallelPlate.rows">
+<span class="sig-name descname"><span class="pre">rows</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/minizemax/components/plate.html#PlaneParallelPlate.rows"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.components.plate.PlaneParallelPlate.rows" title="Link to this definition"></a></dt>
+<dd><p>LDE-строки: компонент встраивается в уже протестированный конвейер.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="minizemax.components.plate.PlaneParallelPlate.lateral_shift">
+<span class="sig-name descname"><span class="pre">lateral_shift</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta_rad</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">wl</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><span class="pre">float</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><span class="pre">float</span></a></span></span><a class="reference internal" href="_modules/minizemax/components/plate.html#PlaneParallelPlate.lateral_shift"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.components.plate.PlaneParallelPlate.lateral_shift" title="Link to this definition"></a></dt>
+<dd><p>s = d*sin(th)*(1 - cos(th)/sqrt(n^2 - sin^2(th))).</p>
+</dd></dl>
+
+</dd></dl>
+
+<p id="module-minizemax.components.assemble">assemble: компоненты -&gt; Prescription (LDE-строки). Трассировка/параксиал/GUI
+остаются прежними — компонент лишь добавляет строки в протестированный конвейер.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="minizemax.components.assemble.assemble">
+<span class="sig-prename descclassname"><span class="pre">minizemax.components.assemble.</span></span><span class="sig-name descname"><span class="pre">assemble</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">items</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sysdata</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="system.html#minizemax.system.system_data.SystemData" title="minizemax.system.system_data.SystemData"><span class="pre">SystemData</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="system.html#minizemax.system.prescription.Prescription" title="minizemax.system.prescription.Prescription"><span class="pre">Prescription</span></a></span></span><a class="reference internal" href="_modules/minizemax/components/assemble.html#assemble"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.components.assemble.assemble" title="Link to this definition"></a></dt>
+<dd><p>items: [(component, gap_after), …]; gap_after — осевое расстояние от
+последней поверхности компонента до первой поверхности следующего
+(может быть отрицательным для зеркальных/сложенных схем).
+DetectorScreen ставится последним.</p>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="optim.html" class="btn btn-neutral float-left" title="Пакет minizemax.optim" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ui.html" class="btn btn-neutral float-right" title="Пакет minizemax.ui" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright .</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

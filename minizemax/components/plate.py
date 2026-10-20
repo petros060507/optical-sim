@@ -24,12 +24,14 @@ class PlaneParallelPlate(OpticalComponent):
         return [s1, s2]
 
     def rows(self):
-        g = getattr(self.material, "name", None)
-        return [SurfaceRow(f"{self.name}1", np.inf, self.d, g, self.D / 2),
+        # Сохраняем сам Material-объект (ConstantMaterial и т.п.), не имя
+        # Это позволяет использовать материалы вне каталога (например, для тестов)
+        return [SurfaceRow(f"{self.name}1", np.inf, self.d, self.material, self.D / 2),
                 SurfaceRow(f"{self.name}2", np.inf, 0.0, None, self.D / 2)]
 
     def lateral_shift(self, theta_rad: float, wl: float) -> float:
-        """s = d*sin(th)*(1 - cos(th)/sqrt(n^2 - sin^2(th)))."""
+        """Вертикальный сдвиг луча (по y): s_y = s_perp / cos(θ)."""
         n = n_at(self.material, wl)
         s = np.sin(theta_rad); c = np.cos(theta_rad)
-        return self.d * s * (1.0 - c / np.sqrt(n * n - s * s))
+        s_perp = self.d * s * (1.0 - c / np.sqrt(n * n - s * s))
+        return s_perp / c  # переводим перпендикулярный сдвиг в вертикальный

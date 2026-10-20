@@ -6,7 +6,7 @@ dependencies = ["numpy>=1.26", "scipy>=1.11", "matplotlib>=3.8", "pyyaml", "rich
 
 [project.optional-dependencies]
 dev = ["pytest", "pytest-cov", "ruff", "mypy"]
-ui  = ["PyQt5", "PyOpenGL"]          # работают также PyQt6 / PySide6 (шим ui/qt.py)
+ui  = ["PyQt6", "PyOpenGL"]          # работают также PyQt6 / PySide6 (шим ui/qt.py)
 
 [project.scripts]
 minizemax = "minizemax.cli:app"

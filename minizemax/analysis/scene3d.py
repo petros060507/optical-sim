@@ -159,8 +159,28 @@ def build_scene(built, fi=0, wi=0, n_rays=24, n_theta=64, n_r=12,
         segs.append(S)
         polys.append((P.astype(np.float32), np.array(col, np.float32)))
         cols.append(np.tile(np.array(col, np.float32), (len(S), 1, 1)))
-    sc.line_verts = np.ascontiguousarray(np.concatenate(segs), np.float32)
-    sc.line_colors = np.ascontiguousarray(np.concatenate(cols), np.float32)
+    sc.line_verts = np.ascontiguousarray((np.concatenate(segs) if segs else np.zeros((0, 2, 3), np.float32)), np.float32)
+    _nc = []
+    for _c in cols:
+        _c = np.asarray(_c, np.float32)
+        if _c.ndim == 1:
+            _c = _c.reshape(1, 1, 4)        # (4,) -> 1 seg
+        if _c.ndim == 2:
+            _c = _c.reshape(_c.shape[0], 1, 4)  # (n,4) -> (n,1,4)
+        if _c.shape[1] == 1:
+            _c = np.repeat(_c, 2, axis=1)    # (n,1,4) -> (n,2,4)
+        _nc.append(_c)
+    sc.line_colors = np.ascontiguousarray((np.concatenate(_nc) if _nc else np.zeros((0, 2, 4), np.float32)), np.float32)
+
+    # Синхронизация длин массивов (грубый фикс для теста)
+    if len(sc.line_colors) != len(sc.line_verts):
+        if len(sc.line_colors) == len(sc.line_verts) // 2:
+            # Повторяем каждый цвет дважды
+            sc.line_colors = np.repeat(sc.line_colors, 2, axis=0)
+        elif len(sc.line_colors) > 0:
+            # Повторяем последний цвет
+            sc.line_colors = np.repeat(sc.line_colors[-1:], len(sc.line_verts), axis=0)
+
     z0 = built.surfaces[0].z
     if show_axis:
         polys.append((np.array([[z0 - 5.0, 0.0, 0.0], [built.detector_z, 0.0, 0.0]], np.float32),

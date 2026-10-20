@@ -5,6 +5,9 @@ from typing import Protocol
 import numpy as np
 
 
+from typing import runtime_checkable
+
+@runtime_checkable
 class Material(Protocol):
     def n(self, wl): ...
 
@@ -30,9 +33,9 @@ class SellmeierGlass:
 
     def n(self, wl):
         w2 = np.asarray(wl, float) ** 2
-        return np.sqrt(1.0 + sum(b * w2 / (w2 - c) for b, c in zip(self.B, self.C)))
-
-
+        arg = 1.0 + sum(b * w2 / (w2 - c) for b, c in zip(self.B, self.C))
+        # вне полосы прозрачности Sellmeier arg<0 -> n не определён (nan), но без warning
+        return np.where(arg >= 0.0, np.sqrt(np.where(arg >= 0.0, arg, 1.0)), np.nan)
 AIR = ConstantMaterial("air", 1.0)
 
 CATALOG = {

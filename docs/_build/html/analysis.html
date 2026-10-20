@@ -1,0 +1,361 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Пакет minizemax.analysis &mdash; mini-Zemax 0.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=938c9ccc"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Пакет minizemax.optim" href="optim.html" />
+    <link rel="prev" title="Пакет minizemax.engine" href="engine.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            mini-Zemax
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Содержание</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Архитектура и связи модулей</a></li>
+<li class="toctree-l1"><a class="reference internal" href="math.html">Математический аппарат (с привязкой к коду)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="core.html">Пакет <code class="docutils literal notranslate"><span class="pre">minizemax.core</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="system.html">Пакет <code class="docutils literal notranslate"><span class="pre">minizemax.system</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="engine.html">Пакет <code class="docutils literal notranslate"><span class="pre">minizemax.engine</span></code></a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Пакет <code class="docutils literal notranslate"><span class="pre">minizemax.analysis</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#minizemax.analysis.spot.image_points"><code class="docutils literal notranslate"><span class="pre">image_points()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#minizemax.analysis.spot.spot_stats"><code class="docutils literal notranslate"><span class="pre">spot_stats()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#minizemax.analysis.spot.airy_radius_um"><code class="docutils literal notranslate"><span class="pre">airy_radius_um()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#minizemax.analysis.spot.ray_fan"><code class="docutils literal notranslate"><span class="pre">ray_fan()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#minizemax.analysis.wavefront.opd_waves"><code class="docutils literal notranslate"><span class="pre">opd_waves()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#minizemax.analysis.wavefront.wavefront_stats"><code class="docutils literal notranslate"><span class="pre">wavefront_stats()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#minizemax.analysis.mtf.mtf_geometric"><code class="docutils literal notranslate"><span class="pre">mtf_geometric()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#minizemax.analysis.distortion.distortion_pct"><code class="docutils literal notranslate"><span class="pre">distortion_pct()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#minizemax.analysis.seidel.SeidelSums"><code class="docutils literal notranslate"><span class="pre">SeidelSums</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.analysis.seidel.SeidelSums.S1"><code class="docutils literal notranslate"><span class="pre">SeidelSums.S1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.analysis.seidel.SeidelSums.S2"><code class="docutils literal notranslate"><span class="pre">SeidelSums.S2</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.analysis.seidel.SeidelSums.S3"><code class="docutils literal notranslate"><span class="pre">SeidelSums.S3</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.analysis.seidel.SeidelSums.S4"><code class="docutils literal notranslate"><span class="pre">SeidelSums.S4</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.analysis.seidel.SeidelSums.S5"><code class="docutils literal notranslate"><span class="pre">SeidelSums.S5</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.analysis.seidel.SeidelSums.H"><code class="docutils literal notranslate"><span class="pre">SeidelSums.H</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#minizemax.analysis.seidel.seidel_sums"><code class="docutils literal notranslate"><span class="pre">seidel_sums()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#minizemax.analysis.layout.layout"><code class="docutils literal notranslate"><span class="pre">layout()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#minizemax.analysis.layout3d.layout_3d"><code class="docutils literal notranslate"><span class="pre">layout_3d()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#minizemax.analysis.scene3d.MeshData"><code class="docutils literal notranslate"><span class="pre">MeshData</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.analysis.scene3d.MeshData.verts"><code class="docutils literal notranslate"><span class="pre">MeshData.verts</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.analysis.scene3d.MeshData.faces"><code class="docutils literal notranslate"><span class="pre">MeshData.faces</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.analysis.scene3d.MeshData.color"><code class="docutils literal notranslate"><span class="pre">MeshData.color</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.analysis.scene3d.MeshData.name"><code class="docutils literal notranslate"><span class="pre">MeshData.name</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.analysis.scene3d.MeshData.gl_options"><code class="docutils literal notranslate"><span class="pre">MeshData.gl_options</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#minizemax.analysis.scene3d.Scene"><code class="docutils literal notranslate"><span class="pre">Scene</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.analysis.scene3d.Scene.meshes"><code class="docutils literal notranslate"><span class="pre">Scene.meshes</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.analysis.scene3d.Scene.line_verts"><code class="docutils literal notranslate"><span class="pre">Scene.line_verts</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.analysis.scene3d.Scene.line_colors"><code class="docutils literal notranslate"><span class="pre">Scene.line_colors</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.analysis.scene3d.Scene.polylines"><code class="docutils literal notranslate"><span class="pre">Scene.polylines</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.analysis.scene3d.Scene.center"><code class="docutils literal notranslate"><span class="pre">Scene.center</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.analysis.scene3d.Scene.scale"><code class="docutils literal notranslate"><span class="pre">Scene.scale</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#minizemax.analysis.scene3d.to_gl"><code class="docutils literal notranslate"><span class="pre">to_gl()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#minizemax.analysis.scene3d.build_scene"><code class="docutils literal notranslate"><span class="pre">build_scene()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#minizemax.analysis.report.system_report"><code class="docutils literal notranslate"><span class="pre">system_report()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#minizemax.analysis.losses.loss_counts"><code class="docutils literal notranslate"><span class="pre">loss_counts()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#minizemax.analysis.losses.loss_table"><code class="docutils literal notranslate"><span class="pre">loss_table()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="optim.html">Пакет <code class="docutils literal notranslate"><span class="pre">minizemax.optim</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="components.html">Пакет <code class="docutils literal notranslate"><span class="pre">minizemax.components</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="ui.html">Пакет <code class="docutils literal notranslate"><span class="pre">minizemax.ui</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">CLI, примеры и скрипты</a></li>
+<li class="toctree-l1"><a class="reference internal" href="devguide.html">Руководство разработчика</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">mini-Zemax</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Пакет <code class="docutils literal notranslate"><span class="pre">minizemax.analysis</span></code></li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/analysis.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="minizemax-analysis">
+<h1>Пакет <code class="docutils literal notranslate"><span class="pre">minizemax.analysis</span></code><a class="headerlink" href="#minizemax-analysis" title="Link to this heading"></a></h1>
+<p>Все метрики качества: <a class="reference internal" href="math.html#equation-rms">(11)</a>, <a class="reference internal" href="math.html#equation-opd">(9)</a>, <a class="reference internal" href="math.html#equation-mtf">(10)</a>, <a class="reference internal" href="math.html#equation-seidel">(8)</a>.
+<code class="docutils literal notranslate"><span class="pre">scene3d.build_scene</span></code> — единый источник геометрии для GPU-рендера и fallback-3D.</p>
+<p id="module-minizemax.analysis.spot">Spot: RMS/GEO/centroid; ray fan с опорой на chief (pupil coord ~ 0).</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="minizemax.analysis.spot.image_points">
+<span class="sig-prename descclassname"><span class="pre">minizemax.analysis.spot.</span></span><span class="sig-name descname"><span class="pre">image_points</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">res</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><span class="pre">float</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/minizemax/analysis/spot.html#image_points"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.analysis.spot.image_points" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="minizemax.analysis.spot.spot_stats">
+<span class="sig-prename descclassname"><span class="pre">minizemax.analysis.spot.</span></span><span class="sig-name descname"><span class="pre">spot_stats</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pts</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">w</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/minizemax/analysis/spot.html#spot_stats"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.analysis.spot.spot_stats" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="minizemax.analysis.spot.airy_radius_um">
+<span class="sig-prename descclassname"><span class="pre">minizemax.analysis.spot.</span></span><span class="sig-name descname"><span class="pre">airy_radius_um</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wl_um</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">fno</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><span class="pre">float</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><span class="pre">float</span></a></span></span><a class="reference internal" href="_modules/minizemax/analysis/spot.html#airy_radius_um"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.analysis.spot.airy_radius_um" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="minizemax.analysis.spot.ray_fan">
+<span class="sig-prename descclassname"><span class="pre">minizemax.analysis.spot.</span></span><span class="sig-name descname"><span class="pre">ray_fan</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">built</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fi</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.15)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">wi</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.15)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.15)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">21</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axis</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'y'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/minizemax/analysis/spot.html#ray_fan"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.analysis.spot.ray_fan" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<p id="module-minizemax.analysis.wavefront">OPD относительно опорной сферы (центр = гауссова точка, R = до exit pupil).</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="minizemax.analysis.wavefront.opd_waves">
+<span class="sig-prename descclassname"><span class="pre">minizemax.analysis.wavefront.</span></span><span class="sig-name descname"><span class="pre">opd_waves</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">built</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">res</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fi</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.15)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">wi</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.15)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.5)"><span class="pre">ndarray</span></a></span></span><a class="reference internal" href="_modules/minizemax/analysis/wavefront.html#opd_waves"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.analysis.wavefront.opd_waves" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="minizemax.analysis.wavefront.wavefront_stats">
+<span class="sig-prename descclassname"><span class="pre">minizemax.analysis.wavefront.</span></span><span class="sig-name descname"><span class="pre">wavefront_stats</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">opd</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.5)"><span class="pre">ndarray</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.15)"><span class="pre">dict</span></a></span></span><a class="reference internal" href="_modules/minizemax/analysis/wavefront.html#wavefront_stats"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.analysis.wavefront.wavefront_stats" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<p id="module-minizemax.analysis.mtf">Геометрическая MTF = характеристической функции пятна.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="minizemax.analysis.mtf.mtf_geometric">
+<span class="sig-prename descclassname"><span class="pre">minizemax.analysis.mtf.</span></span><span class="sig-name descname"><span class="pre">mtf_geometric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pts</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">w</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">freqs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'y'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/minizemax/analysis/mtf.html#mtf_geometric"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.analysis.mtf.mtf_geometric" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<p id="module-minizemax.analysis.distortion">Дисторсия: реальная высота chief vs параксиальная.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="minizemax.analysis.distortion.distortion_pct">
+<span class="sig-prename descclassname"><span class="pre">minizemax.analysis.distortion.</span></span><span class="sig-name descname"><span class="pre">distortion_pct</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">built</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fi</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.15)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">wi</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.15)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><span class="pre">float</span></a></span></span><a class="reference internal" href="_modules/minizemax/analysis/distortion.html#distortion_pct"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.analysis.distortion.distortion_pct" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<p id="module-minizemax.analysis.seidel">Суммы Зейделя S_I-S_V по параксиальному ходу двух лучей.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="minizemax.analysis.seidel.SeidelSums">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">minizemax.analysis.seidel.</span></span><span class="sig-name descname"><span class="pre">SeidelSums</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">S1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'float'</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">S2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'float'</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">S3</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'float'</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">S4</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'float'</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">S5</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'float'</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">H</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'float'</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/minizemax/analysis/seidel.html#SeidelSums"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.analysis.seidel.SeidelSums" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.analysis.seidel.SeidelSums.S1">
+<span class="sig-name descname"><span class="pre">S1</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><span class="pre">float</span></a></span><a class="headerlink" href="#minizemax.analysis.seidel.SeidelSums.S1" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.analysis.seidel.SeidelSums.S2">
+<span class="sig-name descname"><span class="pre">S2</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><span class="pre">float</span></a></span><a class="headerlink" href="#minizemax.analysis.seidel.SeidelSums.S2" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.analysis.seidel.SeidelSums.S3">
+<span class="sig-name descname"><span class="pre">S3</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><span class="pre">float</span></a></span><a class="headerlink" href="#minizemax.analysis.seidel.SeidelSums.S3" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.analysis.seidel.SeidelSums.S4">
+<span class="sig-name descname"><span class="pre">S4</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><span class="pre">float</span></a></span><a class="headerlink" href="#minizemax.analysis.seidel.SeidelSums.S4" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.analysis.seidel.SeidelSums.S5">
+<span class="sig-name descname"><span class="pre">S5</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><span class="pre">float</span></a></span><a class="headerlink" href="#minizemax.analysis.seidel.SeidelSums.S5" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.analysis.seidel.SeidelSums.H">
+<span class="sig-name descname"><span class="pre">H</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><span class="pre">float</span></a></span><a class="headerlink" href="#minizemax.analysis.seidel.SeidelSums.H" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="minizemax.analysis.seidel.seidel_sums">
+<span class="sig-prename descclassname"><span class="pre">minizemax.analysis.seidel.</span></span><span class="sig-name descname"><span class="pre">seidel_sums</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">built</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wl</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">field_deg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><span class="pre">float</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#minizemax.analysis.seidel.SeidelSums" title="minizemax.analysis.seidel.SeidelSums"><span class="pre">SeidelSums</span></a></span></span><a class="reference internal" href="_modules/minizemax/analysis/seidel.html#seidel_sums"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.analysis.seidel.seidel_sums" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<p id="module-minizemax.analysis.layout">2D layout: саг-профили + тангенциальный веер лучей до детектора.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="minizemax.analysis.layout.layout">
+<span class="sig-prename descclassname"><span class="pre">minizemax.analysis.layout.</span></span><span class="sig-name descname"><span class="pre">layout</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">built</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fi</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wi</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_rays</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">7</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/minizemax/analysis/layout.html#layout"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.analysis.layout.layout" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<p id="module-minizemax.analysis.layout3d">3D-раскладка (matplotlib fallback): поверхности вращения, ободья линз,
+диафрагма, детектор, лучи. GPU-версия — в analysis/scene3d.py + ui/view3d_gl.py.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="minizemax.analysis.layout3d.layout_3d">
+<span class="sig-prename descclassname"><span class="pre">minizemax.analysis.layout3d.</span></span><span class="sig-name descname"><span class="pre">layout_3d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">built</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fi</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wi</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_rays</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">16</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_theta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">40</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_rays</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/minizemax/analysis/layout3d.html#layout_3d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.analysis.layout3d.layout_3d" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<p id="module-minizemax.analysis.scene3d">Бэкенд-независимая 3D-сцена: меши поверхностей/ободьев/диафрагмы/детектора
++ ОДИН батч сегментов на все лучи. Float32/uint32 — готово к загрузке в VBO.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="minizemax.analysis.scene3d.MeshData">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">minizemax.analysis.scene3d.</span></span><span class="sig-name descname"><span class="pre">MeshData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">verts</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'np.ndarray'</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">faces</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'np.ndarray'</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'tuple'</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'str'</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gl_options</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'str'</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'translucent'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/minizemax/analysis/scene3d.html#MeshData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.analysis.scene3d.MeshData" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.analysis.scene3d.MeshData.verts">
+<span class="sig-name descname"><span class="pre">verts</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.5)"><span class="pre">ndarray</span></a></span><a class="headerlink" href="#minizemax.analysis.scene3d.MeshData.verts" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.analysis.scene3d.MeshData.faces">
+<span class="sig-name descname"><span class="pre">faces</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.5)"><span class="pre">ndarray</span></a></span><a class="headerlink" href="#minizemax.analysis.scene3d.MeshData.faces" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.analysis.scene3d.MeshData.color">
+<span class="sig-name descname"><span class="pre">color</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#tuple" title="(in Python v3.15)"><span class="pre">tuple</span></a></span><a class="headerlink" href="#minizemax.analysis.scene3d.MeshData.color" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.analysis.scene3d.MeshData.name">
+<span class="sig-name descname"><span class="pre">name</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><span class="pre">str</span></a></span><a class="headerlink" href="#minizemax.analysis.scene3d.MeshData.name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.analysis.scene3d.MeshData.gl_options">
+<span class="sig-name descname"><span class="pre">gl_options</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><span class="pre">str</span></a></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'translucent'</span></span><a class="headerlink" href="#minizemax.analysis.scene3d.MeshData.gl_options" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="minizemax.analysis.scene3d.Scene">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">minizemax.analysis.scene3d.</span></span><span class="sig-name descname"><span class="pre">Scene</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">meshes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'list'</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line_verts</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'np.ndarray'</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line_colors</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'np.ndarray'</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">polylines</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'list'</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">center</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'np.ndarray'</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'float'</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">100.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/minizemax/analysis/scene3d.html#Scene"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.analysis.scene3d.Scene" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.analysis.scene3d.Scene.meshes">
+<span class="sig-name descname"><span class="pre">meshes</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.15)"><span class="pre">list</span></a></span><a class="headerlink" href="#minizemax.analysis.scene3d.Scene.meshes" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.analysis.scene3d.Scene.line_verts">
+<span class="sig-name descname"><span class="pre">line_verts</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.5)"><span class="pre">ndarray</span></a></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#minizemax.analysis.scene3d.Scene.line_verts" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.analysis.scene3d.Scene.line_colors">
+<span class="sig-name descname"><span class="pre">line_colors</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.5)"><span class="pre">ndarray</span></a></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#minizemax.analysis.scene3d.Scene.line_colors" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.analysis.scene3d.Scene.polylines">
+<span class="sig-name descname"><span class="pre">polylines</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.15)"><span class="pre">list</span></a></span><a class="headerlink" href="#minizemax.analysis.scene3d.Scene.polylines" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.analysis.scene3d.Scene.center">
+<span class="sig-name descname"><span class="pre">center</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.5)"><span class="pre">ndarray</span></a></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#minizemax.analysis.scene3d.Scene.center" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.analysis.scene3d.Scene.scale">
+<span class="sig-name descname"><span class="pre">scale</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><span class="pre">float</span></a></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">100.0</span></span><a class="headerlink" href="#minizemax.analysis.scene3d.Scene.scale" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="minizemax.analysis.scene3d.to_gl">
+<span class="sig-prename descclassname"><span class="pre">minizemax.analysis.scene3d.</span></span><span class="sig-name descname"><span class="pre">to_gl</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">verts</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.5)"><span class="pre">ndarray</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.5)"><span class="pre">ndarray</span></a></span></span><a class="reference internal" href="_modules/minizemax/analysis/scene3d.html#to_gl"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.analysis.scene3d.to_gl" title="Link to this definition"></a></dt>
+<dd><p>(x,y,z) оптики -&gt; (x,y,z) GL: оптическая ось горизонталь, up = y оптики.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="minizemax.analysis.scene3d.build_scene">
+<span class="sig-prename descclassname"><span class="pre">minizemax.analysis.scene3d.</span></span><span class="sig-name descname"><span class="pre">build_scene</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">built</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fi</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wi</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_rays</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">24</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_theta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">64</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_r</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">12</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_axis</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#bool" title="(in Python v3.15)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#minizemax.analysis.scene3d.Scene" title="minizemax.analysis.scene3d.Scene"><span class="pre">Scene</span></a></span></span><a class="reference internal" href="_modules/minizemax/analysis/scene3d.html#build_scene"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.analysis.scene3d.build_scene" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<p id="module-minizemax.analysis.report">Текстовый System Report.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="minizemax.analysis.report.system_report">
+<span class="sig-prename descclassname"><span class="pre">minizemax.analysis.report.</span></span><span class="sig-name descname"><span class="pre">system_report</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">built</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wl</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><span class="pre">str</span></a></span></span><a class="reference internal" href="_modules/minizemax/analysis/report.html#system_report"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.analysis.report.system_report" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<p id="module-minizemax.analysis.losses">Loss budget: счётчики причин гибели лучей.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="minizemax.analysis.losses.loss_counts">
+<span class="sig-prename descclassname"><span class="pre">minizemax.analysis.losses.</span></span><span class="sig-name descname"><span class="pre">loss_counts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">res</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.15)"><span class="pre">dict</span></a></span></span><a class="reference internal" href="_modules/minizemax/analysis/losses.html#loss_counts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.analysis.losses.loss_counts" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="minizemax.analysis.losses.loss_table">
+<span class="sig-prename descclassname"><span class="pre">minizemax.analysis.losses.</span></span><span class="sig-name descname"><span class="pre">loss_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pres</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><span class="pre">str</span></a></span></span><a class="reference internal" href="_modules/minizemax/analysis/losses.html#loss_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.analysis.losses.loss_table" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="engine.html" class="btn btn-neutral float-left" title="Пакет minizemax.engine" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="optim.html" class="btn btn-neutral float-right" title="Пакет minizemax.optim" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright .</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

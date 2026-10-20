@@ -82,7 +82,7 @@ def layout_3d(built, fi=0, wi=0, n_rays=16, n_theta=40, ax=None, show_rays=True)
         for j in range(len(px)):
             P = np.array([h_[j] for h_ in pts_all])
             ok = np.isfinite(P[:, 2])
-            ax.plot(pts[ok, 2], pts[ok, 1], "-", lw=0.7,
+            ax.plot(P[ok, 2], P[ok, 1], P[ok, 0], "-", lw=0.7,
 
                     color={0: "C0", 1: "tab:orange", 2: "m", 3: "0.5"}[int(bb.status[j])],
 

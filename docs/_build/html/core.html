@@ -1,0 +1,557 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Пакет minizemax.core &mdash; mini-Zemax 0.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=938c9ccc"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Пакет minizemax.system" href="system.html" />
+    <link rel="prev" title="Математический аппарат (с привязкой к коду)" href="math.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            mini-Zemax
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Содержание</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Архитектура и связи модулей</a></li>
+<li class="toctree-l1"><a class="reference internal" href="math.html">Математический аппарат (с привязкой к коду)</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Пакет <code class="docutils literal notranslate"><span class="pre">minizemax.core</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#minizemax.core.physics.orient_normal"><code class="docutils literal notranslate"><span class="pre">orient_normal()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#minizemax.core.physics.reflect_vector"><code class="docutils literal notranslate"><span class="pre">reflect_vector()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#minizemax.core.physics.snell_vector"><code class="docutils literal notranslate"><span class="pre">snell_vector()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#minizemax.core.physics.fresnel"><code class="docutils literal notranslate"><span class="pre">fresnel()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#minizemax.core.surfaces.Hit"><code class="docutils literal notranslate"><span class="pre">Hit</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.core.surfaces.Hit.t"><code class="docutils literal notranslate"><span class="pre">Hit.t</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.core.surfaces.Hit.point"><code class="docutils literal notranslate"><span class="pre">Hit.point</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.core.surfaces.Hit.normal"><code class="docutils literal notranslate"><span class="pre">Hit.normal</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.core.surfaces.Hit.valid"><code class="docutils literal notranslate"><span class="pre">Hit.valid</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.core.surfaces.Hit.geo"><code class="docutils literal notranslate"><span class="pre">Hit.geo</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.core.surfaces.Hit.clip"><code class="docutils literal notranslate"><span class="pre">Hit.clip</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#minizemax.core.surfaces.OpticalSurface"><code class="docutils literal notranslate"><span class="pre">OpticalSurface</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.core.surfaces.OpticalSurface.z"><code class="docutils literal notranslate"><span class="pre">OpticalSurface.z</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.core.surfaces.OpticalSurface.intersect"><code class="docutils literal notranslate"><span class="pre">OpticalSurface.intersect()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.core.surfaces.OpticalSurface.sag"><code class="docutils literal notranslate"><span class="pre">OpticalSurface.sag()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#minizemax.core.surfaces.PlaneSurface"><code class="docutils literal notranslate"><span class="pre">PlaneSurface</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#minizemax.core.surfaces.SphericalSurface"><code class="docutils literal notranslate"><span class="pre">SphericalSurface</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.core.surfaces.SphericalSurface.sag"><code class="docutils literal notranslate"><span class="pre">SphericalSurface.sag()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#minizemax.core.materials.Material"><code class="docutils literal notranslate"><span class="pre">Material</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.core.materials.Material.n"><code class="docutils literal notranslate"><span class="pre">Material.n()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#minizemax.core.materials.n_at"><code class="docutils literal notranslate"><span class="pre">n_at()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#minizemax.core.materials.ConstantMaterial"><code class="docutils literal notranslate"><span class="pre">ConstantMaterial</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.core.materials.ConstantMaterial.name"><code class="docutils literal notranslate"><span class="pre">ConstantMaterial.name</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.core.materials.ConstantMaterial.value"><code class="docutils literal notranslate"><span class="pre">ConstantMaterial.value</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.core.materials.ConstantMaterial.n"><code class="docutils literal notranslate"><span class="pre">ConstantMaterial.n()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#minizemax.core.materials.SellmeierGlass"><code class="docutils literal notranslate"><span class="pre">SellmeierGlass</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.core.materials.SellmeierGlass.name"><code class="docutils literal notranslate"><span class="pre">SellmeierGlass.name</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.core.materials.SellmeierGlass.B"><code class="docutils literal notranslate"><span class="pre">SellmeierGlass.B</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.core.materials.SellmeierGlass.C"><code class="docutils literal notranslate"><span class="pre">SellmeierGlass.C</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.core.materials.SellmeierGlass.n"><code class="docutils literal notranslate"><span class="pre">SellmeierGlass.n()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#minizemax.core.materials.glass"><code class="docutils literal notranslate"><span class="pre">glass()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#minizemax.core.transform.Transform"><code class="docutils literal notranslate"><span class="pre">Transform</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.core.transform.Transform.R"><code class="docutils literal notranslate"><span class="pre">Transform.R</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.core.transform.Transform.t"><code class="docutils literal notranslate"><span class="pre">Transform.t</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.core.transform.Transform.identity"><code class="docutils literal notranslate"><span class="pre">Transform.identity()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.core.transform.Transform.translation"><code class="docutils literal notranslate"><span class="pre">Transform.translation()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.core.transform.Transform.to_local"><code class="docutils literal notranslate"><span class="pre">Transform.to_local()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.core.transform.Transform.to_local_dir"><code class="docutils literal notranslate"><span class="pre">Transform.to_local_dir()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.core.transform.Transform.to_global"><code class="docutils literal notranslate"><span class="pre">Transform.to_global()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.core.transform.Transform.to_global_dir"><code class="docutils literal notranslate"><span class="pre">Transform.to_global_dir()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#minizemax.core.bundle.RayBundle"><code class="docutils literal notranslate"><span class="pre">RayBundle</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.core.bundle.RayBundle.origin"><code class="docutils literal notranslate"><span class="pre">RayBundle.origin</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.core.bundle.RayBundle.direction"><code class="docutils literal notranslate"><span class="pre">RayBundle.direction</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.core.bundle.RayBundle.wavelength"><code class="docutils literal notranslate"><span class="pre">RayBundle.wavelength</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.core.bundle.RayBundle.intensity"><code class="docutils literal notranslate"><span class="pre">RayBundle.intensity</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.core.bundle.RayBundle.opl"><code class="docutils literal notranslate"><span class="pre">RayBundle.opl</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.core.bundle.RayBundle.alive"><code class="docutils literal notranslate"><span class="pre">RayBundle.alive</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.core.bundle.RayBundle.meta"><code class="docutils literal notranslate"><span class="pre">RayBundle.meta</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.core.bundle.RayBundle.status"><code class="docutils literal notranslate"><span class="pre">RayBundle.status</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.core.bundle.RayBundle.at"><code class="docutils literal notranslate"><span class="pre">RayBundle.at()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.core.bundle.RayBundle.add_opl"><code class="docutils literal notranslate"><span class="pre">RayBundle.add_opl()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.core.bundle.RayBundle.kill"><code class="docutils literal notranslate"><span class="pre">RayBundle.kill()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.core.bundle.RayBundle.n_alive"><code class="docutils literal notranslate"><span class="pre">RayBundle.n_alive</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#minizemax.core.ray.Ray"><code class="docutils literal notranslate"><span class="pre">Ray</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.core.ray.Ray.origin"><code class="docutils literal notranslate"><span class="pre">Ray.origin</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.core.ray.Ray.direction"><code class="docutils literal notranslate"><span class="pre">Ray.direction</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.core.ray.Ray.wavelength"><code class="docutils literal notranslate"><span class="pre">Ray.wavelength</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.core.ray.Ray.intensity"><code class="docutils literal notranslate"><span class="pre">Ray.intensity</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.core.ray.Ray.opl"><code class="docutils literal notranslate"><span class="pre">Ray.opl</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.core.ray.Ray.alive"><code class="docutils literal notranslate"><span class="pre">Ray.alive</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.core.ray.Ray.history"><code class="docutils literal notranslate"><span class="pre">Ray.history</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.core.ray.Ray.at"><code class="docutils literal notranslate"><span class="pre">Ray.at()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.core.ray.Ray.propagate"><code class="docutils literal notranslate"><span class="pre">Ray.propagate()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.core.ray.Ray.normalize"><code class="docutils literal notranslate"><span class="pre">Ray.normalize()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.core.ray.Ray.add_opl"><code class="docutils literal notranslate"><span class="pre">Ray.add_opl()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.core.ray.Ray.attenuate"><code class="docutils literal notranslate"><span class="pre">Ray.attenuate()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="system.html">Пакет <code class="docutils literal notranslate"><span class="pre">minizemax.system</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="engine.html">Пакет <code class="docutils literal notranslate"><span class="pre">minizemax.engine</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="analysis.html">Пакет <code class="docutils literal notranslate"><span class="pre">minizemax.analysis</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="optim.html">Пакет <code class="docutils literal notranslate"><span class="pre">minizemax.optim</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="components.html">Пакет <code class="docutils literal notranslate"><span class="pre">minizemax.components</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="ui.html">Пакет <code class="docutils literal notranslate"><span class="pre">minizemax.ui</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">CLI, примеры и скрипты</a></li>
+<li class="toctree-l1"><a class="reference internal" href="devguide.html">Руководство разработчика</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">mini-Zemax</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Пакет <code class="docutils literal notranslate"><span class="pre">minizemax.core</span></code></li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/core.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="minizemax-core">
+<h1>Пакет <code class="docutils literal notranslate"><span class="pre">minizemax.core</span></code><a class="headerlink" href="#minizemax-core" title="Link to this heading"></a></h1>
+<p>Базовый слой: никакая физика не дублируется выше — все компоненты и трейсер
+используют только эти пересечения/преломления (acceptance criterion Week 1).
+Формулы: <a class="reference internal" href="math.html#equation-snell">(1)</a>, <a class="reference internal" href="math.html#equation-fresnel">(2)</a>, <a class="reference internal" href="math.html#equation-sag">(3)</a>.</p>
+<p id="module-minizemax.core.physics">Векторные Снеллиус, отражение, Френель.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="minizemax.core.physics.orient_normal">
+<span class="sig-prename descclassname"><span class="pre">minizemax.core.physics.</span></span><span class="sig-name descname"><span class="pre">orient_normal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/minizemax/core/physics.html#orient_normal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.core.physics.orient_normal" title="Link to this definition"></a></dt>
+<dd><p>Нормаль против направления луча (n·d &lt; 0).</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="minizemax.core.physics.reflect_vector">
+<span class="sig-prename descclassname"><span class="pre">minizemax.core.physics.</span></span><span class="sig-name descname"><span class="pre">reflect_vector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/minizemax/core/physics.html#reflect_vector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.core.physics.reflect_vector" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="minizemax.core.physics.snell_vector">
+<span class="sig-prename descclassname"><span class="pre">minizemax.core.physics.</span></span><span class="sig-name descname"><span class="pre">snell_vector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/minizemax/core/physics.html#snell_vector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.core.physics.snell_vector" title="Link to this definition"></a></dt>
+<dd><p>(d_refracted, tir_mask).</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="minizemax.core.physics.fresnel">
+<span class="sig-prename descclassname"><span class="pre">minizemax.core.physics.</span></span><span class="sig-name descname"><span class="pre">fresnel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/minizemax/core/physics.html#fresnel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.core.physics.fresnel" title="Link to this definition"></a></dt>
+<dd><p>Rs, Rp по интенсивности; TIR -&gt; 1.</p>
+</dd></dl>
+
+<p id="module-minizemax.core.surfaces">OpticalSurface ABC, PlaneSurface, SphericalSurface (conic через Ньютон).</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="minizemax.core.surfaces.Hit">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">minizemax.core.surfaces.</span></span><span class="sig-name descname"><span class="pre">Hit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'np.ndarray'</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">point</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'np.ndarray'</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normal</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'np.ndarray'</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">valid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'np.ndarray'</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">geo</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'np.ndarray'</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clip</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'np.ndarray'</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/minizemax/core/surfaces.html#Hit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.core.surfaces.Hit" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.core.surfaces.Hit.t">
+<span class="sig-name descname"><span class="pre">t</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.5)"><span class="pre">ndarray</span></a></span><a class="headerlink" href="#minizemax.core.surfaces.Hit.t" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.core.surfaces.Hit.point">
+<span class="sig-name descname"><span class="pre">point</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.5)"><span class="pre">ndarray</span></a></span><a class="headerlink" href="#minizemax.core.surfaces.Hit.point" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.core.surfaces.Hit.normal">
+<span class="sig-name descname"><span class="pre">normal</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.5)"><span class="pre">ndarray</span></a></span><a class="headerlink" href="#minizemax.core.surfaces.Hit.normal" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.core.surfaces.Hit.valid">
+<span class="sig-name descname"><span class="pre">valid</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.5)"><span class="pre">ndarray</span></a></span><a class="headerlink" href="#minizemax.core.surfaces.Hit.valid" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.core.surfaces.Hit.geo">
+<span class="sig-name descname"><span class="pre">geo</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.5)"><span class="pre">ndarray</span></a></span><a class="headerlink" href="#minizemax.core.surfaces.Hit.geo" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.core.surfaces.Hit.clip">
+<span class="sig-name descname"><span class="pre">clip</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.5)"><span class="pre">ndarray</span></a></span><a class="headerlink" href="#minizemax.core.surfaces.Hit.clip" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="minizemax.core.surfaces.OpticalSurface">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">minizemax.core.surfaces.</span></span><span class="sig-name descname"><span class="pre">OpticalSurface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">transform</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mat_before</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mat_after</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">semi_dia</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reflective</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/minizemax/core/surfaces.html#OpticalSurface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.core.surfaces.OpticalSurface" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/abc.html#abc.ABC" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></a></p>
+<dl class="py property">
+<dt class="sig sig-object py" id="minizemax.core.surfaces.OpticalSurface.z">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">z</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><span class="pre">float</span></a></span><a class="headerlink" href="#minizemax.core.surfaces.OpticalSurface.z" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="minizemax.core.surfaces.OpticalSurface.intersect">
+<span class="sig-name descname"><span class="pre">intersect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">o_g</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d_g</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#minizemax.core.surfaces.Hit" title="minizemax.core.surfaces.Hit"><span class="pre">Hit</span></a></span></span><a class="reference internal" href="_modules/minizemax/core/surfaces.html#OpticalSurface.intersect"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.core.surfaces.OpticalSurface.intersect" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="minizemax.core.surfaces.OpticalSurface.sag">
+<span class="sig-name descname"><span class="pre">sag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">r</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/minizemax/core/surfaces.html#OpticalSurface.sag"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.core.surfaces.OpticalSurface.sag" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="minizemax.core.surfaces.PlaneSurface">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">minizemax.core.surfaces.</span></span><span class="sig-name descname"><span class="pre">PlaneSurface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">transform</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mat_before</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mat_after</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">semi_dia</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reflective</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/minizemax/core/surfaces.html#PlaneSurface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.core.surfaces.PlaneSurface" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#minizemax.core.surfaces.OpticalSurface" title="minizemax.core.surfaces.OpticalSurface"><code class="xref py py-class docutils literal notranslate"><span class="pre">OpticalSurface</span></code></a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="minizemax.core.surfaces.SphericalSurface">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">minizemax.core.surfaces.</span></span><span class="sig-name descname"><span class="pre">SphericalSurface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">transform</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mat_before</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mat_after</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">semi_dia</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radius</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conic</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reflective</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/minizemax/core/surfaces.html#SphericalSurface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.core.surfaces.SphericalSurface" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#minizemax.core.surfaces.OpticalSurface" title="minizemax.core.surfaces.OpticalSurface"><code class="xref py py-class docutils literal notranslate"><span class="pre">OpticalSurface</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="minizemax.core.surfaces.SphericalSurface.sag">
+<span class="sig-name descname"><span class="pre">sag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">r</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/minizemax/core/surfaces.html#SphericalSurface.sag"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.core.surfaces.SphericalSurface.sag" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<p id="module-minizemax.core.materials">Material Protocol, Sellmeier, каталог стёкол.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="minizemax.core.materials.Material">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">minizemax.core.materials.</span></span><span class="sig-name descname"><span class="pre">Material</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/minizemax/core/materials.html#Material"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.core.materials.Material" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Protocol" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Protocol</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="minizemax.core.materials.Material.n">
+<span class="sig-name descname"><span class="pre">n</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wl</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/minizemax/core/materials.html#Material.n"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.core.materials.Material.n" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="minizemax.core.materials.n_at">
+<span class="sig-prename descclassname"><span class="pre">minizemax.core.materials.</span></span><span class="sig-name descname"><span class="pre">n_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mat</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wl</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><span class="pre">float</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><span class="pre">float</span></a></span></span><a class="reference internal" href="_modules/minizemax/core/materials.html#n_at"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.core.materials.n_at" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="minizemax.core.materials.ConstantMaterial">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">minizemax.core.materials.</span></span><span class="sig-name descname"><span class="pre">ConstantMaterial</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'str'</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'float'</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/minizemax/core/materials.html#ConstantMaterial"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.core.materials.ConstantMaterial" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.core.materials.ConstantMaterial.name">
+<span class="sig-name descname"><span class="pre">name</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><span class="pre">str</span></a></span><a class="headerlink" href="#minizemax.core.materials.ConstantMaterial.name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.core.materials.ConstantMaterial.value">
+<span class="sig-name descname"><span class="pre">value</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><span class="pre">float</span></a></span><a class="headerlink" href="#minizemax.core.materials.ConstantMaterial.value" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="minizemax.core.materials.ConstantMaterial.n">
+<span class="sig-name descname"><span class="pre">n</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wl</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/minizemax/core/materials.html#ConstantMaterial.n"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.core.materials.ConstantMaterial.n" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="minizemax.core.materials.SellmeierGlass">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">minizemax.core.materials.</span></span><span class="sig-name descname"><span class="pre">SellmeierGlass</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'str'</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">B</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'tuple'</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">C</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'tuple'</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/minizemax/core/materials.html#SellmeierGlass"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.core.materials.SellmeierGlass" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.core.materials.SellmeierGlass.name">
+<span class="sig-name descname"><span class="pre">name</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><span class="pre">str</span></a></span><a class="headerlink" href="#minizemax.core.materials.SellmeierGlass.name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.core.materials.SellmeierGlass.B">
+<span class="sig-name descname"><span class="pre">B</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#tuple" title="(in Python v3.15)"><span class="pre">tuple</span></a></span><a class="headerlink" href="#minizemax.core.materials.SellmeierGlass.B" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.core.materials.SellmeierGlass.C">
+<span class="sig-name descname"><span class="pre">C</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#tuple" title="(in Python v3.15)"><span class="pre">tuple</span></a></span><a class="headerlink" href="#minizemax.core.materials.SellmeierGlass.C" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="minizemax.core.materials.SellmeierGlass.n">
+<span class="sig-name descname"><span class="pre">n</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wl</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/minizemax/core/materials.html#SellmeierGlass.n"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.core.materials.SellmeierGlass.n" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="minizemax.core.materials.glass">
+<span class="sig-prename descclassname"><span class="pre">minizemax.core.materials.</span></span><span class="sig-name descname"><span class="pre">glass</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/minizemax/core/materials.html#glass"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.core.materials.glass" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<p id="module-minizemax.core.transform">Transform: локальная &lt;-&gt; глобальная СК.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="minizemax.core.transform.Transform">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">minizemax.core.transform.</span></span><span class="sig-name descname"><span class="pre">Transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">R</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'np.ndarray'</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'np.ndarray'</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/minizemax/core/transform.html#Transform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.core.transform.Transform" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.core.transform.Transform.R">
+<span class="sig-name descname"><span class="pre">R</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.5)"><span class="pre">ndarray</span></a></span><a class="headerlink" href="#minizemax.core.transform.Transform.R" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.core.transform.Transform.t">
+<span class="sig-name descname"><span class="pre">t</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.5)"><span class="pre">ndarray</span></a></span><a class="headerlink" href="#minizemax.core.transform.Transform.t" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="minizemax.core.transform.Transform.identity">
+<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">identity</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#minizemax.core.transform.Transform" title="minizemax.core.transform.Transform"><span class="pre">Transform</span></a></span></span><a class="reference internal" href="_modules/minizemax/core/transform.html#Transform.identity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.core.transform.Transform.identity" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="minizemax.core.transform.Transform.translation">
+<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">translation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><span class="pre">float</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#minizemax.core.transform.Transform" title="minizemax.core.transform.Transform"><span class="pre">Transform</span></a></span></span><a class="reference internal" href="_modules/minizemax/core/transform.html#Transform.translation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.core.transform.Transform.translation" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="minizemax.core.transform.Transform.to_local">
+<span class="sig-name descname"><span class="pre">to_local</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/minizemax/core/transform.html#Transform.to_local"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.core.transform.Transform.to_local" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="minizemax.core.transform.Transform.to_local_dir">
+<span class="sig-name descname"><span class="pre">to_local_dir</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/minizemax/core/transform.html#Transform.to_local_dir"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.core.transform.Transform.to_local_dir" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="minizemax.core.transform.Transform.to_global">
+<span class="sig-name descname"><span class="pre">to_global</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/minizemax/core/transform.html#Transform.to_global"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.core.transform.Transform.to_global" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="minizemax.core.transform.Transform.to_global_dir">
+<span class="sig-name descname"><span class="pre">to_global_dir</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/minizemax/core/transform.html#Transform.to_global_dir"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.core.transform.Transform.to_global_dir" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<p id="module-minizemax.core.bundle">RayBundle — SoA-контейнер N лучей (векторизация NumPy).</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="minizemax.core.bundle.RayBundle">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">minizemax.core.bundle.</span></span><span class="sig-name descname"><span class="pre">RayBundle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">origin</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'Arr'</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">direction</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'Arr'</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wavelength</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'Arr'</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intensity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'Arr'</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">opl</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'Arr'</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alive</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'Arr'</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'dict'</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">status</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'Arr'</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/minizemax/core/bundle.html#RayBundle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.core.bundle.RayBundle" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.core.bundle.RayBundle.origin">
+<span class="sig-name descname"><span class="pre">origin</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">NDArray</span><span class="p"><span class="pre">[</span></span><span class="pre">float64</span><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#minizemax.core.bundle.RayBundle.origin" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.core.bundle.RayBundle.direction">
+<span class="sig-name descname"><span class="pre">direction</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">NDArray</span><span class="p"><span class="pre">[</span></span><span class="pre">float64</span><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#minizemax.core.bundle.RayBundle.direction" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.core.bundle.RayBundle.wavelength">
+<span class="sig-name descname"><span class="pre">wavelength</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">NDArray</span><span class="p"><span class="pre">[</span></span><span class="pre">float64</span><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#minizemax.core.bundle.RayBundle.wavelength" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.core.bundle.RayBundle.intensity">
+<span class="sig-name descname"><span class="pre">intensity</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">NDArray</span><span class="p"><span class="pre">[</span></span><span class="pre">float64</span><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#minizemax.core.bundle.RayBundle.intensity" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.core.bundle.RayBundle.opl">
+<span class="sig-name descname"><span class="pre">opl</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">NDArray</span><span class="p"><span class="pre">[</span></span><span class="pre">float64</span><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#minizemax.core.bundle.RayBundle.opl" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.core.bundle.RayBundle.alive">
+<span class="sig-name descname"><span class="pre">alive</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">NDArray</span><span class="p"><span class="pre">[</span></span><span class="pre">float64</span><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#minizemax.core.bundle.RayBundle.alive" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.core.bundle.RayBundle.meta">
+<span class="sig-name descname"><span class="pre">meta</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.15)"><span class="pre">dict</span></a></span><a class="headerlink" href="#minizemax.core.bundle.RayBundle.meta" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.core.bundle.RayBundle.status">
+<span class="sig-name descname"><span class="pre">status</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">NDArray</span><span class="p"><span class="pre">[</span></span><span class="pre">float64</span><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#minizemax.core.bundle.RayBundle.status" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="minizemax.core.bundle.RayBundle.at">
+<span class="sig-name descname"><span class="pre">at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">NDArray</span><span class="p"><span class="pre">[</span></span><span class="pre">float64</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">NDArray</span><span class="p"><span class="pre">[</span></span><span class="pre">float64</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/minizemax/core/bundle.html#RayBundle.at"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.core.bundle.RayBundle.at" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="minizemax.core.bundle.RayBundle.add_opl">
+<span class="sig-name descname"><span class="pre">add_opl</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">NDArray</span><span class="p"><span class="pre">[</span></span><span class="pre">float64</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">NDArray</span><span class="p"><span class="pre">[</span></span><span class="pre">float64</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.15)"><span class="pre">None</span></a></span></span><a class="reference internal" href="_modules/minizemax/core/bundle.html#RayBundle.add_opl"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.core.bundle.RayBundle.add_opl" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="minizemax.core.bundle.RayBundle.kill">
+<span class="sig-name descname"><span class="pre">kill</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mask</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">NDArray</span><span class="p"><span class="pre">[</span></span><span class="pre">float64</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.15)"><span class="pre">None</span></a></span></span><a class="reference internal" href="_modules/minizemax/core/bundle.html#RayBundle.kill"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.core.bundle.RayBundle.kill" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="minizemax.core.bundle.RayBundle.n_alive">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">n_alive</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.15)"><span class="pre">int</span></a></span><a class="headerlink" href="#minizemax.core.bundle.RayBundle.n_alive" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<p id="module-minizemax.core.ray">Один луч — DTO (слайд Stage 1) и отладка.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="minizemax.core.ray.Ray">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">minizemax.core.ray.</span></span><span class="sig-name descname"><span class="pre">Ray</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">origin</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'np.ndarray'</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">direction</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'np.ndarray'</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wavelength</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'float'</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intensity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'float'</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">opl</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'float'</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alive</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'bool'</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">history</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'list'</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/minizemax/core/ray.html#Ray"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.core.ray.Ray" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.core.ray.Ray.origin">
+<span class="sig-name descname"><span class="pre">origin</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.5)"><span class="pre">ndarray</span></a></span><a class="headerlink" href="#minizemax.core.ray.Ray.origin" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.core.ray.Ray.direction">
+<span class="sig-name descname"><span class="pre">direction</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.5)"><span class="pre">ndarray</span></a></span><a class="headerlink" href="#minizemax.core.ray.Ray.direction" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.core.ray.Ray.wavelength">
+<span class="sig-name descname"><span class="pre">wavelength</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><span class="pre">float</span></a></span><a class="headerlink" href="#minizemax.core.ray.Ray.wavelength" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.core.ray.Ray.intensity">
+<span class="sig-name descname"><span class="pre">intensity</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><span class="pre">float</span></a></span><a class="headerlink" href="#minizemax.core.ray.Ray.intensity" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.core.ray.Ray.opl">
+<span class="sig-name descname"><span class="pre">opl</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><span class="pre">float</span></a></span><a class="headerlink" href="#minizemax.core.ray.Ray.opl" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.core.ray.Ray.alive">
+<span class="sig-name descname"><span class="pre">alive</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#bool" title="(in Python v3.15)"><span class="pre">bool</span></a></span><a class="headerlink" href="#minizemax.core.ray.Ray.alive" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.core.ray.Ray.history">
+<span class="sig-name descname"><span class="pre">history</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.15)"><span class="pre">list</span></a></span><a class="headerlink" href="#minizemax.core.ray.Ray.history" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="minizemax.core.ray.Ray.at">
+<span class="sig-name descname"><span class="pre">at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><span class="pre">float</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.5)"><span class="pre">ndarray</span></a></span></span><a class="reference internal" href="_modules/minizemax/core/ray.html#Ray.at"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.core.ray.Ray.at" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="minizemax.core.ray.Ray.propagate">
+<span class="sig-name descname"><span class="pre">propagate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><span class="pre">float</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.15)"><span class="pre">None</span></a></span></span><a class="reference internal" href="_modules/minizemax/core/ray.html#Ray.propagate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.core.ray.Ray.propagate" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="minizemax.core.ray.Ray.normalize">
+<span class="sig-name descname"><span class="pre">normalize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.15)"><span class="pre">None</span></a></span></span><a class="reference internal" href="_modules/minizemax/core/ray.html#Ray.normalize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.core.ray.Ray.normalize" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="minizemax.core.ray.Ray.add_opl">
+<span class="sig-name descname"><span class="pre">add_opl</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><span class="pre">float</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.15)"><span class="pre">None</span></a></span></span><a class="reference internal" href="_modules/minizemax/core/ray.html#Ray.add_opl"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.core.ray.Ray.add_opl" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="minizemax.core.ray.Ray.attenuate">
+<span class="sig-name descname"><span class="pre">attenuate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><span class="pre">float</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.15)"><span class="pre">None</span></a></span></span><a class="reference internal" href="_modules/minizemax/core/ray.html#Ray.attenuate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.core.ray.Ray.attenuate" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="math.html" class="btn btn-neutral float-left" title="Математический аппарат (с привязкой к коду)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="system.html" class="btn btn-neutral float-right" title="Пакет minizemax.system" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright .</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

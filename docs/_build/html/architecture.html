@@ -1,0 +1,713 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Архитектура и связи модулей &mdash; mini-Zemax 0.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=938c9ccc"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
+
+
+
+const initStyles = () => {
+    const defaultStyle = document.createElement('style');
+    defaultStyle.textContent = "pre.mermaid {\n    /* Same as .mermaid-container > pre */\n    display: block;\n    width: 100%;\n}\n\npre.mermaid > svg {\n    /* Same as .mermaid-container > pre > svg */\n    height: 500px;\n    width: 100%;\n    max-width: 100% !important;\n}";
+    document.head.appendChild(defaultStyle);
+
+    const fullscreenStyle = document.createElement('style');
+    fullscreenStyle.textContent = ".mermaid-container {\n    position: relative;\n    display: flex;\n    flex-direction: row;\n    width: 100%;\n}\n\n.mermaid-container > pre {\n    display: block;\n    width: 100%;\n}\n\n.mermaid-container > pre > svg {\n    height: 500px;\n    width: 100%;\n    max-width: 100% !important;\n}\n\n.mermaid-fullscreen-btn {\n    position: absolute;\n    width: 28px;\n    height: 28px;\n    background: rgba(255, 255, 255, 0.95);\n    border: 1px solid rgba(0, 0, 0, 0.3);\n    border-radius: 4px;\n    cursor: pointer;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    transition: all 0.2s;\n    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);\n    font-size: 14px;\n    line-height: 1;\n    padding: 0;\n    color: #333;\n}\n\n.mermaid-fullscreen-btn:hover {\n    opacity: 100% !important;\n    background: rgba(255, 255, 255, 1);\n    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);\n    transform: scale(1.1);\n}\n\n.mermaid-fullscreen-btn.dark-theme {\n    background: rgba(50, 50, 50, 0.95);\n    border: 1px solid rgba(255, 255, 255, 0.3);\n    color: #e0e0e0;\n}\n\n.mermaid-fullscreen-btn.dark-theme:hover {\n    background: rgba(60, 60, 60, 1);\n    box-shadow: 0 3px 10px rgba(255, 255, 255, 0.2);\n}\n\n.mermaid-fullscreen-modal {\n    display: none;\n    position: fixed !important;\n    top: 0 !important;\n    left: 0 !important;\n    width: 95vw;\n    height: 100vh;\n    background: rgba(255, 255, 255, 0.98);\n    z-index: 9999;\n    padding: 20px;\n    overflow: auto;\n}\n\n.mermaid-fullscreen-modal.dark-theme {\n    background: rgba(0, 0, 0, 0.98);\n}\n\n.mermaid-fullscreen-modal.active {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen {\n    position: relative;\n    width: 95vw;\n    height: 90vh;\n    max-width: 95vw;\n    max-height: 90vh;\n    background: white;\n    border-radius: 8px;\n    padding: 20px;\n    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);\n    overflow: auto;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen.dark-theme {\n    background: #1a1a1a;\n    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);\n}\n\n.mermaid-container-fullscreen pre.mermaid {\n    width: 100%;\n    height: 100%;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen .mermaid svg {\n    height: 100% !important;\n    width: 100% !important;\n    cursor: grab;\n}\n\n.mermaid-fullscreen-close {\n    position: fixed !important;\n    top: 20px !important;\n    right: 20px !important;\n    width: 40px;\n    height: 40px;\n    background: rgba(255, 255, 255, 0.95);\n    border: 1px solid rgba(0, 0, 0, 0.2);\n    border-radius: 50%;\n    cursor: pointer;\n    z-index: 10000;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);\n    transition: all 0.2s;\n    font-size: 24px;\n    line-height: 1;\n    color: #333;\n}\n\n.mermaid-fullscreen-close:hover {\n    background: white;\n    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);\n    transform: scale(1.1);\n}\n\n.mermaid-fullscreen-close.dark-theme {\n    background: rgba(50, 50, 50, 0.95);\n    border: 1px solid rgba(255, 255, 255, 0.2);\n    color: #e0e0e0;\n}\n\n.mermaid-fullscreen-close.dark-theme:hover {\n    background: rgba(60, 60, 60, 1);\n    box-shadow: 0 6px 16px rgba(255, 255, 255, 0.2);\n}\n\n.mermaid-fullscreen-modal .mermaid-fullscreen-btn {\n    display: none !important;\n}";
+    document.head.appendChild(fullscreenStyle);
+}
+
+// Detect if page has dark background
+const isDarkTheme = () => {
+    // We use a set of heuristics:
+    // 1. Check for common dark mode classes or attributes
+    // 2. Check computed background color brightness
+    if (document.documentElement.classList.contains('dark') ||
+        document.documentElement.getAttribute('data-theme') === 'dark' ||
+        document.body.classList.contains('dark') ||
+        document.body.getAttribute('data-theme') === 'dark') {
+        // console.log("Dark theme detected via class/attribute");
+        return true;
+    }
+    if (document.documentElement.classList.contains('light') ||
+        document.documentElement.getAttribute('data-theme') === 'light' ||
+        document.body.classList.contains('light') ||
+        document.body.getAttribute('data-theme') === 'light') {
+        // console.log("Light theme detected via class/attribute");
+        return false;
+    }
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        // console.log("Dark theme detected via prefers-color-scheme");
+        return true;
+    }
+    const bgColor = window.getComputedStyle(document.body).backgroundColor;
+    const match = bgColor.match(/rgb\((\d+),\s*(\d+),\s*(\d+)/);
+    if (match) {
+        const r = parseInt(match[1]);
+        const g = parseInt(match[2]);
+        const b = parseInt(match[3]);
+        const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+        // console.log("Background color brightness:", brightness);
+        return brightness < 128;
+    }
+    // console.log("No dark or light theme detected, defaulting to light theme");
+    return false;
+};
+
+let darkTheme = isDarkTheme();
+let modal = null;
+let modalContent = null;
+let previousScrollOffset = [window.scrollX, window.scrollY];
+let _lazyObserver = null;
+let _renderQueue = Promise.resolve();
+let closeModal = () => {};
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal?.classList.contains('active')) {
+        closeModal();
+    }
+});
+
+// Apply d3 zoom to each SVG. Idempotent: an SVG already wrapped is skipped,
+// so this is safe to call both for the initial batch and for diagrams that
+// render lazily once they become visible.
+const addZoomToSvgs = (svgs) => {
+    svgs.each(function() {
+        if (this.getAttribute('data-zoom-applied') === 'true') return;
+        var svg = d3.select(this);
+        svg.html("<g class='wrapper'>" + svg.html() + "</g>");
+        var inner = svg.select("g");
+        var zoom = d3.zoom().on("zoom", function(event) {
+            inner.attr("transform", event.transform);
+        });
+        svg.call(zoom);
+        this.setAttribute('data-zoom-applied', 'true');
+    });
+};
+
+const runMermaid = async (rerun) => {
+    console.log("Running mermaid diagrams, rerun =", rerun);
+    // clear all existing mermaid charts
+    let all_mermaids = document.querySelectorAll(".mermaid");
+
+    if (rerun) {
+        // Disconnect any previous lazy rendering observer
+        if (_lazyObserver) {
+            _lazyObserver.disconnect();
+            _lazyObserver = null;
+        }
+
+        all_mermaids.forEach((el) => {
+            el.removeAttribute('data-mermaid-deferred');
+            el.removeAttribute('data-mermaid-render-failed');
+            if(!el.hasAttribute("data-original-code")) {
+                // store original code
+                // console.log(`Storing original code for first run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+            if(el.getAttribute("data-processed") === "true") {
+                // remove and restore original
+                el.removeAttribute("data-processed");
+                // console.log(`Restoring original code for re-run: `, el.getAttribute('data-original-code'));
+                el.innerHTML = el.getAttribute('data-original-code');
+            } else {
+                // store original code
+                // console.log(`Storing original code for re-run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+        });
+
+        // Separate visible and hidden elements. Mermaid's layout engine measures
+        // text dimensions via the DOM, which fails for elements hidden by a parent
+        // (e.g., Reveal.js non-active slides, sphinx-design unopened tabs),
+        // producing broken SVGs. Render visible elements now, defer hidden ones.
+        const visible = [];
+        const hidden = [];
+        all_mermaids.forEach((el) => {
+            // offsetParent is null for display:none ancestors.
+            // getClientRects().length > 0 catches position:fixed elements
+            // (which also have null offsetParent but are still visible).
+            if (el.offsetParent !== null || el.getClientRects().length > 0) {
+                visible.push(el);
+            } else {
+                hidden.push(el);
+                el.setAttribute('data-mermaid-deferred', 'true');
+            }
+        });
+
+        if (visible.length > 0) {
+            try {
+                await mermaid.run({ nodes: visible });
+            } catch (e) {
+                console.error("Mermaid rendering failed:", e);
+            }
+        }
+
+        // Lazily render hidden elements when they become visible.
+        // Uses a promise chain (_renderQueue) to serialize rendering,
+        // since IntersectionObserver may report multiple entries at once
+        // and mermaid.run() is not safe to call concurrently.
+        if (hidden.length > 0) {
+            if (typeof IntersectionObserver === 'undefined') {
+                console.warn("IntersectionObserver not available; hidden mermaid diagrams will not render.");
+            } else {
+                _renderQueue = Promise.resolve();
+                _lazyObserver = new IntersectionObserver((entries) => {
+                    for (const entry of entries) {
+                        if (entry.isIntersecting && entry.target.getAttribute("data-processed") !== "true") {
+                            _lazyObserver.unobserve(entry.target);
+                            const el = entry.target;
+                            _renderQueue = _renderQueue.then(async () => {
+                                try {
+                                    await mermaid.run({ nodes: [el] });
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    // Apply zoom to the now-rendered diagram, matching
+                                    // the decoration visible diagrams receive.
+                                    if (false) {
+                                        addZoomToSvgs(d3.selectAll("").select(function() {
+                                            return this.querySelector("svg");
+                                        }));
+                                    }
+                                } catch (e) {
+                                    console.error("Mermaid deferred rendering failed:", e);
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    el.setAttribute('data-mermaid-render-failed', 'true');
+                                }
+                            });
+                        }
+                    }
+                });
+                hidden.forEach((el) => _lazyObserver.observe(el));
+            }
+        }
+    }
+
+    all_mermaids = document.querySelectorAll(".mermaid");
+    // Exclude deferred (hidden) and render-failed elements from completion checks
+    const mermaids_active = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])");
+    const mermaids_processed = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])[data-processed='true']");
+
+    if (false) {
+        const mermaids_to_add_zoom = 0 === -1 ? mermaids_active.length : 0;
+        if(mermaids_to_add_zoom > 0) {
+            var svgs = d3.selectAll("").select(function() {
+                return this.querySelector("svg");
+            });
+            // Wait until every active (visible) diagram has rendered. Deferred
+            // diagrams are excluded, so a fixed d3_node_count that counts a
+            // hidden diagram no longer loops forever waiting for its SVG.
+            if(mermaids_active.length !== mermaids_processed.length) {
+                setTimeout(() => runMermaid(false), 200);
+                return;
+            }
+            addZoomToSvgs(svgs);
+        }
+    } else if(mermaids_active.length !== mermaids_processed.length) {
+        // Wait for mermaid to process all diagrams
+        setTimeout(() => runMermaid(false), 200);
+        return;
+    }
+
+    // Stop here if not adding fullscreen capability
+    if (!true) return;
+
+    if (modal !== null ) {
+        // Destroy existing modal
+        modal.remove();
+        modal = null;
+        modalContent = null;
+    }
+
+    modal = document.createElement('div');
+    modal.className = 'mermaid-fullscreen-modal' + (darkTheme ? ' dark-theme' : '');
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-modal', 'true');
+    modal.setAttribute('aria-label', 'Fullscreen diagram viewer');
+    modal.innerHTML = `
+        <button class="mermaid-fullscreen-close${darkTheme ? ' dark-theme' : ''}" aria-label="Close fullscreen">✕</button>
+        <div class="mermaid-container-fullscreen${darkTheme ? ' dark-theme' : ''}"></div>
+    `;
+    document.body.appendChild(modal);
+
+    modalContent = modal.querySelector('.mermaid-container-fullscreen');
+    const closeBtn = modal.querySelector('.mermaid-fullscreen-close');
+
+    closeModal = () => {
+        modal.classList.remove('active');
+        modalContent.innerHTML = '';
+        document.body.style.overflow = ''
+        window.scrollTo({left: previousScrollOffset[0], top: previousScrollOffset[1], behavior: 'instant'});
+    };
+
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+    });
+    document.querySelectorAll('.mermaid').forEach((mermaidDiv) => {
+        if (mermaidDiv.parentNode.classList.contains('mermaid-container') ||
+            mermaidDiv.closest('.mermaid-fullscreen-modal')) {
+            // Already processed, adjust button class if needed
+            const existingBtn = mermaidDiv.parentNode.querySelector('.mermaid-fullscreen-btn');
+            if (existingBtn) {
+                existingBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+            }
+            return;
+        }
+
+        const container = document.createElement('div');
+        container.className = 'mermaid-container';
+        mermaidDiv.parentNode.insertBefore(container, mermaidDiv);
+        container.appendChild(mermaidDiv);
+
+        const fullscreenBtn = document.createElement('button');
+        fullscreenBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+        fullscreenBtn.setAttribute('aria-label', 'View diagram in fullscreen');
+        fullscreenBtn.textContent = "\u26f6";
+        fullscreenBtn.style.opacity = "50%";
+
+        // Calculate dynamic position based on diagram's margin and padding
+        const diagramStyle = window.getComputedStyle(mermaidDiv);
+        const marginTop = parseFloat(diagramStyle.marginTop) || 0;
+        const marginRight = parseFloat(diagramStyle.marginRight) || 0;
+        const paddingTop = parseFloat(diagramStyle.paddingTop) || 0;
+        const paddingRight = parseFloat(diagramStyle.paddingRight) || 0;
+        fullscreenBtn.style.top = `${marginTop + paddingTop + 4}px`;
+        fullscreenBtn.style.right = `${marginRight + paddingRight + 4}px`;
+
+        fullscreenBtn.addEventListener('click', () => {
+            previousScrollOffset = [window.scrollX, window.scrollY];
+            const clone = mermaidDiv.cloneNode(true);
+            modalContent.innerHTML = '';
+            modalContent.appendChild(clone);
+
+            const svg = clone.querySelector('svg');
+            if (svg) {
+                svg.removeAttribute('width');
+                svg.removeAttribute('height');
+                svg.style.width = '100%';
+                svg.style.height = 'auto';
+                svg.style.maxWidth = '100%';
+                svg.style.display = 'block';
+
+                if (false) {
+                    setTimeout(() => {
+                        const g = svg.querySelector('g');
+                        if (g) {
+                            var svgD3 = d3.select(svg);
+                            svgD3.html("<g class='wrapper'>" + svgD3.html() + "</g>");
+                            var inner = svgD3.select("g");
+                            var zoom = d3.zoom().on("zoom", function(event) {
+                                inner.attr("transform", event.transform);
+                            });
+                            svgD3.call(zoom);
+                        }
+                    }, 100);
+                }
+            }
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+        container.appendChild(fullscreenBtn);
+    });
+};
+
+
+
+const load = async () => {
+    initStyles();
+
+
+    await runMermaid(true);
+
+    const reRunIfThemeChanges = async () => {
+        const newDarkTheme = isDarkTheme();
+        if (newDarkTheme !== darkTheme) {
+            darkTheme = newDarkTheme;
+            console.log("Theme change detected, re-running mermaid with", darkTheme ? "dark" : "default", "theme");
+            await mermaid.initialize(
+                {...{"startOnLoad": false},
+                ...{ darkMode: darkTheme, theme: darkTheme ? "dark" : "default" },
+                }
+            );
+            await runMermaid(true);
+        }
+    };
+
+    // Update theme classes when theme changes
+    const themeObserver = new MutationObserver(reRunIfThemeChanges);
+    themeObserver.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+    themeObserver.observe(document.body, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+};
+
+
+
+
+
+console.log("Initializing mermaid with", darkTheme ? "dark" : "default", "theme");
+mermaid.initialize(
+    {...{"startOnLoad": false},
+    ...{ darkMode: darkTheme, theme: darkTheme ? "dark" : "default" },
+    }
+);
+
+window.addEventListener("load", load);
+window.runMermaid = runMermaid;</script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Математический аппарат (с привязкой к коду)" href="math.html" />
+    <link rel="prev" title="mini-Zemax — документация разработчика" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            mini-Zemax
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Содержание</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Архитектура и связи модулей</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">Карта файлов (что за что отвечает)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">Зависимости модулей</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sequence">Конвейер трассировки (sequence)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">Классы и их связи</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="math.html">Математический аппарат (с привязкой к коду)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="core.html">Пакет <code class="docutils literal notranslate"><span class="pre">minizemax.core</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="system.html">Пакет <code class="docutils literal notranslate"><span class="pre">minizemax.system</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="engine.html">Пакет <code class="docutils literal notranslate"><span class="pre">minizemax.engine</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="analysis.html">Пакет <code class="docutils literal notranslate"><span class="pre">minizemax.analysis</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="optim.html">Пакет <code class="docutils literal notranslate"><span class="pre">minizemax.optim</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="components.html">Пакет <code class="docutils literal notranslate"><span class="pre">minizemax.components</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="ui.html">Пакет <code class="docutils literal notranslate"><span class="pre">minizemax.ui</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">CLI, примеры и скрипты</a></li>
+<li class="toctree-l1"><a class="reference internal" href="devguide.html">Руководство разработчика</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">mini-Zemax</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Архитектура и связи модулей</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/architecture.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1>Архитектура и связи модулей<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<section id="id2">
+<h2>Карта файлов (что за что отвечает)<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 32.0%" />
+<col style="width: 68.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Файл</p></th>
+<th class="head"><p>Назначение</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">minizemax/core/ray.py</span></code></p></td>
+<td><p>DTO одного луча (отладка/слайд Stage 1)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">minizemax/core/bundle.py</span></code></p></td>
+<td><p>SoA-контейнер <code class="docutils literal notranslate"><span class="pre">RayBundle</span></code> + статусы ALIVE/BLOCKED/TIR/MISS</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">minizemax/core/transform.py</span></code></p></td>
+<td><p>Локальная &lt;-&gt; глобальная СК поверхностей</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">minizemax/core/materials.py</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Material</span></code> Protocol, Sellmeier, каталог стёкол, <code class="docutils literal notranslate"><span class="pre">n_at</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">minizemax/core/physics.py</span></code></p></td>
+<td><p>Векторные Снеллиус/отражение/Френель (<a class="reference internal" href="math.html#equation-snell">(1)</a>, <a class="reference internal" href="math.html#equation-fresnel">(2)</a>)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">minizemax/core/surfaces.py</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">OpticalSurface</span></code> ABC, <code class="docutils literal notranslate"><span class="pre">PlaneSurface</span></code>, <code class="docutils literal notranslate"><span class="pre">SphericalSurface</span></code> (+conic, Ньютон)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">minizemax/system/system_data.py</span></code></p></td>
+<td><p>Апертура, λ, поля, семплирование (mutable для UI)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">minizemax/system/lens_data.py</span></code></p></td>
+<td><p>LDE-строки <code class="docutils literal notranslate"><span class="pre">SurfaceRow</span></code>, сборка <code class="docutils literal notranslate"><span class="pre">BuiltSystem</span></code>, <code class="docutils literal notranslate"><span class="pre">auto_comments</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">minizemax/system/prescription.py</span></code></p></td>
+<td><p>YAML load/save (<code class="docutils literal notranslate"><span class="pre">_to_float</span></code> против ‘inf’-строк PyYAML)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">minizemax/system/paraxial.py</span></code></p></td>
+<td><p>y-nu трассировка: EFL/BFL/f#, зрачки, маргинальный/chief (<a class="reference internal" href="math.html#equation-paraxial">(4)</a>)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">minizemax/system/validation.py</span></code></p></td>
+<td><p>Геометр. валидатор: краевые толщины, sag-определимость</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">minizemax/engine/source.py</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">pupil_grid</span></code>, <code class="docutils literal notranslate"><span class="pre">make_bundle</span></code> (старт до 1-й поверхности)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">minizemax/engine/tracer.py</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">SequentialTracer</span></code>, <code class="docutils literal notranslate"><span class="pre">Detector</span></code>, <code class="docutils literal notranslate"><span class="pre">TraceResult</span></code> (stop_point/stop_surf)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">minizemax/analysis/spot.py</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">image_points</span></code>, <code class="docutils literal notranslate"><span class="pre">spot_stats</span></code> (<a class="reference internal" href="math.html#equation-rms">(11)</a>), <code class="docutils literal notranslate"><span class="pre">ray_fan</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">minizemax/analysis/wavefront.py</span></code></p></td>
+<td><p>OPD относительно опорной сферы (<a class="reference internal" href="math.html#equation-opd">(9)</a>)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">minizemax/analysis/mtf.py</span></code></p></td>
+<td><p>Геометрическая MTF (<a class="reference internal" href="math.html#equation-mtf">(10)</a>)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">minizemax/analysis/distortion.py</span></code></p></td>
+<td><p>Дисторсия chief vs параксиал</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">minizemax/analysis/seidel.py</span></code></p></td>
+<td><p>Суммы Зейделя S_I-S_V (<a class="reference internal" href="math.html#equation-seidel">(8)</a>)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">minizemax/analysis/layout.py</span></code> / <code class="docutils literal notranslate"><span class="pre">layout3d.py</span></code></p></td>
+<td><p>2D- и matplotlib-3D раскладки (цвета по статусам лучей)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">minizemax/analysis/scene3d.py</span></code></p></td>
+<td><p>GPU-сцена: меши поверхностей/ободьев/стопа + полилинии лучей</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">minizemax/analysis/report.py</span></code> / <code class="docutils literal notranslate"><span class="pre">losses.py</span></code></p></td>
+<td><p>System Report; бюджет потерь blocked/tir/miss</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">minizemax/optim/merit.py</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Operand</span></code>, <code class="docutils literal notranslate"><span class="pre">MeritFunction</span></code> (RMS/EFFL/TOTR/DIST, переменные из LDE)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">minizemax/optim/dls.py</span></code></p></td>
+<td><p>Левенберг-Марквардт с callback прогресса (<a class="reference internal" href="math.html#equation-lm">(12)</a>)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">minizemax/components/*</span></code></p></td>
+<td><p>Lens/Mirror/Aperture/Detector/Plate как композиции поверхностей</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">minizemax/ui/*</span></code></p></td>
+<td><p>PyQt-GUI: LDE, System Data, MFE, вкладки анализа, GL-виджет, worker</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">minizemax/cli.py</span></code></p></td>
+<td><p>report/spot/optimize/layout3d/view3d/losses/gui/lenscheck</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">examples/*.py|yaml</span></code></p></td>
+<td><p>Демо: дублет, 4f-релеи (3x/4x), триплет Кука, singlet</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="id3">
+<h2>Зависимости модулей<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<pre  class="mermaid">
+        graph TD
+    subgraph core
+      phys[physics.py] --&gt; surf[surfaces.py]
+      mat[materials.py] --&gt; surf
+      trf[transform.py] --&gt; surf
+      bun[bundle.py]
+      phys --&gt; bun
+    end
+    surf --&gt; lensdata[lens_data.py]
+    mat --&gt; parax[paraxial.py]
+    lensdata --&gt; pres[prescription.py]
+    lensdata --&gt; built[BuiltSystem]
+    parax --&gt; src[source.py]
+    bun --&gt; trac[tracer.py]
+    surf --&gt; trac
+    src --&gt; trac
+    trac --&gt; ana[analysis: spot/wavefront/mtf/seidel/layout/scene3d/losses]
+    parax --&gt; ana
+    ana --&gt; opt[optim: merit.py, dls.py]
+    pres --&gt; opt
+    pres --&gt; ui[ui: LDE/System/MFE/PlotTabs/GLView3D/Worker]
+    ana --&gt; ui
+    opt --&gt; ui
+    ui --&gt; cli[cli.py]
+    ana --&gt; cli
+    </pre></section>
+<section id="sequence">
+<h2>Конвейер трассировки (sequence)<a class="headerlink" href="#sequence" title="Link to this heading"></a></h2>
+<pre  class="mermaid">
+        sequenceDiagram
+    participant SRC as source.make_bundle
+    participant PAR as paraxial_trace
+    participant TR as SequentialTracer
+    participant SF as OpticalSurface
+    participant DT as Detector
+    SRC-&gt;&gt;PAR: EP: радиус/позиция зрачка
+    PAR--&gt;&gt;SRC: ep_r, ep_z, img_z
+    SRC-&gt;&gt;TR: RayBundle (status=ALIVE), старт до 1-й поверхности
+    loop каждая поверхность
+        TR-&gt;&gt;SF: intersect(o,d)
+        SF--&gt;&gt;TR: Hit(t, point, normal, geo, clip)
+        TR-&gt;&gt;TR: snell/reflect; status: BLOCKED / TIR / MISS
+        TR-&gt;&gt;TR: stop_point, stop_surf для погибших
+    end
+    TR-&gt;&gt;DT: register(hits)
+    TR--&gt;&gt;SRC: TraceResult(bundle, history, stop_point, stop_surf)
+    </pre></section>
+<section id="id4">
+<h2>Классы и их связи<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
+<pre  class="mermaid">
+        classDiagram
+    class OpticalSurface {
+        +intersect(o, d) Hit
+        +sag(r)
+        +semi_dia
+    }
+    class PlaneSurface
+    class SphericalSurface {
+        +radius
+        +conic
+    }
+    OpticalSurface &lt;|-- PlaneSurface
+    OpticalSurface &lt;|-- SphericalSurface
+    class RayBundle {
+        +origin
+        +direction
+        +status
+        +alive
+    }
+    class SequentialTracer {
+        +trace(b) TraceResult
+    }
+    SequentialTracer --&gt; RayBundle
+    SequentialTracer --&gt; OpticalSurface
+    class SurfaceRow {
+        +radius
+        +thickness
+        +glass
+        +comment
+        +variables
+    }
+    class LensData
+    class Prescription {
+        +from_yaml()
+        +save()
+        +build() BuiltSystem
+    }
+    class BuiltSystem {
+        +surfaces
+        +detector_z
+        +stop_idx
+    }
+    Prescription --&gt; LensData
+    LensData --&gt; SurfaceRow
+    Prescription --&gt; BuiltSystem
+    BuiltSystem --&gt; OpticalSurface
+    class OpticalComponent {
+        +surfaces()
+        +rows()
+        +length
+    }
+    class SphericalLens {
+        +R1
+        +R2
+        +d
+        +D
+        +efl_paraxial()
+    }
+    class SphericalMirror
+    class ApertureStop
+    class DetectorScreen
+    class PlaneParallelPlate {
+        +lateral_shift()
+    }
+    OpticalComponent &lt;|-- SphericalLens
+    OpticalComponent &lt;|-- SphericalMirror
+    OpticalComponent &lt;|-- ApertureStop
+    OpticalComponent &lt;|-- DetectorScreen
+    OpticalComponent &lt;|-- PlaneParallelPlate
+    OpticalComponent --&gt; SurfaceRow : rows()
+    class MeritFunction {
+        +residuals(x)
+        +vars
+    }
+    class DLSOptimizer {
+        +run(callback)
+    }
+    DLSOptimizer --&gt; MeritFunction
+    MeritFunction --&gt; Prescription
+    </pre></section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="mini-Zemax — документация разработчика" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="math.html" class="btn btn-neutral float-right" title="Математический аппарат (с привязкой к коду)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright .</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

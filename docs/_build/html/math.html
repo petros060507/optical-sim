@@ -1,0 +1,217 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Математический аппарат (с привязкой к коду) &mdash; mini-Zemax 0.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=938c9ccc"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script>window.MathJax = {"tex": {"tags": "ams"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Пакет minizemax.core" href="core.html" />
+    <link rel="prev" title="Архитектура и связи модулей" href="architecture.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            mini-Zemax
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Содержание</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Архитектура и связи модулей</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Математический аппарат (с привязкой к коду)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">Преломление и отражение</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">Саг и пересечение сферы</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#y-nu">Параксиал (y-nu)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">Формула шлифовщика и пластина</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#f">4f-релей</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">Зейдель</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#opd-mtf">OPD и MTF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">Пятно и оптимизация</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="core.html">Пакет <code class="docutils literal notranslate"><span class="pre">minizemax.core</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="system.html">Пакет <code class="docutils literal notranslate"><span class="pre">minizemax.system</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="engine.html">Пакет <code class="docutils literal notranslate"><span class="pre">minizemax.engine</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="analysis.html">Пакет <code class="docutils literal notranslate"><span class="pre">minizemax.analysis</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="optim.html">Пакет <code class="docutils literal notranslate"><span class="pre">minizemax.optim</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="components.html">Пакет <code class="docutils literal notranslate"><span class="pre">minizemax.components</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="ui.html">Пакет <code class="docutils literal notranslate"><span class="pre">minizemax.ui</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">CLI, примеры и скрипты</a></li>
+<li class="toctree-l1"><a class="reference internal" href="devguide.html">Руководство разработчика</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">mini-Zemax</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Математический аппарат (с привязкой к коду)</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/math.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1>Математический аппарат (с привязкой к коду)<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<section id="id2">
+<h2>Преломление и отражение<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<p>Векторный закон Снеллиуса с проверкой ПВО:</p>
+<div class="math notranslate nohighlight" id="equation-snell">
+<span class="eqno">(1)<a class="headerlink" href="#equation-snell" title="Link to this equation"></a></span>\[\mathbf{d}' = \eta\,\mathbf{d} + (\eta\cos\theta_i - \cos\theta_t)\,\mathbf{n},
+\quad \eta = n_1/n_2,\quad \sin^2\theta_t = \eta^2(1-\cos^2\theta_i) &gt; 1 \Rightarrow \text{TIR}\]</div>
+<p>Код: <a class="reference internal" href="core.html#minizemax.core.physics.snell_vector" title="minizemax.core.physics.snell_vector"><code class="xref py py-func docutils literal notranslate"><span class="pre">minizemax.core.physics.snell_vector()</span></code></a>, ориентация нормали
+<a class="reference internal" href="core.html#minizemax.core.physics.orient_normal" title="minizemax.core.physics.orient_normal"><code class="xref py py-func docutils literal notranslate"><span class="pre">minizemax.core.physics.orient_normal()</span></code></a>, статус <code class="docutils literal notranslate"><span class="pre">STATUS_TIR</span></code> ставится в
+<a class="reference internal" href="engine.html#minizemax.engine.tracer.SequentialTracer.trace" title="minizemax.engine.tracer.SequentialTracer.trace"><code class="xref py py-meth docutils literal notranslate"><span class="pre">minizemax.engine.tracer.SequentialTracer.trace()</span></code></a>.</p>
+<p>Френель (интенсивности):</p>
+<div class="math notranslate nohighlight" id="equation-fresnel">
+<span class="eqno">(2)<a class="headerlink" href="#equation-fresnel" title="Link to this equation"></a></span>\[R_s = \left(\frac{n_1\cos\theta_i - n_2\cos\theta_t}{n_1\cos\theta_i + n_2\cos\theta_t}\right)^2,
+\quad
+R_p = \left(\frac{n_1\cos\theta_t - n_2\cos_i}{n_1\cos\theta_t + n_2\cos_i}\right)^2\]</div>
+<p>Код: <a class="reference internal" href="core.html#minizemax.core.physics.fresnel" title="minizemax.core.physics.fresnel"><code class="xref py py-func docutils literal notranslate"><span class="pre">minizemax.core.physics.fresnel()</span></code></a> (угол Брюстера покрыт тестом).</p>
+</section>
+<section id="id3">
+<h2>Саг и пересечение сферы<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<p>Коническая поверхность:</p>
+<div class="math notranslate nohighlight" id="equation-sag">
+<span class="eqno">(3)<a class="headerlink" href="#equation-sag" title="Link to this equation"></a></span>\[z(r) = \frac{r^2}{R\left(1+\sqrt{1-(1+k)r^2/R^2}\right)}\]</div>
+<p>Код: <a class="reference internal" href="core.html#minizemax.core.surfaces.SphericalSurface.sag" title="minizemax.core.surfaces.SphericalSurface.sag"><code class="xref py py-meth docutils literal notranslate"><span class="pre">minizemax.core.surfaces.SphericalSurface.sag()</span></code></a>; пересечение — квадратное
+уравнение по сфере + 3 итерации Ньютона по <a class="reference internal" href="#equation-sag">(3)</a>; условие «шапки»
+<span class="math notranslate nohighlight">\((p_z-R)R&lt;0\)</span>. Апертурный клип даёт <code class="docutils literal notranslate"><span class="pre">STATUS_BLOCKED</span></code>
+(<a class="reference internal" href="core.html#minizemax.core.surfaces.Hit.clip" title="minizemax.core.surfaces.Hit.clip"><code class="xref py py-class docutils literal notranslate"><span class="pre">minizemax.core.surfaces.Hit.clip</span></code></a>).</p>
+</section>
+<section id="y-nu">
+<h2>Параксиал (y-nu)<a class="headerlink" href="#y-nu" title="Link to this heading"></a></h2>
+<div class="math notranslate nohighlight" id="equation-paraxial">
+<span class="eqno">(4)<a class="headerlink" href="#equation-paraxial" title="Link to this equation"></a></span>\[n'u' = nu - y\varphi,\quad \varphi=(n'-n)c,\qquad y_{i+1} = y_i + t_i u'_i\]</div>
+<p>Из базисных лучей A(1,0), B(0,1): <span class="math notranslate nohighlight">\(f' = -1/u'_A\)</span>, chief через стоп,
+EP/XP — пересечения с осью. Код: <a class="reference internal" href="system.html#minizemax.system.paraxial.paraxial_trace" title="minizemax.system.paraxial.paraxial_trace"><code class="xref py py-func docutils literal notranslate"><span class="pre">minizemax.system.paraxial.paraxial_trace()</span></code></a>,
+<code class="xref py py-func docutils literal notranslate"><span class="pre">minizemax.system.paraxial._trace_ray()</span></code>.</p>
+</section>
+<section id="id4">
+<h2>Формула шлифовщика и пластина<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
+<div class="math notranslate nohighlight" id="equation-lensmaker">
+<span class="eqno">(5)<a class="headerlink" href="#equation-lensmaker" title="Link to this equation"></a></span>\[\frac{1}{f} = (n-1)\left[\frac{1}{R_1} - \frac{1}{R_2} + \frac{(n-1)d}{n R_1 R_2}\right]\]</div>
+<p>Код: <a class="reference internal" href="components.html#minizemax.components.lens.SphericalLens.efl_paraxial" title="minizemax.components.lens.SphericalLens.efl_paraxial"><code class="xref py py-meth docutils literal notranslate"><span class="pre">minizemax.components.lens.SphericalLens.efl_paraxial()</span></code></a>
+(плоская сторона <span class="math notranslate nohighlight">\(R=\infty\)</span> даёт нулевой вклад).</p>
+<div class="math notranslate nohighlight" id="equation-plate">
+<span class="eqno">(6)<a class="headerlink" href="#equation-plate" title="Link to this equation"></a></span>\[s = d\sin\theta\left(1 - \frac{\cos\theta}{\sqrt{n^2-\sin^2\theta}}\right)\]</div>
+<p>Код: <a class="reference internal" href="components.html#minizemax.components.plate.PlaneParallelPlate.lateral_shift" title="minizemax.components.plate.PlaneParallelPlate.lateral_shift"><code class="xref py py-meth docutils literal notranslate"><span class="pre">minizemax.components.plate.PlaneParallelPlate.lateral_shift()</span></code></a>
+(test system A: направление сохраняется, сход равен <a class="reference internal" href="#equation-plate">(6)</a>).</p>
+</section>
+<section id="f">
+<h2>4f-релей<a class="headerlink" href="#f" title="Link to this heading"></a></h2>
+<div class="math notranslate nohighlight" id="equation-fourf">
+<span class="eqno">(7)<a class="headerlink" href="#equation-fourf" title="Link to this equation"></a></span>\[d(H_2^{(1)} \to H_1^{(2)}) = f_1 + f_2,\qquad M = -\frac{f_2}{f_1}\]</div>
+<p>Код/демо: <code class="docutils literal notranslate"><span class="pre">examples/fourf_relay.py</span></code> измеряет <span class="math notranslate nohighlight">\(M\)</span> трассировкой конечного
+объекта; афокальность в GUI отображается как <code class="docutils literal notranslate"><span class="pre">EFL=inf</span></code>.</p>
+</section>
+<section id="id5">
+<h2>Зейдель<a class="headerlink" href="#id5" title="Link to this heading"></a></h2>
+<div class="math notranslate nohighlight" id="equation-seidel">
+<span class="eqno">(8)<a class="headerlink" href="#equation-seidel" title="Link to this equation"></a></span>\[\begin{split}\begin{aligned}
+S_I &amp;= \sum y A^2 \Delta(u/n), &amp; S_{II} &amp;= \sum y A\bar A \Delta(u/n), \\
+S_{III} &amp;= \sum y \bar A^2 \Delta(u/n), &amp; S_{IV} &amp;= \sum H^2 c\, \Delta(1/n), \\
+S_V &amp;= \sum \frac{\bar A^3}{A} y \Delta(u/n) + \frac{\bar A}{A} H^2 c\, \Delta(1/n),
+\end{aligned}\end{split}\]</div>
+<p>где <span class="math notranslate nohighlight">\(A = n(yc + u_b)\)</span>, <span class="math notranslate nohighlight">\(H = n_1(\bar y u_b - y \bar u_b)\)</span>.
+Код: <a class="reference internal" href="analysis.html#minizemax.analysis.seidel.seidel_sums" title="minizemax.analysis.seidel.seidel_sums"><code class="xref py py-func docutils literal notranslate"><span class="pre">minizemax.analysis.seidel.seidel_sums()</span></code></a>.</p>
+</section>
+<section id="opd-mtf">
+<h2>OPD и MTF<a class="headerlink" href="#opd-mtf" title="Link to this heading"></a></h2>
+<div class="math notranslate nohighlight" id="equation-opd">
+<span class="eqno">(9)<a class="headerlink" href="#equation-opd" title="Link to this equation"></a></span>\[W = \mathrm{OPL} + \left(\lVert P - C\rVert - R\right) - W_{chief},
+\quad C = \text{гауссова точка},\ R = |z_{img} - z_{XP}|\]</div>
+<p>Код: <a class="reference internal" href="analysis.html#minizemax.analysis.wavefront.opd_waves" title="minizemax.analysis.wavefront.opd_waves"><code class="xref py py-func docutils literal notranslate"><span class="pre">minizemax.analysis.wavefront.opd_waves()</span></code></a> (волны: деление на λ).</p>
+<div class="math notranslate nohighlight" id="equation-mtf">
+<span class="eqno">(10)<a class="headerlink" href="#equation-mtf" title="Link to this equation"></a></span>\[\mathrm{MTF}(\nu) = \left|\frac{\sum w_i e^{-2\pi i \nu r_i}}{\sum w_i}\right|,
+\qquad \nu_c = \frac{1}{\lambda\, (f/\#)}\]</div>
+<p>Код: <a class="reference internal" href="analysis.html#minizemax.analysis.mtf.mtf_geometric" title="minizemax.analysis.mtf.mtf_geometric"><code class="xref py py-func docutils literal notranslate"><span class="pre">minizemax.analysis.mtf.mtf_geometric()</span></code></a>.</p>
+</section>
+<section id="id6">
+<h2>Пятно и оптимизация<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
+<div class="math notranslate nohighlight" id="equation-rms">
+<span class="eqno">(11)<a class="headerlink" href="#equation-rms" title="Link to this equation"></a></span>\[\mathrm{RMS} = \sqrt{\frac{\sum w_i d_i^2}{\sum w_i}},\quad d_i = \lVert p_i - \bar c\rVert\]</div>
+<p>Код: <a class="reference internal" href="analysis.html#minizemax.analysis.spot.spot_stats" title="minizemax.analysis.spot.spot_stats"><code class="xref py py-func docutils literal notranslate"><span class="pre">minizemax.analysis.spot.spot_stats()</span></code></a>; операнд <code class="docutils literal notranslate"><span class="pre">RMS</span></code> в
+<a class="reference internal" href="optim.html#minizemax.optim.merit.MeritFunction" title="minizemax.optim.merit.MeritFunction"><code class="xref py py-class docutils literal notranslate"><span class="pre">minizemax.optim.merit.MeritFunction</span></code></a>.</p>
+<div class="math notranslate nohighlight" id="equation-lm">
+<span class="eqno">(12)<a class="headerlink" href="#equation-lm" title="Link to this equation"></a></span>\[\left(J^\top J + \lambda\,\mathrm{diag}(J^\top J)\right)\delta = -J^\top f,
+\quad x \leftarrow \mathrm{clip}(x+\delta)\]</div>
+<p>Код: <a class="reference internal" href="optim.html#minizemax.optim.dls.DLSOptimizer.run" title="minizemax.optim.dls.DLSOptimizer.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">minizemax.optim.dls.DLSOptimizer.run()</span></code></a> (J — конечные разности,
+λ-подбор до 12 попыток, callback прогресса для GUI/CLI).</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="architecture.html" class="btn btn-neutral float-left" title="Архитектура и связи модулей" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="core.html" class="btn btn-neutral float-right" title="Пакет minizemax.core" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright .</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

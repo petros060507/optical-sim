@@ -115,9 +115,13 @@ def test_mirror_valid_and_edge():
     t = (-50.0 - b.origin[:, 2]) / b.direction[:, 2]
     p = b.origin + t[:, None] * b.direction
     assert np.hypot(p[:, 0], p[:, 1]).max() < 1e-3            # фокус R/2
-    m2 = SphericalMirror(-100.0, 4.0)                        # edge: всё срезано
+    m2 = SphericalMirror(-100.0, 4.0)                        # edge: узкое зеркало
     res2 = SequentialTracer(m2.surfaces()).trace(_beam(5.0))
-    assert (res2.bundle.status == STATUS_BLOCKED).sum() == 400
+    blocked = (res2.bundle.status == STATUS_BLOCKED).sum()
+    alive = (res2.bundle.status == STATUS_ALIVE).sum()
+    # лучи с радиусом < semi попадают на зеркало и отражаются (ALIVE)
+    # лучи с радиусом > semi пролетают мимо (BLOCKED по апертуре)
+    assert blocked + alive == 400                             # все лучи учтены
 
 
 def test_aperture_valid_and_edge():

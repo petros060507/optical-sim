@@ -1,0 +1,1559 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Index &mdash; mini-Zemax 0.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=938c9ccc"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
+
+
+
+const initStyles = () => {
+    const defaultStyle = document.createElement('style');
+    defaultStyle.textContent = "pre.mermaid {\n    /* Same as .mermaid-container > pre */\n    display: block;\n    width: 100%;\n}\n\npre.mermaid > svg {\n    /* Same as .mermaid-container > pre > svg */\n    height: 500px;\n    width: 100%;\n    max-width: 100% !important;\n}";
+    document.head.appendChild(defaultStyle);
+
+    const fullscreenStyle = document.createElement('style');
+    fullscreenStyle.textContent = ".mermaid-container {\n    position: relative;\n    display: flex;\n    flex-direction: row;\n    width: 100%;\n}\n\n.mermaid-container > pre {\n    display: block;\n    width: 100%;\n}\n\n.mermaid-container > pre > svg {\n    height: 500px;\n    width: 100%;\n    max-width: 100% !important;\n}\n\n.mermaid-fullscreen-btn {\n    position: absolute;\n    width: 28px;\n    height: 28px;\n    background: rgba(255, 255, 255, 0.95);\n    border: 1px solid rgba(0, 0, 0, 0.3);\n    border-radius: 4px;\n    cursor: pointer;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    transition: all 0.2s;\n    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);\n    font-size: 14px;\n    line-height: 1;\n    padding: 0;\n    color: #333;\n}\n\n.mermaid-fullscreen-btn:hover {\n    opacity: 100% !important;\n    background: rgba(255, 255, 255, 1);\n    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);\n    transform: scale(1.1);\n}\n\n.mermaid-fullscreen-btn.dark-theme {\n    background: rgba(50, 50, 50, 0.95);\n    border: 1px solid rgba(255, 255, 255, 0.3);\n    color: #e0e0e0;\n}\n\n.mermaid-fullscreen-btn.dark-theme:hover {\n    background: rgba(60, 60, 60, 1);\n    box-shadow: 0 3px 10px rgba(255, 255, 255, 0.2);\n}\n\n.mermaid-fullscreen-modal {\n    display: none;\n    position: fixed !important;\n    top: 0 !important;\n    left: 0 !important;\n    width: 95vw;\n    height: 100vh;\n    background: rgba(255, 255, 255, 0.98);\n    z-index: 9999;\n    padding: 20px;\n    overflow: auto;\n}\n\n.mermaid-fullscreen-modal.dark-theme {\n    background: rgba(0, 0, 0, 0.98);\n}\n\n.mermaid-fullscreen-modal.active {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen {\n    position: relative;\n    width: 95vw;\n    height: 90vh;\n    max-width: 95vw;\n    max-height: 90vh;\n    background: white;\n    border-radius: 8px;\n    padding: 20px;\n    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);\n    overflow: auto;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen.dark-theme {\n    background: #1a1a1a;\n    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);\n}\n\n.mermaid-container-fullscreen pre.mermaid {\n    width: 100%;\n    height: 100%;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen .mermaid svg {\n    height: 100% !important;\n    width: 100% !important;\n    cursor: grab;\n}\n\n.mermaid-fullscreen-close {\n    position: fixed !important;\n    top: 20px !important;\n    right: 20px !important;\n    width: 40px;\n    height: 40px;\n    background: rgba(255, 255, 255, 0.95);\n    border: 1px solid rgba(0, 0, 0, 0.2);\n    border-radius: 50%;\n    cursor: pointer;\n    z-index: 10000;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);\n    transition: all 0.2s;\n    font-size: 24px;\n    line-height: 1;\n    color: #333;\n}\n\n.mermaid-fullscreen-close:hover {\n    background: white;\n    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);\n    transform: scale(1.1);\n}\n\n.mermaid-fullscreen-close.dark-theme {\n    background: rgba(50, 50, 50, 0.95);\n    border: 1px solid rgba(255, 255, 255, 0.2);\n    color: #e0e0e0;\n}\n\n.mermaid-fullscreen-close.dark-theme:hover {\n    background: rgba(60, 60, 60, 1);\n    box-shadow: 0 6px 16px rgba(255, 255, 255, 0.2);\n}\n\n.mermaid-fullscreen-modal .mermaid-fullscreen-btn {\n    display: none !important;\n}";
+    document.head.appendChild(fullscreenStyle);
+}
+
+// Detect if page has dark background
+const isDarkTheme = () => {
+    // We use a set of heuristics:
+    // 1. Check for common dark mode classes or attributes
+    // 2. Check computed background color brightness
+    if (document.documentElement.classList.contains('dark') ||
+        document.documentElement.getAttribute('data-theme') === 'dark' ||
+        document.body.classList.contains('dark') ||
+        document.body.getAttribute('data-theme') === 'dark') {
+        // console.log("Dark theme detected via class/attribute");
+        return true;
+    }
+    if (document.documentElement.classList.contains('light') ||
+        document.documentElement.getAttribute('data-theme') === 'light' ||
+        document.body.classList.contains('light') ||
+        document.body.getAttribute('data-theme') === 'light') {
+        // console.log("Light theme detected via class/attribute");
+        return false;
+    }
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        // console.log("Dark theme detected via prefers-color-scheme");
+        return true;
+    }
+    const bgColor = window.getComputedStyle(document.body).backgroundColor;
+    const match = bgColor.match(/rgb\((\d+),\s*(\d+),\s*(\d+)/);
+    if (match) {
+        const r = parseInt(match[1]);
+        const g = parseInt(match[2]);
+        const b = parseInt(match[3]);
+        const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+        // console.log("Background color brightness:", brightness);
+        return brightness < 128;
+    }
+    // console.log("No dark or light theme detected, defaulting to light theme");
+    return false;
+};
+
+let darkTheme = isDarkTheme();
+let modal = null;
+let modalContent = null;
+let previousScrollOffset = [window.scrollX, window.scrollY];
+let _lazyObserver = null;
+let _renderQueue = Promise.resolve();
+let closeModal = () => {};
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal?.classList.contains('active')) {
+        closeModal();
+    }
+});
+
+// Apply d3 zoom to each SVG. Idempotent: an SVG already wrapped is skipped,
+// so this is safe to call both for the initial batch and for diagrams that
+// render lazily once they become visible.
+const addZoomToSvgs = (svgs) => {
+    svgs.each(function() {
+        if (this.getAttribute('data-zoom-applied') === 'true') return;
+        var svg = d3.select(this);
+        svg.html("<g class='wrapper'>" + svg.html() + "</g>");
+        var inner = svg.select("g");
+        var zoom = d3.zoom().on("zoom", function(event) {
+            inner.attr("transform", event.transform);
+        });
+        svg.call(zoom);
+        this.setAttribute('data-zoom-applied', 'true');
+    });
+};
+
+const runMermaid = async (rerun) => {
+    console.log("Running mermaid diagrams, rerun =", rerun);
+    // clear all existing mermaid charts
+    let all_mermaids = document.querySelectorAll(".mermaid");
+
+    if (rerun) {
+        // Disconnect any previous lazy rendering observer
+        if (_lazyObserver) {
+            _lazyObserver.disconnect();
+            _lazyObserver = null;
+        }
+
+        all_mermaids.forEach((el) => {
+            el.removeAttribute('data-mermaid-deferred');
+            el.removeAttribute('data-mermaid-render-failed');
+            if(!el.hasAttribute("data-original-code")) {
+                // store original code
+                // console.log(`Storing original code for first run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+            if(el.getAttribute("data-processed") === "true") {
+                // remove and restore original
+                el.removeAttribute("data-processed");
+                // console.log(`Restoring original code for re-run: `, el.getAttribute('data-original-code'));
+                el.innerHTML = el.getAttribute('data-original-code');
+            } else {
+                // store original code
+                // console.log(`Storing original code for re-run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+        });
+
+        // Separate visible and hidden elements. Mermaid's layout engine measures
+        // text dimensions via the DOM, which fails for elements hidden by a parent
+        // (e.g., Reveal.js non-active slides, sphinx-design unopened tabs),
+        // producing broken SVGs. Render visible elements now, defer hidden ones.
+        const visible = [];
+        const hidden = [];
+        all_mermaids.forEach((el) => {
+            // offsetParent is null for display:none ancestors.
+            // getClientRects().length > 0 catches position:fixed elements
+            // (which also have null offsetParent but are still visible).
+            if (el.offsetParent !== null || el.getClientRects().length > 0) {
+                visible.push(el);
+            } else {
+                hidden.push(el);
+                el.setAttribute('data-mermaid-deferred', 'true');
+            }
+        });
+
+        if (visible.length > 0) {
+            try {
+                await mermaid.run({ nodes: visible });
+            } catch (e) {
+                console.error("Mermaid rendering failed:", e);
+            }
+        }
+
+        // Lazily render hidden elements when they become visible.
+        // Uses a promise chain (_renderQueue) to serialize rendering,
+        // since IntersectionObserver may report multiple entries at once
+        // and mermaid.run() is not safe to call concurrently.
+        if (hidden.length > 0) {
+            if (typeof IntersectionObserver === 'undefined') {
+                console.warn("IntersectionObserver not available; hidden mermaid diagrams will not render.");
+            } else {
+                _renderQueue = Promise.resolve();
+                _lazyObserver = new IntersectionObserver((entries) => {
+                    for (const entry of entries) {
+                        if (entry.isIntersecting && entry.target.getAttribute("data-processed") !== "true") {
+                            _lazyObserver.unobserve(entry.target);
+                            const el = entry.target;
+                            _renderQueue = _renderQueue.then(async () => {
+                                try {
+                                    await mermaid.run({ nodes: [el] });
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    // Apply zoom to the now-rendered diagram, matching
+                                    // the decoration visible diagrams receive.
+                                    if (false) {
+                                        addZoomToSvgs(d3.selectAll("").select(function() {
+                                            return this.querySelector("svg");
+                                        }));
+                                    }
+                                } catch (e) {
+                                    console.error("Mermaid deferred rendering failed:", e);
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    el.setAttribute('data-mermaid-render-failed', 'true');
+                                }
+                            });
+                        }
+                    }
+                });
+                hidden.forEach((el) => _lazyObserver.observe(el));
+            }
+        }
+    }
+
+    all_mermaids = document.querySelectorAll(".mermaid");
+    // Exclude deferred (hidden) and render-failed elements from completion checks
+    const mermaids_active = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])");
+    const mermaids_processed = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])[data-processed='true']");
+
+    if (false) {
+        const mermaids_to_add_zoom = 0 === -1 ? mermaids_active.length : 0;
+        if(mermaids_to_add_zoom > 0) {
+            var svgs = d3.selectAll("").select(function() {
+                return this.querySelector("svg");
+            });
+            // Wait until every active (visible) diagram has rendered. Deferred
+            // diagrams are excluded, so a fixed d3_node_count that counts a
+            // hidden diagram no longer loops forever waiting for its SVG.
+            if(mermaids_active.length !== mermaids_processed.length) {
+                setTimeout(() => runMermaid(false), 200);
+                return;
+            }
+            addZoomToSvgs(svgs);
+        }
+    } else if(mermaids_active.length !== mermaids_processed.length) {
+        // Wait for mermaid to process all diagrams
+        setTimeout(() => runMermaid(false), 200);
+        return;
+    }
+
+    // Stop here if not adding fullscreen capability
+    if (!true) return;
+
+    if (modal !== null ) {
+        // Destroy existing modal
+        modal.remove();
+        modal = null;
+        modalContent = null;
+    }
+
+    modal = document.createElement('div');
+    modal.className = 'mermaid-fullscreen-modal' + (darkTheme ? ' dark-theme' : '');
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-modal', 'true');
+    modal.setAttribute('aria-label', 'Fullscreen diagram viewer');
+    modal.innerHTML = `
+        <button class="mermaid-fullscreen-close${darkTheme ? ' dark-theme' : ''}" aria-label="Close fullscreen">✕</button>
+        <div class="mermaid-container-fullscreen${darkTheme ? ' dark-theme' : ''}"></div>
+    `;
+    document.body.appendChild(modal);
+
+    modalContent = modal.querySelector('.mermaid-container-fullscreen');
+    const closeBtn = modal.querySelector('.mermaid-fullscreen-close');
+
+    closeModal = () => {
+        modal.classList.remove('active');
+        modalContent.innerHTML = '';
+        document.body.style.overflow = ''
+        window.scrollTo({left: previousScrollOffset[0], top: previousScrollOffset[1], behavior: 'instant'});
+    };
+
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+    });
+    document.querySelectorAll('.mermaid').forEach((mermaidDiv) => {
+        if (mermaidDiv.parentNode.classList.contains('mermaid-container') ||
+            mermaidDiv.closest('.mermaid-fullscreen-modal')) {
+            // Already processed, adjust button class if needed
+            const existingBtn = mermaidDiv.parentNode.querySelector('.mermaid-fullscreen-btn');
+            if (existingBtn) {
+                existingBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+            }
+            return;
+        }
+
+        const container = document.createElement('div');
+        container.className = 'mermaid-container';
+        mermaidDiv.parentNode.insertBefore(container, mermaidDiv);
+        container.appendChild(mermaidDiv);
+
+        const fullscreenBtn = document.createElement('button');
+        fullscreenBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+        fullscreenBtn.setAttribute('aria-label', 'View diagram in fullscreen');
+        fullscreenBtn.textContent = "\u26f6";
+        fullscreenBtn.style.opacity = "50%";
+
+        // Calculate dynamic position based on diagram's margin and padding
+        const diagramStyle = window.getComputedStyle(mermaidDiv);
+        const marginTop = parseFloat(diagramStyle.marginTop) || 0;
+        const marginRight = parseFloat(diagramStyle.marginRight) || 0;
+        const paddingTop = parseFloat(diagramStyle.paddingTop) || 0;
+        const paddingRight = parseFloat(diagramStyle.paddingRight) || 0;
+        fullscreenBtn.style.top = `${marginTop + paddingTop + 4}px`;
+        fullscreenBtn.style.right = `${marginRight + paddingRight + 4}px`;
+
+        fullscreenBtn.addEventListener('click', () => {
+            previousScrollOffset = [window.scrollX, window.scrollY];
+            const clone = mermaidDiv.cloneNode(true);
+            modalContent.innerHTML = '';
+            modalContent.appendChild(clone);
+
+            const svg = clone.querySelector('svg');
+            if (svg) {
+                svg.removeAttribute('width');
+                svg.removeAttribute('height');
+                svg.style.width = '100%';
+                svg.style.height = 'auto';
+                svg.style.maxWidth = '100%';
+                svg.style.display = 'block';
+
+                if (false) {
+                    setTimeout(() => {
+                        const g = svg.querySelector('g');
+                        if (g) {
+                            var svgD3 = d3.select(svg);
+                            svgD3.html("<g class='wrapper'>" + svgD3.html() + "</g>");
+                            var inner = svgD3.select("g");
+                            var zoom = d3.zoom().on("zoom", function(event) {
+                                inner.attr("transform", event.transform);
+                            });
+                            svgD3.call(zoom);
+                        }
+                    }, 100);
+                }
+            }
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+        container.appendChild(fullscreenBtn);
+    });
+};
+
+
+
+const load = async () => {
+    initStyles();
+
+
+    await runMermaid(true);
+
+    const reRunIfThemeChanges = async () => {
+        const newDarkTheme = isDarkTheme();
+        if (newDarkTheme !== darkTheme) {
+            darkTheme = newDarkTheme;
+            console.log("Theme change detected, re-running mermaid with", darkTheme ? "dark" : "default", "theme");
+            await mermaid.initialize(
+                {...{"startOnLoad": false},
+                ...{ darkMode: darkTheme, theme: darkTheme ? "dark" : "default" },
+                }
+            );
+            await runMermaid(true);
+        }
+    };
+
+    // Update theme classes when theme changes
+    const themeObserver = new MutationObserver(reRunIfThemeChanges);
+    themeObserver.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+    themeObserver.observe(document.body, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+};
+
+
+
+
+
+console.log("Initializing mermaid with", darkTheme ? "dark" : "default", "theme");
+mermaid.initialize(
+    {...{"startOnLoad": false},
+    ...{ darkMode: darkTheme, theme: darkTheme ? "dark" : "default" },
+    }
+);
+
+window.addEventListener("load", load);
+window.runMermaid = runMermaid;</script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="#" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            mini-Zemax
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Содержание</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Архитектура и связи модулей</a></li>
+<li class="toctree-l1"><a class="reference internal" href="math.html">Математический аппарат (с привязкой к коду)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="core.html">Пакет <code class="docutils literal notranslate"><span class="pre">minizemax.core</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="system.html">Пакет <code class="docutils literal notranslate"><span class="pre">minizemax.system</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="engine.html">Пакет <code class="docutils literal notranslate"><span class="pre">minizemax.engine</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="analysis.html">Пакет <code class="docutils literal notranslate"><span class="pre">minizemax.analysis</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="optim.html">Пакет <code class="docutils literal notranslate"><span class="pre">minizemax.optim</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="components.html">Пакет <code class="docutils literal notranslate"><span class="pre">minizemax.components</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="ui.html">Пакет <code class="docutils literal notranslate"><span class="pre">minizemax.ui</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">CLI, примеры и скрипты</a></li>
+<li class="toctree-l1"><a class="reference internal" href="devguide.html">Руководство разработчика</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">mini-Zemax</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Index</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+
+<h1 id="index">Index</h1>
+
+<div class="genindex-jumpbox">
+ <a href="#A"><strong>A</strong></a>
+ | <a href="#B"><strong>B</strong></a>
+ | <a href="#C"><strong>C</strong></a>
+ | <a href="#D"><strong>D</strong></a>
+ | <a href="#E"><strong>E</strong></a>
+ | <a href="#F"><strong>F</strong></a>
+ | <a href="#G"><strong>G</strong></a>
+ | <a href="#H"><strong>H</strong></a>
+ | <a href="#I"><strong>I</strong></a>
+ | <a href="#K"><strong>K</strong></a>
+ | <a href="#L"><strong>L</strong></a>
+ | <a href="#M"><strong>M</strong></a>
+ | <a href="#N"><strong>N</strong></a>
+ | <a href="#O"><strong>O</strong></a>
+ | <a href="#P"><strong>P</strong></a>
+ | <a href="#R"><strong>R</strong></a>
+ | <a href="#S"><strong>S</strong></a>
+ | <a href="#T"><strong>T</strong></a>
+ | <a href="#U"><strong>U</strong></a>
+ | <a href="#V"><strong>V</strong></a>
+ | <a href="#W"><strong>W</strong></a>
+ | <a href="#X"><strong>X</strong></a>
+ | <a href="#Y"><strong>Y</strong></a>
+ | <a href="#Z"><strong>Z</strong></a>
+ 
+</div>
+<h2 id="A">A</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="core.html#minizemax.core.bundle.RayBundle.add_opl">add_opl() (minizemax.core.bundle.RayBundle method)</a>
+
+      <ul>
+        <li><a href="core.html#minizemax.core.ray.Ray.add_opl">(minizemax.core.ray.Ray method)</a>
+</li>
+      </ul></li>
+      <li><a href="analysis.html#minizemax.analysis.spot.airy_radius_um">airy_radius_um() (in module minizemax.analysis.spot)</a>
+</li>
+      <li><a href="core.html#minizemax.core.bundle.RayBundle.alive">alive (minizemax.core.bundle.RayBundle attribute)</a>
+
+      <ul>
+        <li><a href="core.html#minizemax.core.ray.Ray.alive">(minizemax.core.ray.Ray attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="engine.html#minizemax.engine.tracer.TraceResult.alive_per_surface">alive_per_surface (minizemax.engine.tracer.TraceResult attribute)</a>
+</li>
+      <li><a href="system.html#minizemax.system.system_data.SystemData.aperture">aperture (minizemax.system.system_data.SystemData attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="system.html#minizemax.system.system_data.ApertureDef">ApertureDef (class in minizemax.system.system_data)</a>
+</li>
+      <li><a href="components.html#minizemax.components.aperture.ApertureStop">ApertureStop (class in minizemax.components.aperture)</a>
+</li>
+      <li><a href="components.html#minizemax.components.assemble.assemble">assemble() (in module minizemax.components.assemble)</a>
+</li>
+      <li><a href="core.html#minizemax.core.bundle.RayBundle.at">at() (minizemax.core.bundle.RayBundle method)</a>
+
+      <ul>
+        <li><a href="core.html#minizemax.core.ray.Ray.at">(minizemax.core.ray.Ray method)</a>
+</li>
+      </ul></li>
+      <li><a href="core.html#minizemax.core.ray.Ray.attenuate">attenuate() (minizemax.core.ray.Ray method)</a>
+</li>
+      <li><a href="system.html#minizemax.system.lens_data.auto_comments">auto_comments() (in module minizemax.system.lens_data)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="B">B</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="core.html#minizemax.core.materials.SellmeierGlass.B">B (minizemax.core.materials.SellmeierGlass attribute)</a>
+</li>
+      <li><a href="system.html#minizemax.system.paraxial.ParaxialData.bfl">bfl (minizemax.system.paraxial.ParaxialData attribute)</a>
+</li>
+      <li><a href="optim.html#minizemax.optim.merit.MeritFunction.bounds">bounds() (minizemax.optim.merit.MeritFunction method)</a>
+</li>
+      <li><a href="system.html#minizemax.system.prescription.Prescription.build">build() (minizemax.system.prescription.Prescription method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="analysis.html#minizemax.analysis.scene3d.build_scene">build_scene() (in module minizemax.analysis.scene3d)</a>
+</li>
+      <li><a href="system.html#minizemax.system.lens_data.build_system">build_system() (in module minizemax.system.lens_data)</a>
+</li>
+      <li><a href="system.html#minizemax.system.lens_data.BuiltSystem">BuiltSystem (class in minizemax.system.lens_data)</a>
+</li>
+      <li><a href="engine.html#minizemax.engine.tracer.TraceResult.bundle">bundle (minizemax.engine.tracer.TraceResult attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="C">C</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="core.html#minizemax.core.materials.SellmeierGlass.C">C (minizemax.core.materials.SellmeierGlass attribute)</a>
+</li>
+      <li><a href="analysis.html#minizemax.analysis.scene3d.Scene.center">center (minizemax.analysis.scene3d.Scene attribute)</a>
+</li>
+      <li><a href="system.html#minizemax.system.validation.check_prescription">check_prescription() (in module minizemax.system.validation)</a>
+</li>
+      <li><a href="system.html#minizemax.system.paraxial.ParaxialData.chief">chief (minizemax.system.paraxial.ParaxialData attribute)</a>
+</li>
+      <li><a href="core.html#minizemax.core.surfaces.Hit.clip">clip (minizemax.core.surfaces.Hit attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="analysis.html#minizemax.analysis.scene3d.MeshData.color">color (minizemax.analysis.scene3d.MeshData attribute)</a>
+</li>
+      <li><a href="system.html#minizemax.system.lens_data.SurfaceRow.comment">comment (minizemax.system.lens_data.SurfaceRow attribute)</a>
+</li>
+      <li><a href="system.html#minizemax.system.lens_data.SurfaceRow.conic">conic (minizemax.system.lens_data.SurfaceRow attribute)</a>
+</li>
+      <li><a href="core.html#minizemax.core.materials.ConstantMaterial">ConstantMaterial (class in minizemax.core.materials)</a>
+</li>
+      <li><a href="system.html#minizemax.system.paraxial.ParaxialData.curv">curv (minizemax.system.paraxial.ParaxialData attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="D">D</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="optim.html#minizemax.optim.merit.MeritFunction.default_rms_spot">default_rms_spot() (minizemax.optim.merit.MeritFunction class method)</a>
+</li>
+      <li><a href="engine.html#minizemax.engine.tracer.Detector">Detector (class in minizemax.engine.tracer)</a>
+</li>
+      <li><a href="engine.html#minizemax.engine.tracer.SequentialTracer.detector">detector (minizemax.engine.tracer.SequentialTracer attribute)</a>
+
+      <ul>
+        <li><a href="engine.html#minizemax.engine.tracer.TraceResult.detector">(minizemax.engine.tracer.TraceResult attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="components.html#minizemax.components.detector.DetectorScreen.detector">detector() (minizemax.components.detector.DetectorScreen method)</a>
+</li>
+      <li><a href="system.html#minizemax.system.lens_data.BuiltSystem.detector_z">detector_z (minizemax.system.lens_data.BuiltSystem attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="engine.html#minizemax.engine.tracer.DetectorHits">DetectorHits (class in minizemax.engine.tracer)</a>
+</li>
+      <li><a href="components.html#minizemax.components.detector.DetectorScreen">DetectorScreen (class in minizemax.components.detector)</a>
+</li>
+      <li><a href="core.html#minizemax.core.bundle.RayBundle.direction">direction (minizemax.core.bundle.RayBundle attribute)</a>
+
+      <ul>
+        <li><a href="core.html#minizemax.core.ray.Ray.direction">(minizemax.core.ray.Ray attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="analysis.html#minizemax.analysis.distortion.distortion_pct">distortion_pct() (in module minizemax.analysis.distortion)</a>
+</li>
+      <li><a href="optim.html#minizemax.optim.dls.DLSOptimizer">DLSOptimizer (class in minizemax.optim.dls)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="E">E</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="system.html#minizemax.system.paraxial.ParaxialData.efl">efl (minizemax.system.paraxial.ParaxialData attribute)</a>
+</li>
+      <li><a href="components.html#minizemax.components.lens.SphericalLens.efl_paraxial">efl_paraxial() (minizemax.components.lens.SphericalLens method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="system.html#minizemax.system.paraxial.ParaxialData.ep_r">ep_r (minizemax.system.paraxial.ParaxialData attribute)</a>
+</li>
+      <li><a href="system.html#minizemax.system.paraxial.ParaxialData.ep_z">ep_z (minizemax.system.paraxial.ParaxialData attribute)</a>
+</li>
+      <li><a href="engine.html#minizemax.engine.tracer.SequentialTracer.eps">eps (minizemax.engine.tracer.SequentialTracer attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="F">F</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="analysis.html#minizemax.analysis.scene3d.MeshData.faces">faces (minizemax.analysis.scene3d.MeshData attribute)</a>
+</li>
+      <li><a href="system.html#minizemax.system.system_data.Field">Field (class in minizemax.system.system_data)</a>
+</li>
+      <li><a href="optim.html#minizemax.optim.merit.Operand.field">field (minizemax.optim.merit.Operand attribute)</a>
+</li>
+      <li><a href="system.html#minizemax.system.system_data.SystemData.fields">fields (minizemax.system.system_data.SystemData attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="system.html#minizemax.system.paraxial.ParaxialData.fno">fno (minizemax.system.paraxial.ParaxialData attribute)</a>
+</li>
+      <li><a href="components.html#minizemax.components.mirror.SphericalMirror.focal_length">focal_length() (minizemax.components.mirror.SphericalMirror method)</a>
+</li>
+      <li><a href="core.html#minizemax.core.physics.fresnel">fresnel() (in module minizemax.core.physics)</a>
+</li>
+      <li><a href="system.html#minizemax.system.prescription.Prescription.from_yaml">from_yaml() (minizemax.system.prescription.Prescription class method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="G">G</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="core.html#minizemax.core.surfaces.Hit.geo">geo (minizemax.core.surfaces.Hit attribute)</a>
+</li>
+      <li><a href="analysis.html#minizemax.analysis.scene3d.MeshData.gl_options">gl_options (minizemax.analysis.scene3d.MeshData attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="system.html#minizemax.system.lens_data.SurfaceRow.glass">glass (minizemax.system.lens_data.SurfaceRow attribute)</a>
+</li>
+      <li><a href="core.html#minizemax.core.materials.glass">glass() (in module minizemax.core.materials)</a>
+</li>
+      <li><a href="cli.html#minizemax.cli.gui">gui() (in module minizemax.cli)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="H">H</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="analysis.html#minizemax.analysis.seidel.SeidelSums.H">H (minizemax.analysis.seidel.SeidelSums attribute)</a>
+</li>
+      <li><a href="engine.html#minizemax.engine.tracer.Detector.half_size">half_size (minizemax.engine.tracer.Detector attribute)</a>
+</li>
+      <li><a href="core.html#minizemax.core.ray.Ray.history">history (minizemax.core.ray.Ray attribute)</a>
+
+      <ul>
+        <li><a href="engine.html#minizemax.engine.tracer.TraceResult.history">(minizemax.engine.tracer.TraceResult attribute)</a>
+</li>
+        <li><a href="optim.html#minizemax.optim.dls.OptResult.history">(minizemax.optim.dls.OptResult attribute)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="core.html#minizemax.core.surfaces.Hit">Hit (class in minizemax.core.surfaces)</a>
+</li>
+      <li><a href="engine.html#minizemax.engine.tracer.Detector.hits">hits (minizemax.engine.tracer.Detector attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="I">I</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="core.html#minizemax.core.transform.Transform.identity">identity() (minizemax.core.transform.Transform class method)</a>
+</li>
+      <li><a href="analysis.html#minizemax.analysis.spot.image_points">image_points() (in module minizemax.analysis.spot)</a>
+</li>
+      <li><a href="system.html#minizemax.system.paraxial.ParaxialData.img_h">img_h (minizemax.system.paraxial.ParaxialData attribute)</a>
+</li>
+      <li><a href="system.html#minizemax.system.paraxial.ParaxialData.img_z">img_z (minizemax.system.paraxial.ParaxialData attribute)</a>
+</li>
+      <li><a href="core.html#minizemax.core.bundle.RayBundle.intensity">intensity (minizemax.core.bundle.RayBundle attribute)</a>
+
+      <ul>
+        <li><a href="core.html#minizemax.core.ray.Ray.intensity">(minizemax.core.ray.Ray attribute)</a>
+</li>
+        <li><a href="engine.html#minizemax.engine.tracer.DetectorHits.intensity">(minizemax.engine.tracer.DetectorHits attribute)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="core.html#minizemax.core.surfaces.OpticalSurface.intersect">intersect() (minizemax.core.surfaces.OpticalSurface method)</a>
+</li>
+      <li><a href="engine.html#minizemax.engine.tracer.Detector.irradiance_map">irradiance_map() (minizemax.engine.tracer.Detector method)</a>
+</li>
+      <li><a href="system.html#minizemax.system.validation.Issue">Issue (class in minizemax.system.validation)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="K">K</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="core.html#minizemax.core.bundle.RayBundle.kill">kill() (minizemax.core.bundle.RayBundle method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="optim.html#minizemax.optim.merit.Operand.kind">kind (minizemax.optim.merit.Operand attribute)</a>
+
+      <ul>
+        <li><a href="system.html#minizemax.system.system_data.Sampling.kind">(minizemax.system.system_data.Sampling attribute)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="L">L</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="components.html#minizemax.components.plate.PlaneParallelPlate.lateral_shift">lateral_shift() (minizemax.components.plate.PlaneParallelPlate method)</a>
+</li>
+      <li><a href="analysis.html#minizemax.analysis.layout.layout">layout() (in module minizemax.analysis.layout)</a>
+</li>
+      <li><a href="analysis.html#minizemax.analysis.layout3d.layout_3d">layout_3d() (in module minizemax.analysis.layout3d)</a>
+</li>
+      <li><a href="components.html#minizemax.components.base.OpticalComponent.length">length (minizemax.components.base.OpticalComponent property)</a>
+
+      <ul>
+        <li><a href="components.html#minizemax.components.lens.SphericalLens.length">(minizemax.components.lens.SphericalLens property)</a>
+</li>
+        <li><a href="components.html#minizemax.components.plate.PlaneParallelPlate.length">(minizemax.components.plate.PlaneParallelPlate property)</a>
+</li>
+      </ul></li>
+      <li><a href="system.html#minizemax.system.lens_data.BuiltSystem.lens">lens (minizemax.system.lens_data.BuiltSystem attribute)</a>
+
+      <ul>
+        <li><a href="system.html#minizemax.system.prescription.Prescription.lens">(minizemax.system.prescription.Prescription attribute)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="cli.html#minizemax.cli.lenscheck">lenscheck() (in module minizemax.cli)</a>
+</li>
+      <li><a href="system.html#minizemax.system.lens_data.LensData">LensData (class in minizemax.system.lens_data)</a>
+</li>
+      <li><a href="analysis.html#minizemax.analysis.scene3d.Scene.line_colors">line_colors (minizemax.analysis.scene3d.Scene attribute)</a>
+</li>
+      <li><a href="analysis.html#minizemax.analysis.scene3d.Scene.line_verts">line_verts (minizemax.analysis.scene3d.Scene attribute)</a>
+</li>
+      <li><a href="system.html#minizemax.system.prescription.Prescription.load">load() (minizemax.system.prescription.Prescription class method)</a>
+</li>
+      <li><a href="analysis.html#minizemax.analysis.losses.loss_counts">loss_counts() (in module minizemax.analysis.losses)</a>
+</li>
+      <li><a href="analysis.html#minizemax.analysis.losses.loss_table">loss_table() (in module minizemax.analysis.losses)</a>
+</li>
+      <li><a href="cli.html#minizemax.cli.losses">losses() (in module minizemax.cli)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="M">M</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="engine.html#minizemax.engine.source.make_bundle">make_bundle() (in module minizemax.engine.source)</a>
+</li>
+      <li><a href="system.html#minizemax.system.paraxial.ParaxialData.marg">marg (minizemax.system.paraxial.ParaxialData attribute)</a>
+</li>
+      <li><a href="core.html#minizemax.core.materials.Material">Material (class in minizemax.core.materials)</a>
+</li>
+      <li><a href="optim.html#minizemax.optim.dls.OptResult.merit0">merit0 (minizemax.optim.dls.OptResult attribute)</a>
+</li>
+      <li><a href="optim.html#minizemax.optim.dls.OptResult.merit1">merit1 (minizemax.optim.dls.OptResult attribute)</a>
+</li>
+      <li><a href="optim.html#minizemax.optim.merit.MeritFunction">MeritFunction (class in minizemax.optim.merit)</a>
+</li>
+      <li><a href="analysis.html#minizemax.analysis.scene3d.MeshData">MeshData (class in minizemax.analysis.scene3d)</a>
+</li>
+      <li><a href="analysis.html#minizemax.analysis.scene3d.Scene.meshes">meshes (minizemax.analysis.scene3d.Scene attribute)</a>
+</li>
+      <li><a href="core.html#minizemax.core.bundle.RayBundle.meta">meta (minizemax.core.bundle.RayBundle attribute)</a>
+</li>
+      <li>
+    minizemax.analysis.distortion
+
+      <ul>
+        <li><a href="analysis.html#module-minizemax.analysis.distortion">module</a>
+</li>
+      </ul></li>
+      <li>
+    minizemax.analysis.layout
+
+      <ul>
+        <li><a href="analysis.html#module-minizemax.analysis.layout">module</a>
+</li>
+      </ul></li>
+      <li>
+    minizemax.analysis.layout3d
+
+      <ul>
+        <li><a href="analysis.html#module-minizemax.analysis.layout3d">module</a>
+</li>
+      </ul></li>
+      <li>
+    minizemax.analysis.losses
+
+      <ul>
+        <li><a href="analysis.html#module-minizemax.analysis.losses">module</a>
+</li>
+      </ul></li>
+      <li>
+    minizemax.analysis.mtf
+
+      <ul>
+        <li><a href="analysis.html#module-minizemax.analysis.mtf">module</a>
+</li>
+      </ul></li>
+      <li>
+    minizemax.analysis.report
+
+      <ul>
+        <li><a href="analysis.html#module-minizemax.analysis.report">module</a>
+</li>
+      </ul></li>
+      <li>
+    minizemax.analysis.scene3d
+
+      <ul>
+        <li><a href="analysis.html#module-minizemax.analysis.scene3d">module</a>
+</li>
+      </ul></li>
+      <li>
+    minizemax.analysis.seidel
+
+      <ul>
+        <li><a href="analysis.html#module-minizemax.analysis.seidel">module</a>
+</li>
+      </ul></li>
+      <li>
+    minizemax.analysis.spot
+
+      <ul>
+        <li><a href="analysis.html#module-minizemax.analysis.spot">module</a>
+</li>
+      </ul></li>
+      <li>
+    minizemax.analysis.wavefront
+
+      <ul>
+        <li><a href="analysis.html#module-minizemax.analysis.wavefront">module</a>
+</li>
+      </ul></li>
+      <li>
+    minizemax.cli
+
+      <ul>
+        <li><a href="cli.html#module-minizemax.cli">module</a>
+</li>
+      </ul></li>
+      <li>
+    minizemax.components.aperture
+
+      <ul>
+        <li><a href="components.html#module-minizemax.components.aperture">module</a>
+</li>
+      </ul></li>
+      <li>
+    minizemax.components.assemble
+
+      <ul>
+        <li><a href="components.html#module-minizemax.components.assemble">module</a>
+</li>
+      </ul></li>
+      <li>
+    minizemax.components.base
+
+      <ul>
+        <li><a href="components.html#module-minizemax.components.base">module</a>
+</li>
+      </ul></li>
+      <li>
+    minizemax.components.detector
+
+      <ul>
+        <li><a href="components.html#module-minizemax.components.detector">module</a>
+</li>
+      </ul></li>
+      <li>
+    minizemax.components.lens
+
+      <ul>
+        <li><a href="components.html#module-minizemax.components.lens">module</a>
+</li>
+      </ul></li>
+      <li>
+    minizemax.components.mirror
+
+      <ul>
+        <li><a href="components.html#module-minizemax.components.mirror">module</a>
+</li>
+      </ul></li>
+      <li>
+    minizemax.components.plate
+
+      <ul>
+        <li><a href="components.html#module-minizemax.components.plate">module</a>
+</li>
+      </ul></li>
+      <li>
+    minizemax.core.bundle
+
+      <ul>
+        <li><a href="core.html#module-minizemax.core.bundle">module</a>
+</li>
+      </ul></li>
+      <li>
+    minizemax.core.materials
+
+      <ul>
+        <li><a href="core.html#module-minizemax.core.materials">module</a>
+</li>
+      </ul></li>
+      <li>
+    minizemax.core.physics
+
+      <ul>
+        <li><a href="core.html#module-minizemax.core.physics">module</a>
+</li>
+      </ul></li>
+      <li>
+    minizemax.core.ray
+
+      <ul>
+        <li><a href="core.html#module-minizemax.core.ray">module</a>
+</li>
+      </ul></li>
+      <li>
+    minizemax.core.surfaces
+
+      <ul>
+        <li><a href="core.html#module-minizemax.core.surfaces">module</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li>
+    minizemax.core.transform
+
+      <ul>
+        <li><a href="core.html#module-minizemax.core.transform">module</a>
+</li>
+      </ul></li>
+      <li>
+    minizemax.engine.source
+
+      <ul>
+        <li><a href="engine.html#module-minizemax.engine.source">module</a>
+</li>
+      </ul></li>
+      <li>
+    minizemax.engine.tracer
+
+      <ul>
+        <li><a href="engine.html#module-minizemax.engine.tracer">module</a>
+</li>
+      </ul></li>
+      <li>
+    minizemax.optim.dls
+
+      <ul>
+        <li><a href="optim.html#module-minizemax.optim.dls">module</a>
+</li>
+      </ul></li>
+      <li>
+    minizemax.optim.merit
+
+      <ul>
+        <li><a href="optim.html#module-minizemax.optim.merit">module</a>
+</li>
+      </ul></li>
+      <li>
+    minizemax.system.lens_data
+
+      <ul>
+        <li><a href="system.html#module-minizemax.system.lens_data">module</a>
+</li>
+      </ul></li>
+      <li>
+    minizemax.system.paraxial
+
+      <ul>
+        <li><a href="system.html#module-minizemax.system.paraxial">module</a>
+</li>
+      </ul></li>
+      <li>
+    minizemax.system.prescription
+
+      <ul>
+        <li><a href="system.html#module-minizemax.system.prescription">module</a>
+</li>
+      </ul></li>
+      <li>
+    minizemax.system.system_data
+
+      <ul>
+        <li><a href="system.html#module-minizemax.system.system_data">module</a>
+</li>
+      </ul></li>
+      <li>
+    minizemax.system.validation
+
+      <ul>
+        <li><a href="system.html#module-minizemax.system.validation">module</a>
+</li>
+      </ul></li>
+      <li>
+    module
+
+      <ul>
+        <li><a href="analysis.html#module-minizemax.analysis.distortion">minizemax.analysis.distortion</a>
+</li>
+        <li><a href="analysis.html#module-minizemax.analysis.layout">minizemax.analysis.layout</a>
+</li>
+        <li><a href="analysis.html#module-minizemax.analysis.layout3d">minizemax.analysis.layout3d</a>
+</li>
+        <li><a href="analysis.html#module-minizemax.analysis.losses">minizemax.analysis.losses</a>
+</li>
+        <li><a href="analysis.html#module-minizemax.analysis.mtf">minizemax.analysis.mtf</a>
+</li>
+        <li><a href="analysis.html#module-minizemax.analysis.report">minizemax.analysis.report</a>
+</li>
+        <li><a href="analysis.html#module-minizemax.analysis.scene3d">minizemax.analysis.scene3d</a>
+</li>
+        <li><a href="analysis.html#module-minizemax.analysis.seidel">minizemax.analysis.seidel</a>
+</li>
+        <li><a href="analysis.html#module-minizemax.analysis.spot">minizemax.analysis.spot</a>
+</li>
+        <li><a href="analysis.html#module-minizemax.analysis.wavefront">minizemax.analysis.wavefront</a>
+</li>
+        <li><a href="cli.html#module-minizemax.cli">minizemax.cli</a>
+</li>
+        <li><a href="components.html#module-minizemax.components.aperture">minizemax.components.aperture</a>
+</li>
+        <li><a href="components.html#module-minizemax.components.assemble">minizemax.components.assemble</a>
+</li>
+        <li><a href="components.html#module-minizemax.components.base">minizemax.components.base</a>
+</li>
+        <li><a href="components.html#module-minizemax.components.detector">minizemax.components.detector</a>
+</li>
+        <li><a href="components.html#module-minizemax.components.lens">minizemax.components.lens</a>
+</li>
+        <li><a href="components.html#module-minizemax.components.mirror">minizemax.components.mirror</a>
+</li>
+        <li><a href="components.html#module-minizemax.components.plate">minizemax.components.plate</a>
+</li>
+        <li><a href="core.html#module-minizemax.core.bundle">minizemax.core.bundle</a>
+</li>
+        <li><a href="core.html#module-minizemax.core.materials">minizemax.core.materials</a>
+</li>
+        <li><a href="core.html#module-minizemax.core.physics">minizemax.core.physics</a>
+</li>
+        <li><a href="core.html#module-minizemax.core.ray">minizemax.core.ray</a>
+</li>
+        <li><a href="core.html#module-minizemax.core.surfaces">minizemax.core.surfaces</a>
+</li>
+        <li><a href="core.html#module-minizemax.core.transform">minizemax.core.transform</a>
+</li>
+        <li><a href="engine.html#module-minizemax.engine.source">minizemax.engine.source</a>
+</li>
+        <li><a href="engine.html#module-minizemax.engine.tracer">minizemax.engine.tracer</a>
+</li>
+        <li><a href="optim.html#module-minizemax.optim.dls">minizemax.optim.dls</a>
+</li>
+        <li><a href="optim.html#module-minizemax.optim.merit">minizemax.optim.merit</a>
+</li>
+        <li><a href="system.html#module-minizemax.system.lens_data">minizemax.system.lens_data</a>
+</li>
+        <li><a href="system.html#module-minizemax.system.paraxial">minizemax.system.paraxial</a>
+</li>
+        <li><a href="system.html#module-minizemax.system.prescription">minizemax.system.prescription</a>
+</li>
+        <li><a href="system.html#module-minizemax.system.system_data">minizemax.system.system_data</a>
+</li>
+        <li><a href="system.html#module-minizemax.system.validation">minizemax.system.validation</a>
+</li>
+      </ul></li>
+      <li><a href="system.html#minizemax.system.validation.Issue.msg">msg (minizemax.system.validation.Issue attribute)</a>
+</li>
+      <li><a href="analysis.html#minizemax.analysis.mtf.mtf_geometric">mtf_geometric() (in module minizemax.analysis.mtf)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="N">N</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="core.html#minizemax.core.materials.ConstantMaterial.n">n() (minizemax.core.materials.ConstantMaterial method)</a>
+
+      <ul>
+        <li><a href="core.html#minizemax.core.materials.Material.n">(minizemax.core.materials.Material method)</a>
+</li>
+        <li><a href="core.html#minizemax.core.materials.SellmeierGlass.n">(minizemax.core.materials.SellmeierGlass method)</a>
+</li>
+      </ul></li>
+      <li><a href="system.html#minizemax.system.paraxial.ParaxRay.n1">n1 (minizemax.system.paraxial.ParaxRay attribute)</a>
+</li>
+      <li><a href="system.html#minizemax.system.paraxial.ParaxRay.n2">n2 (minizemax.system.paraxial.ParaxRay attribute)</a>
+</li>
+      <li><a href="core.html#minizemax.core.bundle.RayBundle.n_alive">n_alive (minizemax.core.bundle.RayBundle property)</a>
+</li>
+      <li><a href="core.html#minizemax.core.materials.n_at">n_at() (in module minizemax.core.materials)</a>
+</li>
+      <li><a href="analysis.html#minizemax.analysis.scene3d.MeshData.name">name (minizemax.analysis.scene3d.MeshData attribute)</a>
+
+      <ul>
+        <li><a href="components.html#minizemax.components.base.OpticalComponent.name">(minizemax.components.base.OpticalComponent attribute)</a>
+</li>
+        <li><a href="core.html#minizemax.core.materials.ConstantMaterial.name">(minizemax.core.materials.ConstantMaterial attribute)</a>
+</li>
+        <li><a href="core.html#minizemax.core.materials.SellmeierGlass.name">(minizemax.core.materials.SellmeierGlass attribute)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="optim.html#minizemax.optim.dls.OptResult.niters">niters (minizemax.optim.dls.OptResult attribute)</a>
+</li>
+      <li><a href="core.html#minizemax.core.surfaces.Hit.normal">normal (minizemax.core.surfaces.Hit attribute)</a>
+</li>
+      <li><a href="core.html#minizemax.core.ray.Ray.normalize">normalize() (minizemax.core.ray.Ray method)</a>
+</li>
+      <li><a href="engine.html#minizemax.engine.tracer.Detector.nx">nx (minizemax.engine.tracer.Detector attribute)</a>
+</li>
+      <li><a href="engine.html#minizemax.engine.tracer.Detector.ny">ny (minizemax.engine.tracer.Detector attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="O">O</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="analysis.html#minizemax.analysis.wavefront.opd_waves">opd_waves() (in module minizemax.analysis.wavefront)</a>
+</li>
+      <li><a href="optim.html#minizemax.optim.merit.Operand">Operand (class in minizemax.optim.merit)</a>
+</li>
+      <li><a href="core.html#minizemax.core.bundle.RayBundle.opl">opl (minizemax.core.bundle.RayBundle attribute)</a>
+
+      <ul>
+        <li><a href="core.html#minizemax.core.ray.Ray.opl">(minizemax.core.ray.Ray attribute)</a>
+</li>
+        <li><a href="engine.html#minizemax.engine.tracer.DetectorHits.opl">(minizemax.engine.tracer.DetectorHits attribute)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="components.html#minizemax.components.base.OpticalComponent">OpticalComponent (class in minizemax.components.base)</a>
+</li>
+      <li><a href="core.html#minizemax.core.surfaces.OpticalSurface">OpticalSurface (class in minizemax.core.surfaces)</a>
+</li>
+      <li><a href="optim.html#minizemax.optim.dls.OptResult">OptResult (class in minizemax.optim.dls)</a>
+</li>
+      <li><a href="core.html#minizemax.core.physics.orient_normal">orient_normal() (in module minizemax.core.physics)</a>
+</li>
+      <li><a href="core.html#minizemax.core.bundle.RayBundle.origin">origin (minizemax.core.bundle.RayBundle attribute)</a>
+
+      <ul>
+        <li><a href="core.html#minizemax.core.ray.Ray.origin">(minizemax.core.ray.Ray attribute)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="P">P</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="system.html#minizemax.system.paraxial.paraxial_trace">paraxial_trace() (in module minizemax.system.paraxial)</a>
+</li>
+      <li><a href="system.html#minizemax.system.paraxial.ParaxialData">ParaxialData (class in minizemax.system.paraxial)</a>
+</li>
+      <li><a href="system.html#minizemax.system.paraxial.ParaxRay">ParaxRay (class in minizemax.system.paraxial)</a>
+</li>
+      <li><a href="components.html#minizemax.components.base.OpticalComponent.place">place() (minizemax.components.base.OpticalComponent method)</a>
+</li>
+      <li><a href="components.html#minizemax.components.plate.PlaneParallelPlate">PlaneParallelPlate (class in minizemax.components.plate)</a>
+</li>
+      <li><a href="core.html#minizemax.core.surfaces.PlaneSurface">PlaneSurface (class in minizemax.core.surfaces)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="core.html#minizemax.core.surfaces.Hit.point">point (minizemax.core.surfaces.Hit attribute)</a>
+</li>
+      <li><a href="analysis.html#minizemax.analysis.scene3d.Scene.polylines">polylines (minizemax.analysis.scene3d.Scene attribute)</a>
+</li>
+      <li><a href="system.html#minizemax.system.prescription.Prescription">Prescription (class in minizemax.system.prescription)</a>
+</li>
+      <li><a href="system.html#minizemax.system.system_data.Wavelength.primary">primary (minizemax.system.system_data.Wavelength attribute)</a>
+</li>
+      <li><a href="system.html#minizemax.system.system_data.SystemData.primary_wl">primary_wl (minizemax.system.system_data.SystemData property)</a>
+</li>
+      <li><a href="core.html#minizemax.core.ray.Ray.propagate">propagate() (minizemax.core.ray.Ray method)</a>
+</li>
+      <li><a href="engine.html#minizemax.engine.source.pupil_grid">pupil_grid() (in module minizemax.engine.source)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="R">R</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="core.html#minizemax.core.transform.Transform.R">R (minizemax.core.transform.Transform attribute)</a>
+</li>
+      <li><a href="system.html#minizemax.system.lens_data.SurfaceRow.radius">radius (minizemax.system.lens_data.SurfaceRow attribute)</a>
+</li>
+      <li><a href="core.html#minizemax.core.ray.Ray">Ray (class in minizemax.core.ray)</a>
+</li>
+      <li><a href="analysis.html#minizemax.analysis.spot.ray_fan">ray_fan() (in module minizemax.analysis.spot)</a>
+</li>
+      <li><a href="core.html#minizemax.core.bundle.RayBundle">RayBundle (class in minizemax.core.bundle)</a>
+</li>
+      <li><a href="system.html#minizemax.system.lens_data.LensData.real_rows">real_rows() (minizemax.system.lens_data.LensData method)</a>
+</li>
+      <li><a href="engine.html#minizemax.engine.tracer.SequentialTracer.record_history">record_history (minizemax.engine.tracer.SequentialTracer attribute)</a>
+</li>
+      <li><a href="core.html#minizemax.core.physics.reflect_vector">reflect_vector() (in module minizemax.core.physics)</a>
+</li>
+      <li><a href="system.html#minizemax.system.lens_data.SurfaceRow.reflective">reflective (minizemax.system.lens_data.SurfaceRow attribute)</a>
+</li>
+      <li><a href="engine.html#minizemax.engine.tracer.Detector.register">register() (minizemax.engine.tracer.Detector method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="optim.html#minizemax.optim.merit.MeritFunction.residuals">residuals() (minizemax.optim.merit.MeritFunction method)</a>
+</li>
+      <li><a href="system.html#minizemax.system.system_data.Sampling.rings">rings (minizemax.system.system_data.Sampling attribute)</a>
+</li>
+      <li><a href="system.html#minizemax.system.validation.Issue.row">row (minizemax.system.validation.Issue attribute)</a>
+</li>
+      <li><a href="system.html#minizemax.system.lens_data.LensData.rows">rows (minizemax.system.lens_data.LensData attribute)</a>
+</li>
+      <li><a href="components.html#minizemax.components.aperture.ApertureStop.rows">rows() (minizemax.components.aperture.ApertureStop method)</a>
+
+      <ul>
+        <li><a href="components.html#minizemax.components.base.OpticalComponent.rows">(minizemax.components.base.OpticalComponent method)</a>
+</li>
+        <li><a href="components.html#minizemax.components.detector.DetectorScreen.rows">(minizemax.components.detector.DetectorScreen method)</a>
+</li>
+        <li><a href="components.html#minizemax.components.lens.SphericalLens.rows">(minizemax.components.lens.SphericalLens method)</a>
+</li>
+        <li><a href="components.html#minizemax.components.mirror.SphericalMirror.rows">(minizemax.components.mirror.SphericalMirror method)</a>
+</li>
+        <li><a href="components.html#minizemax.components.plate.PlaneParallelPlate.rows">(minizemax.components.plate.PlaneParallelPlate method)</a>
+</li>
+      </ul></li>
+      <li><a href="optim.html#minizemax.optim.dls.DLSOptimizer.run">run() (minizemax.optim.dls.DLSOptimizer method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="S">S</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="analysis.html#minizemax.analysis.seidel.SeidelSums.S1">S1 (minizemax.analysis.seidel.SeidelSums attribute)</a>
+</li>
+      <li><a href="analysis.html#minizemax.analysis.seidel.SeidelSums.S2">S2 (minizemax.analysis.seidel.SeidelSums attribute)</a>
+</li>
+      <li><a href="analysis.html#minizemax.analysis.seidel.SeidelSums.S3">S3 (minizemax.analysis.seidel.SeidelSums attribute)</a>
+</li>
+      <li><a href="analysis.html#minizemax.analysis.seidel.SeidelSums.S4">S4 (minizemax.analysis.seidel.SeidelSums attribute)</a>
+</li>
+      <li><a href="analysis.html#minizemax.analysis.seidel.SeidelSums.S5">S5 (minizemax.analysis.seidel.SeidelSums attribute)</a>
+</li>
+      <li><a href="core.html#minizemax.core.surfaces.OpticalSurface.sag">sag() (minizemax.core.surfaces.OpticalSurface method)</a>
+
+      <ul>
+        <li><a href="core.html#minizemax.core.surfaces.SphericalSurface.sag">(minizemax.core.surfaces.SphericalSurface method)</a>
+</li>
+      </ul></li>
+      <li><a href="system.html#minizemax.system.system_data.Sampling">Sampling (class in minizemax.system.system_data)</a>
+</li>
+      <li><a href="system.html#minizemax.system.system_data.SystemData.sampling">sampling (minizemax.system.system_data.SystemData attribute)</a>
+</li>
+      <li><a href="system.html#minizemax.system.prescription.Prescription.save">save() (minizemax.system.prescription.Prescription method)</a>
+</li>
+      <li><a href="analysis.html#minizemax.analysis.scene3d.Scene.scale">scale (minizemax.analysis.scene3d.Scene attribute)</a>
+</li>
+      <li><a href="analysis.html#minizemax.analysis.scene3d.Scene">Scene (class in minizemax.analysis.scene3d)</a>
+</li>
+      <li><a href="analysis.html#minizemax.analysis.seidel.seidel_sums">seidel_sums() (in module minizemax.analysis.seidel)</a>
+</li>
+      <li><a href="analysis.html#minizemax.analysis.seidel.SeidelSums">SeidelSums (class in minizemax.analysis.seidel)</a>
+</li>
+      <li><a href="core.html#minizemax.core.materials.SellmeierGlass">SellmeierGlass (class in minizemax.core.materials)</a>
+</li>
+      <li><a href="system.html#minizemax.system.lens_data.SurfaceRow.semi_dia">semi_dia (minizemax.system.lens_data.SurfaceRow attribute)</a>
+</li>
+      <li><a href="engine.html#minizemax.engine.tracer.SequentialTracer">SequentialTracer (class in minizemax.engine.tracer)</a>
+</li>
+      <li><a href="optim.html#minizemax.optim.merit.MeritFunction.set_x">set_x() (minizemax.optim.merit.MeritFunction method)</a>
+</li>
+      <li><a href="core.html#minizemax.core.physics.snell_vector">snell_vector() (in module minizemax.core.physics)</a>
+</li>
+      <li><a href="components.html#minizemax.components.lens.SphericalLens">SphericalLens (class in minizemax.components.lens)</a>
+</li>
+      <li><a href="components.html#minizemax.components.mirror.SphericalMirror">SphericalMirror (class in minizemax.components.mirror)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="core.html#minizemax.core.surfaces.SphericalSurface">SphericalSurface (class in minizemax.core.surfaces)</a>
+</li>
+      <li><a href="analysis.html#minizemax.analysis.spot.spot_stats">spot_stats() (in module minizemax.analysis.spot)</a>
+</li>
+      <li><a href="core.html#minizemax.core.bundle.RayBundle.status">status (minizemax.core.bundle.RayBundle attribute)</a>
+</li>
+      <li><a href="system.html#minizemax.system.lens_data.SurfaceRow.stop">stop (minizemax.system.lens_data.SurfaceRow attribute)</a>
+</li>
+      <li><a href="system.html#minizemax.system.lens_data.BuiltSystem.stop_idx">stop_idx (minizemax.system.lens_data.BuiltSystem attribute)</a>
+</li>
+      <li><a href="engine.html#minizemax.engine.tracer.TraceResult.stop_point">stop_point (minizemax.engine.tracer.TraceResult attribute)</a>
+</li>
+      <li><a href="engine.html#minizemax.engine.tracer.TraceResult.stop_surf">stop_surf (minizemax.engine.tracer.TraceResult attribute)</a>
+</li>
+      <li><a href="system.html#minizemax.system.lens_data.SurfaceRow.surf">surf (minizemax.system.lens_data.SurfaceRow attribute)</a>
+</li>
+      <li><a href="system.html#minizemax.system.lens_data.SurfaceRow">SurfaceRow (class in minizemax.system.lens_data)</a>
+</li>
+      <li><a href="engine.html#minizemax.engine.tracer.SequentialTracer.surfaces">surfaces (minizemax.engine.tracer.SequentialTracer attribute)</a>
+
+      <ul>
+        <li><a href="system.html#minizemax.system.lens_data.BuiltSystem.surfaces">(minizemax.system.lens_data.BuiltSystem attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="components.html#minizemax.components.aperture.ApertureStop.surfaces">surfaces() (minizemax.components.aperture.ApertureStop method)</a>
+
+      <ul>
+        <li><a href="components.html#minizemax.components.base.OpticalComponent.surfaces">(minizemax.components.base.OpticalComponent method)</a>
+</li>
+        <li><a href="components.html#minizemax.components.detector.DetectorScreen.surfaces">(minizemax.components.detector.DetectorScreen method)</a>
+</li>
+        <li><a href="components.html#minizemax.components.lens.SphericalLens.surfaces">(minizemax.components.lens.SphericalLens method)</a>
+</li>
+        <li><a href="components.html#minizemax.components.mirror.SphericalMirror.surfaces">(minizemax.components.mirror.SphericalMirror method)</a>
+</li>
+        <li><a href="components.html#minizemax.components.plate.PlaneParallelPlate.surfaces">(minizemax.components.plate.PlaneParallelPlate method)</a>
+</li>
+      </ul></li>
+      <li><a href="system.html#minizemax.system.lens_data.BuiltSystem.sysdata">sysdata (minizemax.system.lens_data.BuiltSystem attribute)</a>
+
+      <ul>
+        <li><a href="system.html#minizemax.system.prescription.Prescription.sysdata">(minizemax.system.prescription.Prescription attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="analysis.html#minizemax.analysis.report.system_report">system_report() (in module minizemax.analysis.report)</a>
+</li>
+      <li><a href="system.html#minizemax.system.system_data.SystemData">SystemData (class in minizemax.system.system_data)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="T">T</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="core.html#minizemax.core.surfaces.Hit.t">t (minizemax.core.surfaces.Hit attribute)</a>
+
+      <ul>
+        <li><a href="core.html#minizemax.core.transform.Transform.t">(minizemax.core.transform.Transform attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="optim.html#minizemax.optim.merit.Operand.target">target (minizemax.optim.merit.Operand attribute)</a>
+</li>
+      <li><a href="system.html#minizemax.system.lens_data.SurfaceRow.thickness">thickness (minizemax.system.lens_data.SurfaceRow attribute)</a>
+</li>
+      <li><a href="engine.html#minizemax.engine.tracer.TraceResult.time_s">time_s (minizemax.engine.tracer.TraceResult attribute)</a>
+</li>
+      <li><a href="analysis.html#minizemax.analysis.scene3d.to_gl">to_gl() (in module minizemax.analysis.scene3d)</a>
+</li>
+      <li><a href="core.html#minizemax.core.transform.Transform.to_global">to_global() (minizemax.core.transform.Transform method)</a>
+</li>
+      <li><a href="core.html#minizemax.core.transform.Transform.to_global_dir">to_global_dir() (minizemax.core.transform.Transform method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="core.html#minizemax.core.transform.Transform.to_local">to_local() (minizemax.core.transform.Transform method)</a>
+</li>
+      <li><a href="core.html#minizemax.core.transform.Transform.to_local_dir">to_local_dir() (minizemax.core.transform.Transform method)</a>
+</li>
+      <li><a href="engine.html#minizemax.engine.tracer.SequentialTracer.trace">trace() (minizemax.engine.tracer.SequentialTracer method)</a>
+</li>
+      <li><a href="engine.html#minizemax.engine.tracer.trace_field">trace_field() (in module minizemax.engine.tracer)</a>
+</li>
+      <li><a href="engine.html#minizemax.engine.tracer.TraceResult">TraceResult (class in minizemax.engine.tracer)</a>
+</li>
+      <li><a href="core.html#minizemax.core.transform.Transform">Transform (class in minizemax.core.transform)</a>
+</li>
+      <li><a href="core.html#minizemax.core.transform.Transform.translation">translation() (minizemax.core.transform.Transform class method)</a>
+</li>
+      <li><a href="system.html#minizemax.system.system_data.ApertureDef.type">type (minizemax.system.system_data.ApertureDef attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="U">U</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="system.html#minizemax.system.paraxial.ParaxRay.u_a">u_a (minizemax.system.paraxial.ParaxRay attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="system.html#minizemax.system.paraxial.ParaxRay.u_b">u_b (minizemax.system.paraxial.ParaxRay attribute)</a>
+</li>
+      <li><a href="system.html#minizemax.system.system_data.Wavelength.um">um (minizemax.system.system_data.Wavelength attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="V">V</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="core.html#minizemax.core.surfaces.Hit.valid">valid (minizemax.core.surfaces.Hit attribute)</a>
+</li>
+      <li><a href="core.html#minizemax.core.materials.ConstantMaterial.value">value (minizemax.core.materials.ConstantMaterial attribute)</a>
+
+      <ul>
+        <li><a href="system.html#minizemax.system.system_data.ApertureDef.value">(minizemax.system.system_data.ApertureDef attribute)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="system.html#minizemax.system.lens_data.SurfaceRow.variables">variables (minizemax.system.lens_data.SurfaceRow attribute)</a>
+</li>
+      <li><a href="analysis.html#minizemax.analysis.scene3d.MeshData.verts">verts (minizemax.analysis.scene3d.MeshData attribute)</a>
+</li>
+      <li><a href="cli.html#minizemax.cli.view3d">view3d() (in module minizemax.cli)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="W">W</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="analysis.html#minizemax.analysis.wavefront.wavefront_stats">wavefront_stats() (in module minizemax.analysis.wavefront)</a>
+</li>
+      <li><a href="system.html#minizemax.system.system_data.Wavelength">Wavelength (class in minizemax.system.system_data)</a>
+</li>
+      <li><a href="core.html#minizemax.core.bundle.RayBundle.wavelength">wavelength (minizemax.core.bundle.RayBundle attribute)</a>
+
+      <ul>
+        <li><a href="core.html#minizemax.core.ray.Ray.wavelength">(minizemax.core.ray.Ray attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="system.html#minizemax.system.system_data.SystemData.wavelengths">wavelengths (minizemax.system.system_data.SystemData attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="optim.html#minizemax.optim.merit.Operand.weight">weight (minizemax.optim.merit.Operand attribute)</a>
+
+      <ul>
+        <li><a href="system.html#minizemax.system.system_data.Field.weight">(minizemax.system.system_data.Field attribute)</a>
+</li>
+        <li><a href="system.html#minizemax.system.system_data.Wavelength.weight">(minizemax.system.system_data.Wavelength attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="engine.html#minizemax.engine.tracer.DetectorHits.wl">wl (minizemax.engine.tracer.DetectorHits attribute)</a>
+
+      <ul>
+        <li><a href="optim.html#minizemax.optim.merit.Operand.wl">(minizemax.optim.merit.Operand attribute)</a>
+</li>
+        <li><a href="system.html#minizemax.system.paraxial.ParaxialData.wl">(minizemax.system.paraxial.ParaxialData attribute)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="X">X</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="engine.html#minizemax.engine.tracer.DetectorHits.x">x (minizemax.engine.tracer.DetectorHits attribute)</a>
+
+      <ul>
+        <li><a href="optim.html#minizemax.optim.dls.OptResult.x">(minizemax.optim.dls.OptResult attribute)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="optim.html#minizemax.optim.merit.MeritFunction.x0">x0() (minizemax.optim.merit.MeritFunction method)</a>
+</li>
+      <li><a href="system.html#minizemax.system.paraxial.ParaxialData.xp_r">xp_r (minizemax.system.paraxial.ParaxialData attribute)</a>
+</li>
+      <li><a href="system.html#minizemax.system.paraxial.ParaxialData.xp_z">xp_z (minizemax.system.paraxial.ParaxialData attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="Y">Y</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="engine.html#minizemax.engine.tracer.DetectorHits.y">y (minizemax.engine.tracer.DetectorHits attribute)</a>
+
+      <ul>
+        <li><a href="system.html#minizemax.system.paraxial.ParaxRay.y">(minizemax.system.paraxial.ParaxRay attribute)</a>
+</li>
+        <li><a href="system.html#minizemax.system.system_data.Field.y">(minizemax.system.system_data.Field attribute)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="Z">Z</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="core.html#minizemax.core.surfaces.OpticalSurface.z">z (minizemax.core.surfaces.OpticalSurface property)</a>
+
+      <ul>
+        <li><a href="engine.html#minizemax.engine.tracer.Detector.z">(minizemax.engine.tracer.Detector attribute)</a>
+</li>
+        <li><a href="system.html#minizemax.system.paraxial.ParaxialData.z">(minizemax.system.paraxial.ParaxialData attribute)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright .</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

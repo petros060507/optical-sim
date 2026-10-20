@@ -110,5 +110,13 @@ def losses(path: str):
     typer.echo(loss_table(Prescription.load(path)))
 
 
+
+@app.command()
+def gpuprobe():
+    """Что даёт железо: GL version/profile, Vulkan device, RT-расширения, Kompute."""
+    from minizemax.gpu.probe import report
+    typer.echo(report())
+
+
 if __name__ == "__main__":
     app()

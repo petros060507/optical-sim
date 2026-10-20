@@ -44,7 +44,14 @@ def build_system(sysdata, lens) -> BuiltSystem:
     z = 0.0
     stop_idx = None
     for i, row in enumerate(lens.real_rows()):
-        mat_after = mat_prev if row.reflective else (glass(row.glass) if row.glass else AIR)
+        from minizemax.core.materials import Material
+        if row.reflective:
+            mat_after = mat_prev
+        elif row.glass is not None and hasattr(row.glass, 'n'):
+            # Это уже Material-объект (ConstantMaterial, Sellmeier и т.п.)
+            mat_after = row.glass
+        else:
+            mat_after = glass(row.glass) if row.glass else AIR
         tr = Transform.translation(z)
         if np.isfinite(row.radius):
             s = SphericalSurface(tr, mat_prev, mat_after, row.semi_dia, row.radius,

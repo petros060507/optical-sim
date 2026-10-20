@@ -1,0 +1,610 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Пакет minizemax.system &mdash; mini-Zemax 0.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=938c9ccc"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Пакет minizemax.engine" href="engine.html" />
+    <link rel="prev" title="Пакет minizemax.core" href="core.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            mini-Zemax
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Содержание</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Архитектура и связи модулей</a></li>
+<li class="toctree-l1"><a class="reference internal" href="math.html">Математический аппарат (с привязкой к коду)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="core.html">Пакет <code class="docutils literal notranslate"><span class="pre">minizemax.core</span></code></a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Пакет <code class="docutils literal notranslate"><span class="pre">minizemax.system</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#minizemax.system.system_data.Wavelength"><code class="docutils literal notranslate"><span class="pre">Wavelength</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.system.system_data.Wavelength.um"><code class="docutils literal notranslate"><span class="pre">Wavelength.um</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.system.system_data.Wavelength.weight"><code class="docutils literal notranslate"><span class="pre">Wavelength.weight</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.system.system_data.Wavelength.primary"><code class="docutils literal notranslate"><span class="pre">Wavelength.primary</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#minizemax.system.system_data.Field"><code class="docutils literal notranslate"><span class="pre">Field</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.system.system_data.Field.y"><code class="docutils literal notranslate"><span class="pre">Field.y</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.system.system_data.Field.weight"><code class="docutils literal notranslate"><span class="pre">Field.weight</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#minizemax.system.system_data.ApertureDef"><code class="docutils literal notranslate"><span class="pre">ApertureDef</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.system.system_data.ApertureDef.type"><code class="docutils literal notranslate"><span class="pre">ApertureDef.type</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.system.system_data.ApertureDef.value"><code class="docutils literal notranslate"><span class="pre">ApertureDef.value</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#minizemax.system.system_data.Sampling"><code class="docutils literal notranslate"><span class="pre">Sampling</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.system.system_data.Sampling.kind"><code class="docutils literal notranslate"><span class="pre">Sampling.kind</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.system.system_data.Sampling.rings"><code class="docutils literal notranslate"><span class="pre">Sampling.rings</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#minizemax.system.system_data.SystemData"><code class="docutils literal notranslate"><span class="pre">SystemData</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.system.system_data.SystemData.aperture"><code class="docutils literal notranslate"><span class="pre">SystemData.aperture</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.system.system_data.SystemData.wavelengths"><code class="docutils literal notranslate"><span class="pre">SystemData.wavelengths</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.system.system_data.SystemData.fields"><code class="docutils literal notranslate"><span class="pre">SystemData.fields</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.system.system_data.SystemData.sampling"><code class="docutils literal notranslate"><span class="pre">SystemData.sampling</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.system.system_data.SystemData.primary_wl"><code class="docutils literal notranslate"><span class="pre">SystemData.primary_wl</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#minizemax.system.lens_data.SurfaceRow"><code class="docutils literal notranslate"><span class="pre">SurfaceRow</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.system.lens_data.SurfaceRow.surf"><code class="docutils literal notranslate"><span class="pre">SurfaceRow.surf</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.system.lens_data.SurfaceRow.radius"><code class="docutils literal notranslate"><span class="pre">SurfaceRow.radius</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.system.lens_data.SurfaceRow.thickness"><code class="docutils literal notranslate"><span class="pre">SurfaceRow.thickness</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.system.lens_data.SurfaceRow.glass"><code class="docutils literal notranslate"><span class="pre">SurfaceRow.glass</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.system.lens_data.SurfaceRow.semi_dia"><code class="docutils literal notranslate"><span class="pre">SurfaceRow.semi_dia</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.system.lens_data.SurfaceRow.conic"><code class="docutils literal notranslate"><span class="pre">SurfaceRow.conic</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.system.lens_data.SurfaceRow.stop"><code class="docutils literal notranslate"><span class="pre">SurfaceRow.stop</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.system.lens_data.SurfaceRow.reflective"><code class="docutils literal notranslate"><span class="pre">SurfaceRow.reflective</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.system.lens_data.SurfaceRow.variables"><code class="docutils literal notranslate"><span class="pre">SurfaceRow.variables</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.system.lens_data.SurfaceRow.comment"><code class="docutils literal notranslate"><span class="pre">SurfaceRow.comment</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#minizemax.system.lens_data.LensData"><code class="docutils literal notranslate"><span class="pre">LensData</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.system.lens_data.LensData.rows"><code class="docutils literal notranslate"><span class="pre">LensData.rows</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.system.lens_data.LensData.real_rows"><code class="docutils literal notranslate"><span class="pre">LensData.real_rows()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#minizemax.system.lens_data.BuiltSystem"><code class="docutils literal notranslate"><span class="pre">BuiltSystem</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.system.lens_data.BuiltSystem.surfaces"><code class="docutils literal notranslate"><span class="pre">BuiltSystem.surfaces</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.system.lens_data.BuiltSystem.detector_z"><code class="docutils literal notranslate"><span class="pre">BuiltSystem.detector_z</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.system.lens_data.BuiltSystem.stop_idx"><code class="docutils literal notranslate"><span class="pre">BuiltSystem.stop_idx</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.system.lens_data.BuiltSystem.sysdata"><code class="docutils literal notranslate"><span class="pre">BuiltSystem.sysdata</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.system.lens_data.BuiltSystem.lens"><code class="docutils literal notranslate"><span class="pre">BuiltSystem.lens</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#minizemax.system.lens_data.build_system"><code class="docutils literal notranslate"><span class="pre">build_system()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#minizemax.system.lens_data.auto_comments"><code class="docutils literal notranslate"><span class="pre">auto_comments()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#minizemax.system.prescription.Prescription"><code class="docutils literal notranslate"><span class="pre">Prescription</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.system.prescription.Prescription.sysdata"><code class="docutils literal notranslate"><span class="pre">Prescription.sysdata</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.system.prescription.Prescription.lens"><code class="docutils literal notranslate"><span class="pre">Prescription.lens</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.system.prescription.Prescription.from_yaml"><code class="docutils literal notranslate"><span class="pre">Prescription.from_yaml()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.system.prescription.Prescription.load"><code class="docutils literal notranslate"><span class="pre">Prescription.load()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.system.prescription.Prescription.save"><code class="docutils literal notranslate"><span class="pre">Prescription.save()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.system.prescription.Prescription.build"><code class="docutils literal notranslate"><span class="pre">Prescription.build()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#minizemax.system.paraxial.ParaxRay"><code class="docutils literal notranslate"><span class="pre">ParaxRay</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.system.paraxial.ParaxRay.y"><code class="docutils literal notranslate"><span class="pre">ParaxRay.y</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.system.paraxial.ParaxRay.u_b"><code class="docutils literal notranslate"><span class="pre">ParaxRay.u_b</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.system.paraxial.ParaxRay.u_a"><code class="docutils literal notranslate"><span class="pre">ParaxRay.u_a</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.system.paraxial.ParaxRay.n1"><code class="docutils literal notranslate"><span class="pre">ParaxRay.n1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.system.paraxial.ParaxRay.n2"><code class="docutils literal notranslate"><span class="pre">ParaxRay.n2</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#minizemax.system.paraxial.ParaxialData"><code class="docutils literal notranslate"><span class="pre">ParaxialData</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.system.paraxial.ParaxialData.wl"><code class="docutils literal notranslate"><span class="pre">ParaxialData.wl</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.system.paraxial.ParaxialData.efl"><code class="docutils literal notranslate"><span class="pre">ParaxialData.efl</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.system.paraxial.ParaxialData.bfl"><code class="docutils literal notranslate"><span class="pre">ParaxialData.bfl</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.system.paraxial.ParaxialData.fno"><code class="docutils literal notranslate"><span class="pre">ParaxialData.fno</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.system.paraxial.ParaxialData.ep_z"><code class="docutils literal notranslate"><span class="pre">ParaxialData.ep_z</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.system.paraxial.ParaxialData.ep_r"><code class="docutils literal notranslate"><span class="pre">ParaxialData.ep_r</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.system.paraxial.ParaxialData.xp_z"><code class="docutils literal notranslate"><span class="pre">ParaxialData.xp_z</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.system.paraxial.ParaxialData.xp_r"><code class="docutils literal notranslate"><span class="pre">ParaxialData.xp_r</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.system.paraxial.ParaxialData.img_z"><code class="docutils literal notranslate"><span class="pre">ParaxialData.img_z</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.system.paraxial.ParaxialData.img_h"><code class="docutils literal notranslate"><span class="pre">ParaxialData.img_h</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.system.paraxial.ParaxialData.curv"><code class="docutils literal notranslate"><span class="pre">ParaxialData.curv</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.system.paraxial.ParaxialData.z"><code class="docutils literal notranslate"><span class="pre">ParaxialData.z</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.system.paraxial.ParaxialData.marg"><code class="docutils literal notranslate"><span class="pre">ParaxialData.marg</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.system.paraxial.ParaxialData.chief"><code class="docutils literal notranslate"><span class="pre">ParaxialData.chief</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#minizemax.system.paraxial.paraxial_trace"><code class="docutils literal notranslate"><span class="pre">paraxial_trace()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#minizemax.system.validation.Issue"><code class="docutils literal notranslate"><span class="pre">Issue</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.system.validation.Issue.row"><code class="docutils literal notranslate"><span class="pre">Issue.row</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minizemax.system.validation.Issue.msg"><code class="docutils literal notranslate"><span class="pre">Issue.msg</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#minizemax.system.validation.check_prescription"><code class="docutils literal notranslate"><span class="pre">check_prescription()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="engine.html">Пакет <code class="docutils literal notranslate"><span class="pre">minizemax.engine</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="analysis.html">Пакет <code class="docutils literal notranslate"><span class="pre">minizemax.analysis</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="optim.html">Пакет <code class="docutils literal notranslate"><span class="pre">minizemax.optim</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="components.html">Пакет <code class="docutils literal notranslate"><span class="pre">minizemax.components</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="ui.html">Пакет <code class="docutils literal notranslate"><span class="pre">minizemax.ui</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">CLI, примеры и скрипты</a></li>
+<li class="toctree-l1"><a class="reference internal" href="devguide.html">Руководство разработчика</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">mini-Zemax</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Пакет <code class="docutils literal notranslate"><span class="pre">minizemax.system</span></code></li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/system.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="minizemax-system">
+<h1>Пакет <code class="docutils literal notranslate"><span class="pre">minizemax.system</span></code><a class="headerlink" href="#minizemax-system" title="Link to this heading"></a></h1>
+<p>Модель системы: YAML-рецепт -&gt; LDE-строки -&gt; BuiltSystem.
+Параксиал: <a class="reference internal" href="math.html#equation-paraxial">(4)</a>, <a class="reference internal" href="math.html#equation-lensmaker">(5)</a>; валидатор ловит перекрытия поверхностей.</p>
+<p id="module-minizemax.system.system_data">SystemData: апертура, длины волн, поля, семплирование (mutable для UI).</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="minizemax.system.system_data.Wavelength">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">minizemax.system.system_data.</span></span><span class="sig-name descname"><span class="pre">Wavelength</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">um</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'float'</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'float'</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">primary</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'bool'</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/minizemax/system/system_data.html#Wavelength"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.system.system_data.Wavelength" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.system.system_data.Wavelength.um">
+<span class="sig-name descname"><span class="pre">um</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><span class="pre">float</span></a></span><a class="headerlink" href="#minizemax.system.system_data.Wavelength.um" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.system.system_data.Wavelength.weight">
+<span class="sig-name descname"><span class="pre">weight</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><span class="pre">float</span></a></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1.0</span></span><a class="headerlink" href="#minizemax.system.system_data.Wavelength.weight" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.system.system_data.Wavelength.primary">
+<span class="sig-name descname"><span class="pre">primary</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#bool" title="(in Python v3.15)"><span class="pre">bool</span></a></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></span><a class="headerlink" href="#minizemax.system.system_data.Wavelength.primary" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="minizemax.system.system_data.Field">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">minizemax.system.system_data.</span></span><span class="sig-name descname"><span class="pre">Field</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'float'</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'float'</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/minizemax/system/system_data.html#Field"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.system.system_data.Field" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.system.system_data.Field.y">
+<span class="sig-name descname"><span class="pre">y</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><span class="pre">float</span></a></span><a class="headerlink" href="#minizemax.system.system_data.Field.y" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.system.system_data.Field.weight">
+<span class="sig-name descname"><span class="pre">weight</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><span class="pre">float</span></a></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1.0</span></span><a class="headerlink" href="#minizemax.system.system_data.Field.weight" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="minizemax.system.system_data.ApertureDef">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">minizemax.system.system_data.</span></span><span class="sig-name descname"><span class="pre">ApertureDef</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'str'</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'float'</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/minizemax/system/system_data.html#ApertureDef"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.system.system_data.ApertureDef" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.system.system_data.ApertureDef.type">
+<span class="sig-name descname"><span class="pre">type</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><span class="pre">str</span></a></span><a class="headerlink" href="#minizemax.system.system_data.ApertureDef.type" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.system.system_data.ApertureDef.value">
+<span class="sig-name descname"><span class="pre">value</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><span class="pre">float</span></a></span><a class="headerlink" href="#minizemax.system.system_data.ApertureDef.value" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="minizemax.system.system_data.Sampling">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">minizemax.system.system_data.</span></span><span class="sig-name descname"><span class="pre">Sampling</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kind</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'str'</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'hexapolar'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'int'</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/minizemax/system/system_data.html#Sampling"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.system.system_data.Sampling" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.system.system_data.Sampling.kind">
+<span class="sig-name descname"><span class="pre">kind</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><span class="pre">str</span></a></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'hexapolar'</span></span><a class="headerlink" href="#minizemax.system.system_data.Sampling.kind" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.system.system_data.Sampling.rings">
+<span class="sig-name descname"><span class="pre">rings</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.15)"><span class="pre">int</span></a></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></span><a class="headerlink" href="#minizemax.system.system_data.Sampling.rings" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="minizemax.system.system_data.SystemData">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">minizemax.system.system_data.</span></span><span class="sig-name descname"><span class="pre">SystemData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">aperture</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'ApertureDef'</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wavelengths</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'list'</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fields</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'list'</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sampling</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'Sampling'</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/minizemax/system/system_data.html#SystemData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.system.system_data.SystemData" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.system.system_data.SystemData.aperture">
+<span class="sig-name descname"><span class="pre">aperture</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#minizemax.system.system_data.ApertureDef" title="minizemax.system.system_data.ApertureDef"><span class="pre">ApertureDef</span></a></span><a class="headerlink" href="#minizemax.system.system_data.SystemData.aperture" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.system.system_data.SystemData.wavelengths">
+<span class="sig-name descname"><span class="pre">wavelengths</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.15)"><span class="pre">list</span></a></span><a class="headerlink" href="#minizemax.system.system_data.SystemData.wavelengths" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.system.system_data.SystemData.fields">
+<span class="sig-name descname"><span class="pre">fields</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.15)"><span class="pre">list</span></a></span><a class="headerlink" href="#minizemax.system.system_data.SystemData.fields" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.system.system_data.SystemData.sampling">
+<span class="sig-name descname"><span class="pre">sampling</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#minizemax.system.system_data.Sampling" title="minizemax.system.system_data.Sampling"><span class="pre">Sampling</span></a></span><a class="headerlink" href="#minizemax.system.system_data.SystemData.sampling" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="minizemax.system.system_data.SystemData.primary_wl">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">primary_wl</span></span><a class="headerlink" href="#minizemax.system.system_data.SystemData.primary_wl" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<p id="module-minizemax.system.lens_data">LDE: строки поверхностей + сборка BuiltSystem.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="minizemax.system.lens_data.SurfaceRow">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">minizemax.system.lens_data.</span></span><span class="sig-name descname"><span class="pre">SurfaceRow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">surf</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'str'</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radius</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'float'</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">inf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">thickness</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'float'</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">glass</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'str</span> <span class="pre">|</span> <span class="pre">None'</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">semi_dia</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'float'</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conic</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'float'</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stop</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'bool'</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reflective</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'bool'</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variables</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'list'</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comment</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'str'</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/minizemax/system/lens_data.html#SurfaceRow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.system.lens_data.SurfaceRow" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.system.lens_data.SurfaceRow.surf">
+<span class="sig-name descname"><span class="pre">surf</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><span class="pre">str</span></a></span><a class="headerlink" href="#minizemax.system.lens_data.SurfaceRow.surf" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.system.lens_data.SurfaceRow.radius">
+<span class="sig-name descname"><span class="pre">radius</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><span class="pre">float</span></a></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">inf</span></span><a class="headerlink" href="#minizemax.system.lens_data.SurfaceRow.radius" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.system.lens_data.SurfaceRow.thickness">
+<span class="sig-name descname"><span class="pre">thickness</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><span class="pre">float</span></a></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.0</span></span><a class="headerlink" href="#minizemax.system.lens_data.SurfaceRow.thickness" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.system.lens_data.SurfaceRow.glass">
+<span class="sig-name descname"><span class="pre">glass</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.15)"><span class="pre">None</span></a></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#minizemax.system.lens_data.SurfaceRow.glass" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.system.lens_data.SurfaceRow.semi_dia">
+<span class="sig-name descname"><span class="pre">semi_dia</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><span class="pre">float</span></a></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">10.0</span></span><a class="headerlink" href="#minizemax.system.lens_data.SurfaceRow.semi_dia" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.system.lens_data.SurfaceRow.conic">
+<span class="sig-name descname"><span class="pre">conic</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><span class="pre">float</span></a></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.0</span></span><a class="headerlink" href="#minizemax.system.lens_data.SurfaceRow.conic" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.system.lens_data.SurfaceRow.stop">
+<span class="sig-name descname"><span class="pre">stop</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#bool" title="(in Python v3.15)"><span class="pre">bool</span></a></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></span><a class="headerlink" href="#minizemax.system.lens_data.SurfaceRow.stop" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.system.lens_data.SurfaceRow.reflective">
+<span class="sig-name descname"><span class="pre">reflective</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#bool" title="(in Python v3.15)"><span class="pre">bool</span></a></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></span><a class="headerlink" href="#minizemax.system.lens_data.SurfaceRow.reflective" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.system.lens_data.SurfaceRow.variables">
+<span class="sig-name descname"><span class="pre">variables</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.15)"><span class="pre">list</span></a></span><a class="headerlink" href="#minizemax.system.lens_data.SurfaceRow.variables" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.system.lens_data.SurfaceRow.comment">
+<span class="sig-name descname"><span class="pre">comment</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><span class="pre">str</span></a></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">''</span></span><a class="headerlink" href="#minizemax.system.lens_data.SurfaceRow.comment" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="minizemax.system.lens_data.LensData">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">minizemax.system.lens_data.</span></span><span class="sig-name descname"><span class="pre">LensData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rows</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'list'</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/minizemax/system/lens_data.html#LensData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.system.lens_data.LensData" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.system.lens_data.LensData.rows">
+<span class="sig-name descname"><span class="pre">rows</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.15)"><span class="pre">list</span></a></span><a class="headerlink" href="#minizemax.system.lens_data.LensData.rows" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="minizemax.system.lens_data.LensData.real_rows">
+<span class="sig-name descname"><span class="pre">real_rows</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/minizemax/system/lens_data.html#LensData.real_rows"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.system.lens_data.LensData.real_rows" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="minizemax.system.lens_data.BuiltSystem">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">minizemax.system.lens_data.</span></span><span class="sig-name descname"><span class="pre">BuiltSystem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">surfaces</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'list'</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detector_z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'float'</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stop_idx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'int'</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sysdata</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'object'</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lens</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">&quot;'LensData'&quot;</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/minizemax/system/lens_data.html#BuiltSystem"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.system.lens_data.BuiltSystem" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.system.lens_data.BuiltSystem.surfaces">
+<span class="sig-name descname"><span class="pre">surfaces</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.15)"><span class="pre">list</span></a></span><a class="headerlink" href="#minizemax.system.lens_data.BuiltSystem.surfaces" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.system.lens_data.BuiltSystem.detector_z">
+<span class="sig-name descname"><span class="pre">detector_z</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><span class="pre">float</span></a></span><a class="headerlink" href="#minizemax.system.lens_data.BuiltSystem.detector_z" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.system.lens_data.BuiltSystem.stop_idx">
+<span class="sig-name descname"><span class="pre">stop_idx</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.15)"><span class="pre">int</span></a></span><a class="headerlink" href="#minizemax.system.lens_data.BuiltSystem.stop_idx" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.system.lens_data.BuiltSystem.sysdata">
+<span class="sig-name descname"><span class="pre">sysdata</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.15)"><span class="pre">object</span></a></span><a class="headerlink" href="#minizemax.system.lens_data.BuiltSystem.sysdata" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.system.lens_data.BuiltSystem.lens">
+<span class="sig-name descname"><span class="pre">lens</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#minizemax.system.lens_data.LensData" title="minizemax.system.lens_data.LensData"><span class="pre">LensData</span></a></span><a class="headerlink" href="#minizemax.system.lens_data.BuiltSystem.lens" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="minizemax.system.lens_data.build_system">
+<span class="sig-prename descclassname"><span class="pre">minizemax.system.lens_data.</span></span><span class="sig-name descname"><span class="pre">build_system</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sysdata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lens</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#minizemax.system.lens_data.BuiltSystem" title="minizemax.system.lens_data.BuiltSystem"><span class="pre">BuiltSystem</span></a></span></span><a class="reference internal" href="_modules/minizemax/system/lens_data.html#build_system"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.system.lens_data.build_system" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="minizemax.system.lens_data.auto_comments">
+<span class="sig-prename descclassname"><span class="pre">minizemax.system.lens_data.</span></span><span class="sig-name descname"><span class="pre">auto_comments</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">real_rows</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.15)"><span class="pre">list</span></a></span></span><a class="reference internal" href="_modules/minizemax/system/lens_data.html#auto_comments"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.system.lens_data.auto_comments" title="Link to this definition"></a></dt>
+<dd><p>Авто-имена поверхностей: L1.front / L1.back / ‘L1.back L2.front’ (склейка),
+M1 для зеркал, ‘stop plate’ для отдельной диафрагмы, суффикс STOP.</p>
+</dd></dl>
+
+<p id="module-minizemax.system.prescription">Prescription: YAML load/save (аналог .ZMX).</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="minizemax.system.prescription.Prescription">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">minizemax.system.prescription.</span></span><span class="sig-name descname"><span class="pre">Prescription</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sysdata</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'SystemData'</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lens</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'LensData'</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/minizemax/system/prescription.html#Prescription"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.system.prescription.Prescription" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.system.prescription.Prescription.sysdata">
+<span class="sig-name descname"><span class="pre">sysdata</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#minizemax.system.system_data.SystemData" title="minizemax.system.system_data.SystemData"><span class="pre">SystemData</span></a></span><a class="headerlink" href="#minizemax.system.prescription.Prescription.sysdata" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.system.prescription.Prescription.lens">
+<span class="sig-name descname"><span class="pre">lens</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#minizemax.system.lens_data.LensData" title="minizemax.system.lens_data.LensData"><span class="pre">LensData</span></a></span><a class="headerlink" href="#minizemax.system.prescription.Prescription.lens" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="minizemax.system.prescription.Prescription.from_yaml">
+<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">from_yaml</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/minizemax/system/prescription.html#Prescription.from_yaml"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.system.prescription.Prescription.from_yaml" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="minizemax.system.prescription.Prescription.load">
+<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/minizemax/system/prescription.html#Prescription.load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.system.prescription.Prescription.load" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="minizemax.system.prescription.Prescription.save">
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/minizemax/system/prescription.html#Prescription.save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.system.prescription.Prescription.save" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="minizemax.system.prescription.Prescription.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/minizemax/system/prescription.html#Prescription.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.system.prescription.Prescription.build" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<p id="module-minizemax.system.paraxial">Параксиал y-nu: EFL, BFL, f/#, зрачки, маргинальный/chief, данные для Зейделя.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="minizemax.system.paraxial.ParaxRay">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">minizemax.system.paraxial.</span></span><span class="sig-name descname"><span class="pre">ParaxRay</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'np.ndarray'</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">u_b</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'np.ndarray'</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">u_a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'np.ndarray'</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'np.ndarray'</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'np.ndarray'</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/minizemax/system/paraxial.html#ParaxRay"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.system.paraxial.ParaxRay" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.system.paraxial.ParaxRay.y">
+<span class="sig-name descname"><span class="pre">y</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.5)"><span class="pre">ndarray</span></a></span><a class="headerlink" href="#minizemax.system.paraxial.ParaxRay.y" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.system.paraxial.ParaxRay.u_b">
+<span class="sig-name descname"><span class="pre">u_b</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.5)"><span class="pre">ndarray</span></a></span><a class="headerlink" href="#minizemax.system.paraxial.ParaxRay.u_b" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.system.paraxial.ParaxRay.u_a">
+<span class="sig-name descname"><span class="pre">u_a</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.5)"><span class="pre">ndarray</span></a></span><a class="headerlink" href="#minizemax.system.paraxial.ParaxRay.u_a" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.system.paraxial.ParaxRay.n1">
+<span class="sig-name descname"><span class="pre">n1</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.5)"><span class="pre">ndarray</span></a></span><a class="headerlink" href="#minizemax.system.paraxial.ParaxRay.n1" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.system.paraxial.ParaxRay.n2">
+<span class="sig-name descname"><span class="pre">n2</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.5)"><span class="pre">ndarray</span></a></span><a class="headerlink" href="#minizemax.system.paraxial.ParaxRay.n2" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="minizemax.system.paraxial.ParaxialData">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">minizemax.system.paraxial.</span></span><span class="sig-name descname"><span class="pre">ParaxialData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wl</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'float'</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">efl</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'float'</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bfl</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'float'</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fno</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'float'</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ep_z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'float'</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ep_r</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'float'</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xp_z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'float'</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xp_r</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'float'</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">img_z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'float'</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">img_h</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'float'</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">curv</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'np.ndarray'</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'np.ndarray'</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">marg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'ParaxRay'</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chief</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'ParaxRay'</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/minizemax/system/paraxial.html#ParaxialData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.system.paraxial.ParaxialData" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.system.paraxial.ParaxialData.wl">
+<span class="sig-name descname"><span class="pre">wl</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><span class="pre">float</span></a></span><a class="headerlink" href="#minizemax.system.paraxial.ParaxialData.wl" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.system.paraxial.ParaxialData.efl">
+<span class="sig-name descname"><span class="pre">efl</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><span class="pre">float</span></a></span><a class="headerlink" href="#minizemax.system.paraxial.ParaxialData.efl" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.system.paraxial.ParaxialData.bfl">
+<span class="sig-name descname"><span class="pre">bfl</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><span class="pre">float</span></a></span><a class="headerlink" href="#minizemax.system.paraxial.ParaxialData.bfl" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.system.paraxial.ParaxialData.fno">
+<span class="sig-name descname"><span class="pre">fno</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><span class="pre">float</span></a></span><a class="headerlink" href="#minizemax.system.paraxial.ParaxialData.fno" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.system.paraxial.ParaxialData.ep_z">
+<span class="sig-name descname"><span class="pre">ep_z</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><span class="pre">float</span></a></span><a class="headerlink" href="#minizemax.system.paraxial.ParaxialData.ep_z" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.system.paraxial.ParaxialData.ep_r">
+<span class="sig-name descname"><span class="pre">ep_r</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><span class="pre">float</span></a></span><a class="headerlink" href="#minizemax.system.paraxial.ParaxialData.ep_r" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.system.paraxial.ParaxialData.xp_z">
+<span class="sig-name descname"><span class="pre">xp_z</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><span class="pre">float</span></a></span><a class="headerlink" href="#minizemax.system.paraxial.ParaxialData.xp_z" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.system.paraxial.ParaxialData.xp_r">
+<span class="sig-name descname"><span class="pre">xp_r</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><span class="pre">float</span></a></span><a class="headerlink" href="#minizemax.system.paraxial.ParaxialData.xp_r" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.system.paraxial.ParaxialData.img_z">
+<span class="sig-name descname"><span class="pre">img_z</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><span class="pre">float</span></a></span><a class="headerlink" href="#minizemax.system.paraxial.ParaxialData.img_z" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.system.paraxial.ParaxialData.img_h">
+<span class="sig-name descname"><span class="pre">img_h</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><span class="pre">float</span></a></span><a class="headerlink" href="#minizemax.system.paraxial.ParaxialData.img_h" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.system.paraxial.ParaxialData.curv">
+<span class="sig-name descname"><span class="pre">curv</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.5)"><span class="pre">ndarray</span></a></span><a class="headerlink" href="#minizemax.system.paraxial.ParaxialData.curv" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.system.paraxial.ParaxialData.z">
+<span class="sig-name descname"><span class="pre">z</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.5)"><span class="pre">ndarray</span></a></span><a class="headerlink" href="#minizemax.system.paraxial.ParaxialData.z" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.system.paraxial.ParaxialData.marg">
+<span class="sig-name descname"><span class="pre">marg</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#minizemax.system.paraxial.ParaxRay" title="minizemax.system.paraxial.ParaxRay"><span class="pre">ParaxRay</span></a></span><a class="headerlink" href="#minizemax.system.paraxial.ParaxialData.marg" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.system.paraxial.ParaxialData.chief">
+<span class="sig-name descname"><span class="pre">chief</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#minizemax.system.paraxial.ParaxRay" title="minizemax.system.paraxial.ParaxRay"><span class="pre">ParaxRay</span></a></span><a class="headerlink" href="#minizemax.system.paraxial.ParaxialData.chief" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="minizemax.system.paraxial.paraxial_trace">
+<span class="sig-prename descclassname"><span class="pre">minizemax.system.paraxial.</span></span><span class="sig-name descname"><span class="pre">paraxial_trace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">built</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wl</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field_deg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/minizemax/system/paraxial.html#paraxial_trace"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.system.paraxial.paraxial_trace" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<p id="module-minizemax.system.validation">Геометрическая валидация рецепта: перекрытия поверхностей, краевые толщины.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="minizemax.system.validation.Issue">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">minizemax.system.validation.</span></span><span class="sig-name descname"><span class="pre">Issue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">row</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'int'</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'str'</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/minizemax/system/validation.html#Issue"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.system.validation.Issue" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.system.validation.Issue.row">
+<span class="sig-name descname"><span class="pre">row</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.15)"><span class="pre">int</span></a></span><a class="headerlink" href="#minizemax.system.validation.Issue.row" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minizemax.system.validation.Issue.msg">
+<span class="sig-name descname"><span class="pre">msg</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><span class="pre">str</span></a></span><a class="headerlink" href="#minizemax.system.validation.Issue.msg" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="minizemax.system.validation.check_prescription">
+<span class="sig-prename descclassname"><span class="pre">minizemax.system.validation.</span></span><span class="sig-name descname"><span class="pre">check_prescription</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pres</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_t</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/minizemax/system/validation.html#check_prescription"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#minizemax.system.validation.check_prescription" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="core.html" class="btn btn-neutral float-left" title="Пакет minizemax.core" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="engine.html" class="btn btn-neutral float-right" title="Пакет minizemax.engine" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright .</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
