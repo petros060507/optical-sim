@@ -6,7 +6,7 @@ import os
 import re
 import ctypes
 import numpy as np
-from minizemax.ui.qt import (QOpenGLWidget, QSizePolicy, QSurfaceFormat, Qt,
+from minizemax.ui.qt import (QOpenGLWidget, QSizePolicy, QSurfaceFormat, Qt, Signal,
                             SP_EXPANDING, WA_OPAQUE, WA_NOSYSBG)
 from OpenGL import GL as gl
 
@@ -80,6 +80,8 @@ def _persp(fovy, aspect, near, far):
 
 
 class GLView3D(QOpenGLWidget):
+    objectMenuRequested = Signal(int, object)
+    PICK_PX = 40.0
     PAD_FACTOR = 1.5
     DIST_MIN_F = 0.05
     DIST_MAX_F = 25.0
@@ -232,6 +234,16 @@ class GLView3D(QOpenGLWidget):
             d["vao"] = vao
         self._drawables.append(d)
 
+    def _current_mvp(self, w, h):
+        near = max(self._diag * 1e-3, self.distance * 0.01)
+        far = self.distance * 20.0 + self._diag * 10.0
+        proj = _persp(FOV, w / h, near, far)
+        el, az = np.deg2rad(self.elevation), np.deg2rad(self.azimuth)
+        dirv = np.array([np.cos(el) * np.cos(az), np.cos(el) * np.sin(az), np.sin(el)])
+        eye = self.center + dirv * self.distance
+        mvp = proj @ _lookat(eye, self.center, np.array([0.0, 0.0, 1.0]))
+        return mvp, eye
+
     def paintGL(self):
         if not self._ready:
             return
@@ -248,13 +260,8 @@ class GLView3D(QOpenGLWidget):
         if os.environ.get("MZ_GL_DEBUG") and not self._dbg_printed:
             self._dbg_printed = True
             print(f"[GL] first paint: {w}x{h} drawables={len(self._drawables)} core={self._core}")
-        near = max(self._diag * 1e-3, self.distance * 0.01)
-        far = self.distance * 20.0 + self._diag * 10.0
-        proj = _persp(FOV, w / h, near, far)
-        el, az = np.deg2rad(self.elevation), np.deg2rad(self.azimuth)
-        dirv = np.array([np.cos(el) * np.cos(az), np.cos(el) * np.sin(az), np.sin(el)])
-        eye = self.center + dirv * self.distance
-        mvp = (proj @ _lookat(eye, self.center, np.array([0.0, 0.0, 1.0]))).astype(np.float32)
+        mvp, eye = self._current_mvp(w, h)
+        mvp = mvp.astype(np.float32)
         gl.glUseProgram(self._prog_mesh)
         gl.glUniformMatrix4fv(self._u_mvp_m, 1, gl.GL_TRUE, mvp)
         for d in self._drawables:
@@ -345,6 +352,49 @@ class GLView3D(QOpenGLWidget):
 
     def mouseDoubleClickEvent(self, e):
         self.reset_view()
+
+    @staticmethod
+    def _ev_points(e):
+        lp = getattr(e, "position", None)
+        lp = lp() if callable(lp) else getattr(e, "pos", lambda: None)()
+        gp = getattr(e, "globalPosition", None)
+        gp = gp() if callable(gp) else getattr(e, "globalPos", lambda: None)()
+        to_p = lambda p: p.toPoint() if hasattr(p, "toPoint") else p
+        return to_p(lp), to_p(gp)
+
+    def _pick_lde_row(self, lpos):
+        if self._scene is None or not self._drawables: return None
+        w, h = max(1, self.width()), max(1, self.height())
+        mvp, _ = self._current_mvp(w, h)
+        best_i, best_d = None, self.PICK_PX
+        for k, m in enumerate(self._scene.meshes):
+            if k >= len(self._drawables): break
+            cen = self._drawables[k].get("cen")
+            if cen is None: continue
+            clip = mvp @ np.array([cen[0], cen[1], cen[2], 1.0], float)
+            if clip[3] <= 1e-9: continue
+            nx, ny, _ = clip[:3] / clip[3]
+            sx, sy = (nx * 0.5 + 0.5) * w, (1.0 - (ny * 0.5 + 0.5)) * h
+            d = float(np.hypot(sx - lpos.x(), sy - lpos.y()))
+            if d < best_d: best_d, best_i = d, k
+        if best_i is None: return None
+        name = self._scene.meshes[best_i].name
+        if name == "detector": return -1
+        import re as _re
+        mm = _re.match(r"(?:surf|mirror|stop|rim)(\\d+)", name)
+        return int(mm.group(1)) + 1 if mm else None
+
+    def contextMenuEvent(self, e):
+        lpos, gpos = self._ev_points(e)
+        if gpos is None: gpos = self.mapToGlobal(lpos)
+        row = self._pick_lde_row(lpos)
+        if row is None:
+            from minizemax.ui.qt import QMenu
+            from minizemax.ui.object_actions import menu_exec
+            m = QMenu(self)
+            m.addAction("Reset view").triggered.connect(lambda: self.reset_view())
+            menu_exec(m, gpos); e.accept(); return
+        self.objectMenuRequested.emit(row, gpos); e.accept()
 
     def wheelEvent(self, e):
         self.distance *= (1.0 - 0.001 * e.angleDelta().y())

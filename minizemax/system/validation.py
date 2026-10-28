@@ -48,3 +48,18 @@ def check_prescription(pres, min_t: float = MIN_T):
                 f"surf {r1.surf}->{r2.surf}: edge thickness {edge:.3f} < {min_t} mm "
                 f"(surfaces overlap at edge)"))
     return issues
+
+
+# --- extended geometry checks (auto-added by fix_validation.py) ------------
+from minizemax.system.geometry_checks import check_geometry_extended as _ext_geo_checks
+
+_orig_check_prescription = check_prescription
+
+
+def check_prescription(pres):  # noqa: F811  (wrapper: base checks + extended geometry)
+    issues = list(_orig_check_prescription(pres))
+    try:
+        issues.extend(_ext_geo_checks(pres))
+    except Exception:  # auxiliary checks must never break the UI
+        pass
+    return issues

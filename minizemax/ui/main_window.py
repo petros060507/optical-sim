@@ -19,6 +19,7 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.pres = pres
         self.worker = None
+
         self.setWindowTitle("mini-Zemax — sequential optical design")
         self.resize(1500, 900)
 
@@ -53,6 +54,13 @@ class MainWindow(QMainWindow):
         self.lde.modelChanged.connect(self._mark_dirty)
         self.sysw.modelChanged.connect(self._mark_dirty)
         self.mfe.optimize_requested.connect(self.start_optimize)
+        self.plots.surfaceMenuRequested.connect(self._on_object_menu)
+        self.plots.editRequested.connect(self._edit_row_props)
+        self.plots.structureChanged.connect(self._struct_changed)
+        self.plots.hintMessage.connect(
+            lambda m: self.statusBar().showMessage(m, 6000))
+        self.plots.surfaceMenuRequested.connect(self._on_object_menu)
+        self.plots.surfaceMenuRequested.connect(self._on_object_menu)
         self.refresh()
 
     def set_current_path(self, path):
@@ -108,9 +116,16 @@ class MainWindow(QMainWindow):
                 QMessageBox.critical(self, "Open error", str(e)); return
             self.lde.set_pres(self.pres)
             self.sysw.set_pres(self.pres)
+            self._sync_mfe_pres()
             self.mfe.default_mf()
             self.set_current_path(path)
             self.refresh()
+
+    def _sync_mfe_pres(self):
+        """MFE must build its Default MF from the CURRENT prescription."""
+        for attr in ("pres", "_pres"):
+            if hasattr(self.mfe, attr):
+                setattr(self.mfe, attr, self.pres)
 
     def save_file(self):
         path, _ = QFileDialog.getSaveFileName(self, "Save prescription", "system.yaml",
@@ -157,3 +172,65 @@ class MainWindow(QMainWindow):
         self.mfe.set_busy(False)
         self.mfe.append_log(f"ERROR: {msg}")
         self.worker = None
+
+    def _on_object_menu(self, lde_row, gpos):
+        from minizemax.ui.object_actions import build_object_menu, menu_exec
+        idx = len(self.pres.lens.rows) - 1 if lde_row < 0 else lde_row
+        if not 0 <= idx < len(self.pres.lens.rows): return
+        menu = build_object_menu(self, self.pres, idx,
+                                 on_edit=self._edit_row_props,
+                                 on_change=self._struct_changed)
+        menu_exec(menu, gpos)
+
+    def _edit_row_props(self, idx):
+        from minizemax.ui.properties_dialog import SurfacePropertiesDialog
+        from minizemax.ui.object_actions import dialog_exec
+        if dialog_exec(SurfacePropertiesDialog(self.pres, idx, self)):
+            self._struct_changed()
+
+    def _struct_changed(self):
+        self.lde.reload()
+        self._mark_dirty()
+        self.refresh()
+
+    def _on_object_menu(self, lde_row, gpos):
+        from minizemax.ui.object_actions import build_object_menu, menu_exec
+        idx = len(self.pres.lens.rows) - 1 if lde_row < 0 else lde_row
+        if not 0 <= idx < len(self.pres.lens.rows): return
+        menu = build_object_menu(self, self.pres, idx,
+                                 on_edit=self._edit_row_props,
+                                 on_change=self._struct_changed)
+        menu_exec(menu, gpos)
+
+    def _edit_row_props(self, idx):
+        from minizemax.ui.properties_dialog import SurfacePropertiesDialog
+        from minizemax.ui.object_actions import dialog_exec
+        if dialog_exec(SurfacePropertiesDialog(self.pres, idx, self)):
+            self._struct_changed()
+
+    def _struct_changed(self):
+        self.lde.reload()
+        self._mark_dirty()
+        self.refresh()
+
+    # ---------------- 3D-scene object context menu ----------------
+    def _on_object_menu(self, lde_row, gpos):
+        from minizemax.ui.object_actions import build_object_menu, menu_exec
+        idx = len(self.pres.lens.rows) - 1 if lde_row < 0 else lde_row
+        if not 0 <= idx < len(self.pres.lens.rows):
+            return
+        menu = build_object_menu(self, self.pres, idx,
+                                 on_edit=self._edit_row_props,
+                                 on_change=self._struct_changed)
+        menu_exec(menu, gpos)
+
+    def _edit_row_props(self, idx):
+        from minizemax.ui.properties_dialog import SurfacePropertiesDialog
+        from minizemax.ui.object_actions import dialog_exec
+        if dialog_exec(SurfacePropertiesDialog(self.pres, idx, self)):
+            self._struct_changed()
+
+    def _struct_changed(self):
+        self.lde.reload()
+        self._mark_dirty()
+        self.refresh()

@@ -31,6 +31,26 @@ class LDEWidget(QTableWidget):
         self.reload()
         self.cellChanged.connect(self._on_edit)
 
+        # Context menu (right-click on rows)
+        from minizemax.ui.object_actions import custom_ctx_policy
+        self.setContextMenuPolicy(custom_ctx_policy())
+        self.customContextMenuRequested.connect(self._context_menu)
+
+        # Context menu (right-click on rows)
+        from minizemax.ui.object_actions import custom_ctx_policy
+        self.setContextMenuPolicy(custom_ctx_policy())
+        self.customContextMenuRequested.connect(self._context_menu)
+
+        # Context menu (right-click on rows)
+        from minizemax.ui.object_actions import custom_ctx_policy
+        self.setContextMenuPolicy(custom_ctx_policy())
+        self.customContextMenuRequested.connect(self._context_menu)
+
+        # Context menu (right-click on rows)
+        from minizemax.ui.object_actions import custom_ctx_policy
+        self.setContextMenuPolicy(custom_ctx_policy())
+        self.customContextMenuRequested.connect(self._context_menu)
+
     def set_pres(self, pres):
         self.pres = pres
         self.reload()
@@ -119,4 +139,88 @@ class LDEWidget(QTableWidget):
                 return
         except ValueError:
             return
+        self.modelChanged.emit()
+
+    def _context_menu(self, pos):
+        r = self.rowAt(pos.y())
+        if r < 0: return
+        self.setCurrentCell(r, 0)
+        from minizemax.ui.object_actions import build_object_menu, menu_exec
+        menu = build_object_menu(self, self.pres, r,
+                                 on_edit=self._edit_props,
+                                 on_change=self._struct_changed)
+        menu_exec(menu, self.mapToGlobal(pos))
+
+    def _edit_props(self, idx):
+        from minizemax.ui.properties_dialog import SurfacePropertiesDialog
+        from minizemax.ui.object_actions import dialog_exec
+        if dialog_exec(SurfacePropertiesDialog(self.pres, idx, self)):
+            self._struct_changed()
+
+    def _struct_changed(self):
+        self.reload()
+        self.modelChanged.emit()
+
+    def _context_menu(self, pos):
+        r = self.rowAt(pos.y())
+        if r < 0: return
+        self.setCurrentCell(r, 0)
+        from minizemax.ui.object_actions import build_object_menu, menu_exec
+        menu = build_object_menu(self, self.pres, r,
+                                 on_edit=self._edit_props,
+                                 on_change=self._struct_changed)
+        menu_exec(menu, self.mapToGlobal(pos))
+
+    def _edit_props(self, idx):
+        from minizemax.ui.properties_dialog import SurfacePropertiesDialog
+        from minizemax.ui.object_actions import dialog_exec
+        if dialog_exec(SurfacePropertiesDialog(self.pres, idx, self)):
+            self._struct_changed()
+
+    def _struct_changed(self):
+        self.reload()
+        self.modelChanged.emit()
+
+    # ---------------- object context menu (RMB) ----------------
+    def _context_menu(self, pos):
+        r = self.rowAt(pos.y())
+        if r < 0:
+            return
+        self.setCurrentCell(r, 0)
+        from minizemax.ui.object_actions import build_object_menu, menu_exec
+        menu = build_object_menu(self, self.pres, r,
+                                 on_edit=self._edit_props,
+                                 on_change=self._struct_changed)
+        menu_exec(menu, self.mapToGlobal(pos))
+
+    def _edit_props(self, idx):
+        from minizemax.ui.properties_dialog import SurfacePropertiesDialog
+        from minizemax.ui.object_actions import dialog_exec
+        if dialog_exec(SurfacePropertiesDialog(self.pres, idx, self)):
+            self._struct_changed()
+
+    def _struct_changed(self):
+        self.reload()
+        self.modelChanged.emit()
+
+    # ---------------- object context menu (RMB) ----------------
+    def _context_menu(self, pos):
+        r = self.rowAt(pos.y())
+        if r < 0:
+            return
+        self.setCurrentCell(r, 0)
+        from minizemax.ui.object_actions import build_object_menu, menu_exec
+        menu = build_object_menu(self, self.pres, r,
+                                 on_edit=self._edit_props,
+                                 on_change=self._struct_changed)
+        menu_exec(menu, self.mapToGlobal(pos))
+
+    def _edit_props(self, idx):
+        from minizemax.ui.properties_dialog import SurfacePropertiesDialog
+        from minizemax.ui.object_actions import dialog_exec
+        if dialog_exec(SurfacePropertiesDialog(self.pres, idx, self)):
+            self._struct_changed()
+
+    def _struct_changed(self):
+        self.reload()
         self.modelChanged.emit()
